@@ -1,0 +1,17 @@
+--- !ruby/object:Jumpstart::Configuration
+application_name: Capital Viewer
+business_name: Capital Viewer, LLC
+domain: capitalviewer.com
+support_email: support@capitalviewer.com
+default_from_email: Capital Viewer <support@capitalviewer.com>
+business_address: ''
+background_job_processor: sidekiq
+email_provider: sendgrid
+personal_accounts: true
+livereload: false
+register_with_account: false
+multitenancy:
+- subdomain
+- domain
+payment_processors:
+- stripe
