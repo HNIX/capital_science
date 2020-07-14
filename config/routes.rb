@@ -1,5 +1,15 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
+  resources :listings
+  
+  patch "listings/:id/publish" => "listings#publish", as: 'publish_listing'
+  patch "listings/:id/stop" => "listings#stop", as: 'stop_listing'
+  patch "listings/:id/start" => "listings#start", as: 'start_listing'
+  patch "listings/:id/close" => "listings#close", as: 'close_listing'
+  patch "listings/:id/open" => "listings#open", as: 'open_listing'
+  
+  get '/account_listings', to: 'listings#account_listings', as: 'account_listings'
+
   # Jumpstart views
   if Rails.env.development? || Rails.env.test?
     mount Jumpstart::Engine, at: "/jumpstart"

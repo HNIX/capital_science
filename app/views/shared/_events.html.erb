@@ -1,0 +1,3 @@
+<% model.operator_events.each do |event| %>
+  <%= link_to t(event, scope: [model.class.name.underscore, :event]), [event, model], method: :patch, class: "btn btn-#{t event, scope: [model.class.name.underscore, :btn_class]}" %>
+<% end %>

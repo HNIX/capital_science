@@ -57,6 +57,8 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (5.0.8)
+      concurrent-ruby (~> 1.0)
     actioncable (6.0.3.2)
       actionpack (= 6.0.3.2)
       nio4r (~> 2.0)
@@ -347,6 +349,10 @@ GEM
     standard (0.4.7)
       rubocop (~> 0.85.0)
       rubocop-performance (~> 1.6.0)
+    stripe (5.22.0)
+    stripe_event (2.3.1)
+      activesupport (>= 3.1)
+      stripe (>= 2.8, < 6)
     strong_migrations (0.6.8)
       activerecord (>= 5)
     thor (1.0.1)
@@ -391,6 +397,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   acts_as_tenant!
   administrate!
   administrate-field-active_storage (~> 0.3.0)
@@ -431,6 +438,8 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   standard
+  stripe
+  stripe_event
   strong_migrations
   turbolinks (~> 5)
   turbolinks_render (~> 0.9.12)

@@ -38,6 +38,7 @@ class Account < ApplicationRecord
   has_many :account_invitations, dependent: :destroy
   has_many :account_users, dependent: :destroy
   has_many :users, through: :account_users
+  has_many :listings, dependent: :destroy
 
   has_one_attached :logo
 

@@ -34,3 +34,18 @@ en:
   account_invitations_mailer:
     invite:
       subject: "%{inviter} invited you to %{account}"
+en:
+  listing:
+    event:
+      publish: "Publish"
+      stop: "Deactivate"
+      start: "Activate"
+      close: "Close"
+      open: "Open"
+    btn_class:
+      publish: "secondary"
+      stop: "danger"
+      start: "secondary"
+      close: "tertiary"
+      open: "tertiary"
+
