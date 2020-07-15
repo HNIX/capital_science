@@ -63,7 +63,7 @@ class Listing < ApplicationRecord
   scope :sorted, ->{ order(updated_at: :desc)}
   scope :account, -> (account) {where(account: account)}
   scope :state, -> (aasm_state) {where(aasm_state: aasm_state)}
-  scope :private_listing, -> (private_listing) {where(private: private_listing)}
+  scope :private_listing, -> (private_listing) {where(private_listing: private_listing)}
 
   validates :title, presence: :true
 

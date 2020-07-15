@@ -15,6 +15,9 @@
             <div class="mb-4">
         <h5>Title</h5>
         <%= @listing.title %>
+        <% if @listing.private_listing %>
+          <h5>Private Listing</h5>
+        <% end %>
       </div>
       <% if current_account == @listing.account %>
         <%= render 'shared/events', model: @listing %>

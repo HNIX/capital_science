@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   patch "listings/:id/close" => "listings#close", as: 'close_listing'
   patch "listings/:id/open" => "listings#open", as: 'open_listing'
   
-  get '/account_listings', to: 'listings#account_listings', as: 'account_listings'
+  get '/public_listings', to: 'listings#public_listings', as: 'public_listings'
 
   # Jumpstart views
   if Rails.env.development? || Rails.env.test?
