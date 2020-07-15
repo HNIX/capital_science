@@ -18,6 +18,15 @@
         <% if @listing.private_listing %>
           <h5>Private Listing</h5>
         <% end %>
+        <% if @listing.aasm_state == "active" %>
+            <h5>Active at: <%= @listing.active_at %></h5>
+        <% elsif @listing.aasm_state == "inactive" %>
+            <h5>Inactive at: <%= @listing.inactive_at %></h5>
+        <% elsif @listing.aasm_state == "closed" %>
+            <h5>Closed on: <%= @listing.closed_at %></h5>
+        <% elsif @listing.aasm_state == "draft" %>
+            <h5>Draft</h5>
+        <% end %>
       </div>
       <% if current_account == @listing.account %>
         <%= render 'shared/events', model: @listing %>

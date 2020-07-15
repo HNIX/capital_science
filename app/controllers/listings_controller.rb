@@ -63,26 +63,41 @@ class ListingsController < ApplicationController
   # AASM Events
   def publish
     @listing.publish!
+    
+    @listing.touch(:active_at)
+    
     redirect_to @listing
   end
 
   def stop
     @listing.stop!
+
+    @listing.touch(:inactive_at)
+
     redirect_to @listing
   end
 
   def start
     @listing.start!
+
+    @listing.touch(:active_at)
+
     redirect_to @listing
   end
 
   def close
     @listing.close!
+
+    @listing.touch(:closed_at)
+
     redirect_to @listing
   end
 
   def open
     @listing.open!
+
+    @listing.touch(:inactive_at)
+
     redirect_to @listing
   end
 

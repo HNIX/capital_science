@@ -4,7 +4,10 @@
 #
 #  id              :bigint           not null, primary key
 #  aasm_state      :string
+#  active_at       :datetime
+#  closed_at       :datetime
 #  description     :text
+#  inactive_at     :datetime
 #  private         :boolean          not null
 #  private_listing :boolean          default(FALSE)
 #  title           :string
