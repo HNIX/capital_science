@@ -1,0 +1,14 @@
+<div class="mx-auto mt-10 p-10 bg-white rounded-lg border border-gray-300 text-center" style="max-width: 600px">
+  <h1 class="text-3xl mb-3">Join <%= @listing.title %></h1>
+  <div class="flex items-center justify-center text-gray-800">
+    <%= image_tag avatar_url_for(@listing_invitation.sender), class: "h-5 w-5 rounded-full inline-block mr-1" %>
+    <div>
+      <strong><%= @listing_invitation.sender.name %></strong> invited you to join <strong><%= @listing_invitation.listing.title %>
+    </div>
+  </div>
+
+  <div class="mt-5">
+    <%= link_to "Accept invitation", listing_invitation_path(@listing_invitation.token), method: :put, class: "btn btn-secondary" %>
+    <%= link_to "Decline", listing_invitation_path(@listing_invitation.token), method: :delete, class: "btn btn-tertiary outline" %>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+# == Schema Information
+#
+# Table name: memberships
+#
+#  id         :bigint           not null, primary key
+#  roles      :jsonb
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  listing_id :bigint           not null
+#  user_id    :bigint           not null
+#
+# Indexes
+#
+#  index_memberships_on_listing_id  (listing_id)
+#  index_memberships_on_user_id     (user_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (listing_id => listings.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
+one:
+  user: one
+  listing: one
+
+two:
+  user: two
+  listing: two

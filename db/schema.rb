@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_031519) do
+ActiveRecord::Schema.define(version: 2020_07_16_214551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,19 @@ ActiveRecord::Schema.define(version: 2020_07_15_031519) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "listing_invitations", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "sender_id", null: false
+    t.string "email"
+    t.string "token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.jsonb "roles"
+    t.index ["listing_id"], name: "index_listing_invitations_on_listing_id"
+    t.index ["sender_id"], name: "index_listing_invitations_on_sender_id"
+  end
+
   create_table "listings", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "title"
@@ -133,6 +146,16 @@ ActiveRecord::Schema.define(version: 2020_07_15_031519) do
     t.datetime "closed_at"
     t.index ["account_id"], name: "index_listings_on_account_id"
     t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "memberships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "listing_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "roles"
+    t.index ["listing_id"], name: "index_memberships_on_listing_id"
+    t.index ["user_id"], name: "index_memberships_on_user_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -250,7 +273,11 @@ ActiveRecord::Schema.define(version: 2020_07_15_031519) do
   add_foreign_key "account_users", "users"
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "listing_invitations", "listings"
+  add_foreign_key "listing_invitations", "users", column: "sender_id"
   add_foreign_key "listings", "users"
+  add_foreign_key "memberships", "listings"
+  add_foreign_key "memberships", "users"
   add_foreign_key "properties", "listings"
   add_foreign_key "properties", "users"
   add_foreign_key "user_connected_accounts", "users"

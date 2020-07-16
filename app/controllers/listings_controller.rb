@@ -14,7 +14,7 @@ class ListingsController < ApplicationController
  
   # GET /listings/1
   def show
-   unless current_account == @listing.account || !@listing.private_listing
+   unless current_account == @listing.account || !@listing.private_listing || @listing.memberships.exists?(user_id: current_user.id)
      redirect_to root_path, notice: "You are not allowed to view this listing"
    end
   end

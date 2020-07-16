@@ -4,6 +4,7 @@
       <h1 class="h3"><%= link_to 'Listings', listings_path %> > Listing #<%= @listing.id %></h1>
       <% if current_account == @listing.account %>
         <%= link_to 'Edit', edit_listing_path(@listing), class: "btn btn-link" %>
+        <%= link_to 'Invite A User', new_listing_listing_invitation_path(@listing), class: "btn btn-primary outline no-underline" %>
       <% end %>
     </div>
 
