@@ -17,7 +17,6 @@
     <%= form.check_box :private_listing %>
   </div>
 
-
   <%= form.fields_for :properties do |property| %>
      <div class="form-group">
         <%= property.label :name %>
@@ -44,6 +43,10 @@
         <%= property.text_field :address_zip, class: "form-control" %>
       </div>
   <% end %>
+
+
+
+  
 
   <div class="form-group flex justify-between">
     <%= form.button class: "btn btn-primary" %>

@@ -80,6 +80,8 @@ gem "ruby-oembed", "~> 0.13.0", require: "oembed"
 gem "turbolinks_render", "~> 0.9.12"
 gem 'aasm'
 gem "pundit"
+gem "shrine", "~> 3.0"
+gem "aws-sdk-s3", "~> 1.14" # for AWS S3 storage 
 
 # We always want the latest versions of these gems, so no version numbers
 gem "omniauth", github: "omniauth/omniauth"

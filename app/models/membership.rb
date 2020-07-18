@@ -2,12 +2,13 @@
 #
 # Table name: memberships
 #
-#  id         :bigint           not null, primary key
-#  roles      :jsonb
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  listing_id :bigint           not null
-#  user_id    :bigint           not null
+#  id            :bigint           not null, primary key
+#  roles         :jsonb
+#  secure_access :boolean
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  listing_id    :bigint           not null
+#  user_id       :bigint           not null
 #
 # Indexes
 #

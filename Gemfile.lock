@@ -127,6 +127,22 @@ GEM
       encryptor (~> 3.0.0)
     autoprefixer-rails (9.8.4)
       execjs
+    aws-eventstream (1.1.0)
+    aws-partitions (1.342.0)
+    aws-sdk-core (3.104.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.36.0)
+      aws-sdk-core (~> 3, >= 3.99.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.74.0)
+      aws-sdk-core (~> 3, >= 3.102.1)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.2.1)
+      aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.6)
@@ -147,6 +163,7 @@ GEM
     coderay (1.1.3)
     concurrent-ruby (1.1.6)
     connection_pool (2.2.3)
+    content_disposition (1.0.0)
     crass (1.0.6)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
@@ -156,6 +173,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    down (5.1.1)
+      addressable (~> 2.5)
     encryptor (3.0.0)
     erubi (1.9.0)
     execjs (2.7.0)
@@ -175,6 +194,7 @@ GEM
       rails (>= 4.2)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
+    jmespath (1.4.0)
     jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -333,6 +353,9 @@ GEM
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
     semantic_range (2.3.0)
+    shrine (3.2.1)
+      content_disposition (~> 1.0)
+      down (~> 5.1)
     sidekiq (6.1.0)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -405,6 +428,7 @@ DEPENDENCIES
   administrate-field-active_storage (~> 0.3.0)
   annotate
   attr_encrypted (~> 3.1)
+  aws-sdk-s3 (~> 1.14)
   bootsnap (>= 1.4.2)
   brakeman
   bundler-audit!
@@ -437,6 +461,7 @@ DEPENDENCIES
   ruby-oembed (~> 0.13.0)
   sass-rails (~> 6.0)
   selenium-webdriver
+  shrine (~> 3.0)
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)

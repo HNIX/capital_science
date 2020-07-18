@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_16_214551) do
+ActiveRecord::Schema.define(version: 2020_07_18_025730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,16 @@ ActiveRecord::Schema.define(version: 2020_07_16_214551) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "listing_images", force: :cascade do |t|
+    t.jsonb "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "listing_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["listing_id"], name: "index_listing_images_on_listing_id"
+    t.index ["user_id"], name: "index_listing_images_on_user_id"
+  end
+
   create_table "listing_invitations", force: :cascade do |t|
     t.bigint "listing_id", null: false
     t.bigint "sender_id", null: false
@@ -154,6 +164,7 @@ ActiveRecord::Schema.define(version: 2020_07_16_214551) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "roles"
+    t.boolean "secure_access"
     t.index ["listing_id"], name: "index_memberships_on_listing_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
   end

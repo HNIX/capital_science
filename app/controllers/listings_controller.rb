@@ -23,6 +23,7 @@ class ListingsController < ApplicationController
   def new
     @listing = Listing.new
     @listing.properties.new
+    @listing.listing_images.new
   end
 
   # GET /listings/1/edit
@@ -37,6 +38,7 @@ class ListingsController < ApplicationController
     @listing = current_user.listings.new(listing_params)
     @listing.account = current_account
     @listing.properties.each{ |property| property.user = current_user }
+    @listing.listing_images.each{ |image| image.user = current_user }
 
     if @listing.save
       redirect_to @listing, notice: 'Listing was successfully created.'
@@ -136,6 +138,6 @@ class ListingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def listing_params
-      params.require(:listing).permit(:user_id, :account_id, :title, :draft, :private_listing, properties_attributies: [:name, :address1, :address2, :address_city, :address_state, :address_zip])
+      params.require(:listing).permit(:user_id, :account_id, :description, :title, :draft, :private_listing, properties_attributes: [:name, :address1, :address2, :address_city, :address_state, :address_zip, :user_id], listing_images_attributes: [:image, listing_id, user_id] )
     end
 end

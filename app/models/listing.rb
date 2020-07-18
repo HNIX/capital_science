@@ -62,6 +62,7 @@ class Listing < ApplicationRecord
   belongs_to :account
   has_rich_text :description
   has_many :properties, dependent: :destroy
+  has_many :listing_images, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
   has_many :listing_invitations, dependent: :destroy
@@ -74,5 +75,6 @@ class Listing < ApplicationRecord
   validates :title, presence: :true
 
   accepts_nested_attributes_for :properties
+  accepts_nested_attributes_for :listing_images, allow_destroy: true
   accepts_nested_attributes_for :listing_invitations
 end
