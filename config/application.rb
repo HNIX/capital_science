@@ -16,6 +16,16 @@ module JumpstartApp
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # supports :s3, :s3_multipart, or :app
+    config.autoload_paths += %w[lib]
+    config.upload_server = if ENV["UPLOAD_SERVER"].present?
+      ENV["UPLOAD_SERVER"].to_sym
+    elsif Rails.env.production?
+      :s3
+    else
+      :app
+    end
+
     config.exceptions_app = routes
   end
 end

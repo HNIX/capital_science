@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_18_025730) do
+ActiveRecord::Schema.define(version: 2020_07_22_014831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -123,9 +123,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_025730) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "listing_id", null: false
-    t.bigint "user_id", null: false
     t.index ["listing_id"], name: "index_listing_images_on_listing_id"
-    t.index ["user_id"], name: "index_listing_images_on_user_id"
   end
 
   create_table "listing_invitations", force: :cascade do |t|
@@ -142,20 +140,24 @@ ActiveRecord::Schema.define(version: 2020_07_18_025730) do
   end
 
   create_table "listings", force: :cascade do |t|
-    t.bigint "user_id", null: false
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
-    t.boolean "private", null: false
     t.bigint "account_id", null: false
     t.string "aasm_state"
     t.boolean "private_listing", default: false
     t.datetime "active_at"
     t.datetime "inactive_at"
     t.datetime "closed_at"
+    t.bigint "owner_id"
+    t.float "price"
+    t.boolean "hide_price"
+    t.float "cap_rate"
+    t.string "type"
+    t.float "noi"
     t.index ["account_id"], name: "index_listings_on_account_id"
-    t.index ["user_id"], name: "index_listings_on_user_id"
+    t.index ["owner_id"], name: "index_listings_on_owner_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -212,7 +214,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_025730) do
 
   create_table "properties", force: :cascade do |t|
     t.bigint "listing_id", null: false
-    t.bigint "user_id", null: false
     t.string "name"
     t.string "address1"
     t.string "address2"
@@ -221,8 +222,17 @@ ActiveRecord::Schema.define(version: 2020_07_18_025730) do
     t.string "address_zip"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "primary_type"
+    t.string "secondary_type"
+    t.string "asset_class"
+    t.string "rent_type"
+    t.integer "units"
+    t.integer "sf"
+    t.integer "floors"
+    t.integer "buildings"
+    t.float "land_area"
+    t.string "zoning"
     t.index ["listing_id"], name: "index_properties_on_listing_id"
-    t.index ["user_id"], name: "index_properties_on_user_id"
   end
 
   create_table "user_connected_accounts", force: :cascade do |t|
@@ -286,10 +296,9 @@ ActiveRecord::Schema.define(version: 2020_07_18_025730) do
   add_foreign_key "api_tokens", "users"
   add_foreign_key "listing_invitations", "listings"
   add_foreign_key "listing_invitations", "users", column: "sender_id"
-  add_foreign_key "listings", "users"
+  add_foreign_key "listings", "users", column: "owner_id"
   add_foreign_key "memberships", "listings"
   add_foreign_key "memberships", "users"
   add_foreign_key "properties", "listings"
-  add_foreign_key "properties", "users"
   add_foreign_key "user_connected_accounts", "users"
 end

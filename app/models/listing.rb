@@ -5,32 +5,53 @@
 #  id              :bigint           not null, primary key
 #  aasm_state      :string
 #  active_at       :datetime
+#  cap_rate        :float
 #  closed_at       :datetime
 #  description     :text
+#  hide_price      :boolean
 #  inactive_at     :datetime
-#  private         :boolean          not null
+#  noi             :float
+#  price           :float
 #  private_listing :boolean          default(FALSE)
 #  title           :string
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
-#  user_id         :bigint           not null
+#  owner_id        :bigint
 #
 # Indexes
 #
 #  index_listings_on_account_id  (account_id)
-#  index_listings_on_user_id     (user_id)
+#  index_listings_on_owner_id    (owner_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (owner_id => users.id)
 #
 class Listing < ApplicationRecord
   self.ignored_columns = ["draft"]
+  self.ignored_columns = ["private"]
   include AASM
 
+  belongs_to :owner, class_name: "User"
+  belongs_to :account
+  has_rich_text :description
+  has_many :properties, inverse_of: :listing, dependent: :destroy
+  has_many :listing_images, dependent: :destroy
+  has_many :memberships, dependent: :destroy
+  has_many :users, through: :memberships
+  has_many :listing_invitations, dependent: :destroy
+
+  scope :sorted, ->{ order(updated_at: :desc)}
+  scope :account, -> (account) {where(account: account)}
+  scope :state, -> (aasm_state) {where(aasm_state: aasm_state)}
+  scope :private_listing, -> (private_listing) {where(private_listing: private_listing)}
+
+  validates :title, presence: :true
+
   aasm do
-  	state :draft, initial: true
+    state :draft, initial: true
     state :active, :inactive, :closed
 
     event :publish do
@@ -57,24 +78,8 @@ class Listing < ApplicationRecord
   def operator_events
     aasm.events(possible: true).map(&:name) & %i[publish stop start close open]
   end
-  
-  belongs_to :user
-  belongs_to :account
-  has_rich_text :description
-  has_many :properties, dependent: :destroy
-  has_many :listing_images, dependent: :destroy
-  has_many :memberships, dependent: :destroy
-  has_many :users, through: :memberships
-  has_many :listing_invitations, dependent: :destroy
 
-  scope :sorted, ->{ order(updated_at: :desc)}
-  scope :account, -> (account) {where(account: account)}
-  scope :state, -> (aasm_state) {where(aasm_state: aasm_state)}
-  scope :private_listing, -> (private_listing) {where(private_listing: private_listing)}
-
-  validates :title, presence: :true
-
-  accepts_nested_attributes_for :properties
+  accepts_nested_attributes_for :properties, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :listing_images, allow_destroy: true
   accepts_nested_attributes_for :listing_invitations
 end

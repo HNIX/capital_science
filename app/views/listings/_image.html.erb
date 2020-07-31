@@ -1,0 +1,15 @@
+<li>
+  <div class="media">
+    <%= image_tag image.image.derivation_url(:thumbnail, 300, 300).to_s,
+      width: 150,
+      class: "img-thumbnail mr-3" %>
+
+    <div class="media-body">
+      
+      <div class="form-group">
+        <%= f.label :_destroy, "Remove Photo" %>
+        <%= f.check_box :_destroy %>
+      </div>
+    </div>
+  </div>
+</li>

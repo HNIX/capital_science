@@ -2,10 +2,13 @@ class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:public_listings, :show]
   before_action :set_listing, except: [:index, :public_listings, :new, :create]
   before_action :require_account, except: [:public_listings, :show]
-  before_action :require_non_personal_account, :require_subscription, except: [:public_listings, :show]
+  before_action :require_non_personal_account, :require_subscription, except: [:index, :public_listings, :show]
+  
   # GET /listings
   def index
     @pagy, @listings = pagy(current_account.listings.sort_by_params(params[:sort], sort_direction))
+    @pagy, @public_listings = pagy(Listing.state("active").private_listing(false).sort_by_params(params[:sort], sort_direction))
+    @pagy, @memberships = pagy(current_user.memberships.sort_by_params(params[:sort], sort_direction))
   end
 
   def public_listings
@@ -23,7 +26,6 @@ class ListingsController < ApplicationController
   def new
     @listing = Listing.new
     @listing.properties.new
-    @listing.listing_images.new
   end
 
   # GET /listings/1/edit
@@ -35,13 +37,12 @@ class ListingsController < ApplicationController
 
   # POST /listings
   def create
-    @listing = current_user.listings.new(listing_params)
-    @listing.account = current_account
-    @listing.properties.each{ |property| property.user = current_user }
-    @listing.listing_images.each{ |image| image.user = current_user }
+    # @listing = current_user.listings.new(listing_params)
+    @listing = Listing.new(listing_params.merge(owner: current_user))
+    @listing.account_id = current_account.id
 
     if @listing.save
-      redirect_to @listing, notice: 'Listing was successfully created.'
+      redirect_to listing_build_path(@listing, :add_properties)
     else
       render :new
     end
@@ -49,6 +50,8 @@ class ListingsController < ApplicationController
 
   # PATCH/PUT /listings/1
   def update
+    # @listing.assign_attributes(listing_params)
+
     if @listing.update(listing_params)
       redirect_to @listing, notice: 'Listing was successfully updated.'
     else
@@ -138,6 +141,6 @@ class ListingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def listing_params
-      params.require(:listing).permit(:user_id, :account_id, :description, :title, :draft, :private_listing, properties_attributes: [:name, :address1, :address2, :address_city, :address_state, :address_zip, :user_id], listing_images_attributes: [:image, listing_id, user_id] )
+      params.require(:listing).permit(:owner_id, :account_id, :description, :title, :draft, :private_listing, properties_attributes: [:id, :user_id, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], listing_images_attributes: {})
     end
 end

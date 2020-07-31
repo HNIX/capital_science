@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  layout  :choose_layout
 
   include SetCurrentRequestDetails
   include Jumpstart::Controller
@@ -39,6 +40,14 @@ class ApplicationController < ActionController::Base
   def require_current_account_admin
     unless current_account_admin?
       redirect_to root_path, alert: "You must be an admin to do that."
+    end
+  end
+
+  def choose_layout
+    if current_user
+      "account"
+    else
+     "application"
     end
   end
 end

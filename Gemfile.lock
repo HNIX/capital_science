@@ -178,6 +178,7 @@ GEM
     encryptor (3.0.0)
     erubi (1.9.0)
     execjs (2.7.0)
+    fastimage (2.1.7)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -320,6 +321,8 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
+    roda (3.34.0)
+      rack
     rubocop (0.85.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
@@ -393,6 +396,10 @@ GEM
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
+    uppy-s3_multipart (0.3.4)
+      aws-sdk-s3 (~> 1.0)
+      content_disposition (~> 1.0)
+      roda (>= 2.27, < 4)
     warden (1.2.8)
       rack (>= 2.0.6)
     web-console (4.0.3)
@@ -414,6 +421,8 @@ GEM
     websocket-extensions (0.1.5)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    wicked (1.3.4)
+      railties (>= 3.0.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.3.1)
@@ -436,6 +445,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   devise (>= 4.7.1)
   devise_masquerade!
+  fastimage
   image_processing (~> 1.9, >= 1.9.2)
   inline_svg (~> 1.6)
   invisible_captcha (~> 1.0)
@@ -444,6 +454,7 @@ DEPENDENCIES
   letter_opener_web (~> 1.3, >= 1.3.4)
   listen (~> 3.2, >= 3.2.1)
   local_time (~> 2.1)
+  marcel
   name_of_person (~> 1.0)
   nokogiri (>= 1.10.8)
   oj (~> 3.8, >= 3.8.1)
@@ -472,10 +483,12 @@ DEPENDENCIES
   turbolinks (~> 5)
   turbolinks_render (~> 0.9.12)
   tzinfo-data
+  uppy-s3_multipart (>= 0.3.2)
   web-console (>= 3.3.0)
   webdrivers
   webpacker (~> 5.1)
   whenever
+  wicked
 
 RUBY VERSION
    ruby 2.7.0p0

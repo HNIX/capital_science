@@ -5,25 +5,29 @@
 #  id              :bigint           not null, primary key
 #  aasm_state      :string
 #  active_at       :datetime
+#  cap_rate        :float
 #  closed_at       :datetime
 #  description     :text
+#  hide_price      :boolean
 #  inactive_at     :datetime
-#  private         :boolean          not null
+#  noi             :float
+#  price           :float
 #  private_listing :boolean          default(FALSE)
 #  title           :string
+#  type            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
-#  user_id         :bigint           not null
+#  owner_id        :bigint
 #
 # Indexes
 #
 #  index_listings_on_account_id  (account_id)
-#  index_listings_on_user_id     (user_id)
+#  index_listings_on_owner_id    (owner_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (owner_id => users.id)
 #
 require 'test_helper'
 

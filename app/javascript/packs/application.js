@@ -14,6 +14,7 @@ require("@rails/activestorage").start()
 require("channels")
 require("trix")
 require("@rails/actiontext")
+require("jquery")
 
 // Tailwind CSS
 import "stylesheets/application"
@@ -28,11 +29,33 @@ import "src/direct_uploads"
 import "src/forms"
 import "src/timezone"
 import "src/tooltips"
+import "src/wizard"
+
+import { singleFileUpload, multipleFileUpload } from 'fileUpload'
+
+// Use 'DOMContentLoaded' event if not using Turbolinks
+document.addEventListener('turbolinks:load', () => {
+  document.querySelectorAll('input[type=file]').forEach(fileInput => {
+    if (fileInput.multiple) {
+      multipleFileUpload(fileInput)
+    } else {
+      singleFileUpload(fileInput)
+    }
+  })
+})
+
+// listen on 'turbolinks:load' instead of 'DOMContentLoaded' if using Turbolinks
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.upload-file').forEach(fileInput => {
+    fileUpload(fileInput)
+  })
+})
 
 import LocalTime from "local-time"
 LocalTime.start()
 
 // ADD YOUR JAVACSRIPT HERE
+
 
 // Start Rails UJS
 Rails.start()

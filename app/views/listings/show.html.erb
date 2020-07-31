@@ -11,8 +11,11 @@
     <div class="bg-white rounded shadow p-8">
             <div class="mb-4">
         <h5>User</h5>
-        <%= @listing.user %>
+        <%= @listing.owner %>
       </div>
+      <% @listing.listing_images.each do |image| %>
+        <%= image_tag image.image_url %>
+      <% end %>
             <div class="mb-4">
         <h5>Title</h5>
         <%= @listing.title %>
@@ -29,6 +32,7 @@
             <h5>Draft</h5>
         <% end %>
       </div>
+
       <% if current_account == @listing.account %>
         <%= render 'shared/events', model: @listing %>
       <% end %>

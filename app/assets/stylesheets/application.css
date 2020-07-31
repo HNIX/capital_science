@@ -12,3 +12,46 @@
  *
  *= require_self
  */
+
+.upload-preview img {
+  display: block;
+  max-width: 100%;
+}
+
+.upload-preview {
+  margin-bottom: 10px;
+  display: inline-block;
+  height: 300px;
+}
+
+img[src=""] {
+  visibility: hidden;
+}
+
+.image-preview {
+  margin-bottom: 20px;
+}
+
+.file-upload-preview[src=""] {
+  visibility: hidden;
+}
+
+.file-upload-list li {
+  margin-bottom: 20px;
+}
+
+.image-preview {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.toggle__dot {
+  top: -.25rem;
+  left: -.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+input:checked ~ .toggle__dot {
+  transform: translateX(100%);
+  background-color: #48bb78;
+}

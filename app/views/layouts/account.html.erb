@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html class="h-full antialiased">
+  <head>
+    <title>
+      <% if content_for?(:title) %>
+        <%= yield :title %> |
+      <% end %>
+      <%= Jumpstart.config.application_name %>
+    </title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%# All assets are defined in Webpacker app/javascripts now %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+    <%= tag.meta name: "direct-upload-url", content: rails_direct_uploads_path %>
+
+    <%# Be sure to add your own custom favicons %>
+    <%= render "shared/favicons" %>
+    <%= render "shared/payments_dependencies" %>
+
+    <%# Replace this with your FontAwesome Pro Kit code %>
+    <script src="https://kit.fontawesome.com/0e5ab6a736.js"></script>
+    <script src="https://dashboard-tailwindcomponents.netlify.app/assets/build/js/main.js?id=df2dfe6a4e2040ea9f2c"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+
+    <%= yield :head %>
+  </head>
+
+  <body class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased">
+    
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200 font-roboto">
+        
+        <%= render partial: "shared/sidebar" %>
+
+        
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <%= render partial: "shared/navbar-new" %>
+
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="container mx-auto px-6 py-8">
+                    <%= yield %>
+                </div>
+                 
+            </main>
+            <%= render partial: "shared/footer" %>
+        </div>
+    </div>
+
+   
+
+  </body>
+</html>

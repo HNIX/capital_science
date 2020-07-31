@@ -65,4 +65,8 @@ module ApplicationHelper
   def title(page_title)
     content_for(:title) { page_title }
   end
+
+  def upload_server
+    Rails.configuration.upload_server
+  end
 end
