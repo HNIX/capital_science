@@ -16,21 +16,54 @@
       <% @listing.listing_images.each do |image| %>
         <%= image_tag image.image_url %>
       <% end %>
+      <h5>Public Documents</h5>
+      <% @listing.listing_documents.each do |doc| %>
+        <%= link_to doc.document.original_filename, doc.document_url %>
+      <% end %>
+      <h5>Secure Documents</h5>
+      <% @listing.listing_secure_documents.each do |doc| %>
+        <% if has_secure_access %>
+          <%= link_to doc.secure_document.original_filename, doc.secure_document_url %>
+        <% else %>
+          <%= doc.secure_document.original_filename %>
+        <% end %>
+      <% end %>
+
             <div class="mb-4">
         <h5>Title</h5>
         <%= @listing.title %>
         <% if @listing.private_listing %>
           <h5>Private Listing</h5>
         <% end %>
-        <% if @listing.aasm_state == "active" %>
-            <h5>Active at: <%= @listing.active_at %></h5>
-        <% elsif @listing.aasm_state == "inactive" %>
-            <h5>Inactive at: <%= @listing.inactive_at %></h5>
-        <% elsif @listing.aasm_state == "closed" %>
-            <h5>Closed on: <%= @listing.closed_at %></h5>
-        <% elsif @listing.aasm_state == "draft" %>
-            <h5>Draft</h5>
-        <% end %>
+
+        <div class="flex flex-shrink-0">
+          <% if @listing.aasm_state == "draft" %>
+            <div class="flex flex-shrink-0 text-sm items-center px-2">
+              <div class="bg-gray-400 text-gray-600 px-2 py-1 rounded-l-md">Status</div>
+              <div class="bg-gray-500 text-green-100 px-2 py-1 rounded-r-md">Draft</div>
+            </div>
+          <% elsif @listing.aasm_state == "active" %>
+
+            <div class="flex flex-shrink-0 text-sm items-center pr-2">
+              <div class="bg-gray-300 text-gray-600 px-2 py-1 rounded-l">Status</div>
+              <div class="bg-green-200 text-green-700 px-2 py-1 rounded-r">Active</div>
+            </div>
+          <% elsif @listing.aasm_state == "inactive" %>
+
+            <div class="flex flex-shrink-0 text-sm items-center pr-2">
+              <div class="bg-gray-300 text-gray-600 px-2 py-1 rounded-l">Status</div>
+              <div class="bg-yellow-200 text-yellow-700 px-2 py-1 rounded-r">Inactive</div>
+            </div>
+          <% elsif @listing.aasm_state == "closed" %>
+
+            <div class="flex flex-shrink-0 text-sm items-center pr-2">
+              <div class="bg-gray-300 text-gray-600 px-2 py-1 rounded-l">Status</div>
+              <div class="bg-red-200 text-red-900 px-2 py-1 rounded-r">Closed</div>
+            </div>
+          <% end %>
+        </div>
+
+
       </div>
 
       <% if current_account == @listing.account %>

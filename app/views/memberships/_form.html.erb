@@ -10,6 +10,10 @@
       </label>
     <% end %>
   </div>
+   <div class="form-group">
+    <%= form.label :secure_access %>
+    <%= form.check_box :secure_access %>
+  </div>
 
   <div class="form-group flex justify-between">
     <%= form.button class: "btn btn-primary" %>

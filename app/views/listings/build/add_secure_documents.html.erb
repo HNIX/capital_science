@@ -1,7 +1,7 @@
  <div class="container mx-auto my-8 px-4">
   <div class="max-w-4xl mx-auto">
     <div class="flex justify-between items-center mb-4">
-      <h1 class="h3">Add Listing Images</h1>
+      <h1 class="h3">Add Secure Listing Documents</h1>
       <%= link_to 'Back', previous_wizard_path, class: "btn btn-link" %>
     </div>
 
@@ -12,24 +12,24 @@
   
  <div class="form-group">
       <!-- will be replaced by Uppy -->
-      <%= form.label :listing_images, "Select photos" %>
-      <%= form.file_field :listing_images,
+      <%= form.label :listing_secure_documents, "Select documents" %>
+      <%= form.file_field :listing_secure_documents,
         multiple: true,
-        accept: ImageUploader::ALLOWED_TYPES.join(","),
+        accept: DocumentUploader::ALLOWED_TYPES.join(","),
         data: {
           upload_server: upload_server,
         } %>
     </div>
 
   <ul class="list-unstyled file-upload-list" id="album-photo-list">
-    <%= form.fields_for :listing_images do |li| %>
-      <%= render partial: "listings/image", locals: { image: li.object, f: li } %>
+    <%= form.fields_for :listing_secure_documents do |ld| %>
+      <%= render partial: "listings/document", locals: { document: ld.object, f: ld } %>
     <% end %>
   </ul>
 
    <div class="form-group flex justify-between">
     <%= form.button class: "btn btn-primary" %>
-    <%= link_to 'skip', next_wizard_path %>
+
     <% if form.object.persisted? %>
       <%= link_to 'Delete', form.object, class: "btn btn-danger outline", method: :delete, data: { remote: true, confirm: "Are you sure?" } %>
     <% end %>

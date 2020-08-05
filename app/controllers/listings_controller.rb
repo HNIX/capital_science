@@ -3,7 +3,8 @@ class ListingsController < ApplicationController
   before_action :set_listing, except: [:index, :public_listings, :new, :create]
   before_action :require_account, except: [:public_listings, :show]
   before_action :require_non_personal_account, :require_subscription, except: [:index, :public_listings, :show]
-  
+  helper_method :has_secure_access
+
   # GET /listings
   def index
     @pagy, @listings = pagy(current_account.listings.sort_by_params(params[:sort], sort_direction))
@@ -106,6 +107,11 @@ class ListingsController < ApplicationController
     redirect_to @listing
   end
 
+  def has_secure_access
+    member = @listing.memberships.find_by(user_id: current_user.id)
+    current_account == @listing.account || member.secure_access? 
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_listing
@@ -138,9 +144,10 @@ class ListingsController < ApplicationController
     end
 
 
-
     # Only allow a trusted parameter "white list" through.
     def listing_params
-      params.require(:listing).permit(:owner_id, :account_id, :description, :title, :draft, :private_listing, properties_attributes: [:id, :user_id, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], listing_images_attributes: {})
+      params.require(:listing).permit(:owner_id, :account_id, :description, :title, :draft, :private_listing, 
+        :type, :price, :noi, properties_attributes: [:id, :user_id, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
+        listing_images_attributes: {}, listing_documents_attributes: {}, listing_secure_documents_attributes: {})
     end
 end

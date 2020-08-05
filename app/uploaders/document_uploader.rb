@@ -1,8 +1,9 @@
 # This is a subclass of Shrine base that will be further configured for it's requirements.
 # This will be included in the model to manage the file.
 
-class ImageUploader < Shrine
-  ALLOWED_TYPES  = %w[image/jpeg image/png image/webp]
+class DocumentUploader < Shrine
+  ALLOWED_TYPES  = %w[application/pdf]
+
   MAX_SIZE       = 10*1024*1024 # 10 MB
   MAX_DIMENSIONS = [5000, 5000] # 5000x5000
 
@@ -21,10 +22,6 @@ class ImageUploader < Shrine
   # File validations (requires `validation_helpers` plugin)
   Attacher.validate do
     validate_size 0..MAX_SIZE
-
-    if validate_mime_type_inclusion ALLOWED_TYPES
-      validate_max_dimensions MAX_DIMENSIONS
-    end
   end
 
   # Thumbnails processor (requires `derivatives` plugin)
@@ -43,4 +40,6 @@ class ImageUploader < Shrine
   derivation :thumbnail do |file, width, height|
     GenerateThumbnail.call(file, width.to_i, height.to_i) # lib/generate_thumbnail.rb
   end
+
+  
 end

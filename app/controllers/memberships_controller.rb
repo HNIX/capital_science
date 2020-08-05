@@ -1,7 +1,7 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_listing
-  before_action :set_membershipr, only: [:edit, :update, :destroy, :switch]
+  before_action :set_membership, only: [:edit, :update, :destroy, :switch]
   # before_action :require_admin, except: [:index, :show]
 
   # GET /accounts
@@ -40,13 +40,13 @@ class MembershipsController < ApplicationController
   end
 
   # Use callbacks to share common setup or constraints between actions.
-  def set__membership
+  def set_membership
     @membership = @listing.memberships.find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.
   def membership_params
-    params.require(:membership).permit(*AccountUser::ROLES)
+    params.require(:membership).permit(*AccountUser::ROLES, :secure_access)
   end
 
   # def require_admin

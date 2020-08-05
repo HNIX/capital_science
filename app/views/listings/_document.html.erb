@@ -1,0 +1,13 @@
+<li>
+  <div class="media">
+    <%= link_to document.document.url.to_s %>
+
+    <div class="media-body">
+      
+      <div class="form-group">
+        <%= f.label :_destroy, "Remove Document" %>
+        <%= f.check_box :_destroy %>
+      </div>
+    </div>
+  </div>
+</li>

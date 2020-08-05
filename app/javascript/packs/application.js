@@ -31,13 +31,17 @@ import "src/timezone"
 import "src/tooltips"
 import "src/wizard"
 
-import { singleFileUpload, multipleFileUpload } from 'fileUpload'
+import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload } from 'fileUpload'
 
 // Use 'DOMContentLoaded' event if not using Turbolinks
 document.addEventListener('turbolinks:load', () => {
   document.querySelectorAll('input[type=file]').forEach(fileInput => {
-    if (fileInput.multiple) {
+    if (fileInput.multiple && fileInput.id == "listing_listing_documents") {
       multipleFileUpload(fileInput)
+    } else if (fileInput.multiple && fileInput.id == "listing_listing_images") {
+      multipleImageUpload(fileInput)
+    } else if (fileInput.multiple && fileInput.id == "listing_listing_secure_documents") {
+      multipleSecureFileUpload(fileInput)
     } else {
       singleFileUpload(fileInput)
     }

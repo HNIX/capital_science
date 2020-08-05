@@ -11,8 +11,12 @@
         </div>
    </div>
 
-   <nav class="mt-10">
-       <a class="flex items-center mt-4 py-2 px-6 block border-l-4 bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100" href="https://dashboard-tailwindcomponents.netlify.app/" target="_blank">
+   <nav class="mt-10 relative overflow-x-hidden overflow-y-auto flex-1">
+       <%= link_to current_account, class: 'flex items-center mt-4 py-4 px-6 block bg-primary-500 text-white hover:text-white bg-opacity-25' do %>
+          Signed in as <strong><%= current_account.name %></strong>
+        <% end %>
+
+       <a class="flex items-center py-4 px-6 block border-l-4 bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100" href="https://dashboard-tailwindcomponents.netlify.app/" target="_blank">
            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                <path d="M2 10C2 5.58172 5.58172 2 10 2V10H18C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10Z" fill="currentColor"/>
                <path d="M12 2.25195C14.8113 2.97552 17.0245 5.18877 17.748 8.00004H12V2.25195Z" fill="currentColor"/>
@@ -21,6 +25,26 @@
            <span class="mx-4">Dashboard</span>
        </a>
 
-       <%= nav_link_to "Listings", listings_path, class: 'flex items-center mt-4 py-2 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
-   </nav>
+       <%= nav_link_to "Listings", listings_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
+        <%= link_to 'Account',  edit_user_registration_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
+        <%= link_to 'Accounts', user_connected_accounts_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Devise.omniauth_configs.any? %>
+      
+
+
+        <% if current_user.admin? %>
+          <%= link_to 'Admin Dashboard', admin_root_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', data: { turbolinks: false } %>
+          <%= link_to 'Sidekiq', admin_sidekiq_web_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } if defined?(::Sidekiq) %>
+        <% end %>
+
+        <% if Rails.env.development? %>
+          <%= link_to 'Jumpstart Config', jumpstart_path(script_name: nil), class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', data: { turbolinks: false } %>
+          <%= link_to 'Jumpstart Docs', jumpstart.docs_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } %>
+          <%= link_to 'Letter Opener', letter_opener_web_path(script_name: nil), class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } %>
+        <% end %>
+
+        
+    
+  </nav>
+
+    <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'absolute bottom-0 flex items-center mt-4 py-2 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
 </div>

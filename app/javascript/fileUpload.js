@@ -134,6 +134,32 @@ const singleFileUpload = (fileInput) => {
   })
 }
 
+const multipleImageUpload = (fileInput) => {
+  const formGroup = fileInput.parentNode
+
+  const uppy = fileUpload(fileInput)
+
+  uppy
+    .use(Dashboard, {
+      target: formGroup,
+      inline: true,
+      height: 300,
+      replaceTargetContent: true,
+    })
+
+  uppy.on('upload-success', (file, response) => {
+    const hiddenField = document.createElement('input')
+
+    hiddenField.type = 'hidden'
+    console.log(file);
+    console.log(response);
+    hiddenField.name = `listing[listing_images_attributes][${randomstring.generate()}][image]`
+    hiddenField.value = uploadedFileData(file, response, fileInput)
+
+    document.querySelector('form').appendChild(hiddenField)
+  })
+}
+
 const multipleFileUpload = (fileInput) => {
   const formGroup = fileInput.parentNode
 
@@ -151,7 +177,35 @@ const multipleFileUpload = (fileInput) => {
     const hiddenField = document.createElement('input')
 
     hiddenField.type = 'hidden'
-    hiddenField.name = `listing[listing_images_attributes][${randomstring.generate()}][image]`
+    console.log(file);
+    console.log(response);
+    hiddenField.name = `listing[listing_documents_attributes][${randomstring.generate()}][document]`
+    hiddenField.value = uploadedFileData(file, response, fileInput)
+
+    document.querySelector('form').appendChild(hiddenField)
+  })
+}
+
+const multipleSecureFileUpload = (fileInput) => {
+  const formGroup = fileInput.parentNode
+
+  const uppy = fileUpload(fileInput)
+
+  uppy
+    .use(Dashboard, {
+      target: formGroup,
+      inline: true,
+      height: 300,
+      replaceTargetContent: true,
+    })
+
+  uppy.on('upload-success', (file, response) => {
+    const hiddenField = document.createElement('input')
+
+    hiddenField.type = 'hidden'
+    console.log(file);
+    console.log(response);
+    hiddenField.name = `listing[listing_secure_documents_attributes][${randomstring.generate()}][secure_document]`
     hiddenField.value = uploadedFileData(file, response, fileInput)
 
     document.querySelector('form').appendChild(hiddenField)
@@ -209,4 +263,4 @@ const fileData = (file, id) => ({
   }
 })
 
-export { singleFileUpload, multipleFileUpload }
+export { singleFileUpload, multipleFileUpload, multipleSecureFileUpload, multipleImageUpload }

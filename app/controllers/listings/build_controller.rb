@@ -1,7 +1,7 @@
 class Listings::BuildController < ApplicationController
   include Wicked::Wizard
 
-  steps :add_properties, :add_images
+  steps :add_properties, :add_images, :add_documents, :add_secure_documents
 
   def show
     @listing = Listing.find(params[:listing_id])

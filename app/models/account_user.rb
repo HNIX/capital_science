@@ -28,7 +28,7 @@ class AccountUser < ApplicationRecord
   validate :owner_must_be_admin, on: :update, if: ->{ admin_changed? && account_owner? }
 
   # Add account roles to this line
-  ROLES = [:admin, :member]
+  ROLES = [:admin, :member, :guest, :investor, :broker]
 
   # Store the roles in the roles json column and cast to booleans
   store_accessor :roles, *ROLES

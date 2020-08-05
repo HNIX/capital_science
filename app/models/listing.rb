@@ -39,6 +39,8 @@ class Listing < ApplicationRecord
   has_rich_text :description
   has_many :properties, inverse_of: :listing, dependent: :destroy
   has_many :listing_images, dependent: :destroy
+  has_many :listing_documents, dependent: :destroy
+  has_many :listing_secure_documents, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
   has_many :listing_invitations, dependent: :destroy
@@ -81,5 +83,7 @@ class Listing < ApplicationRecord
 
   accepts_nested_attributes_for :properties, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :listing_images, allow_destroy: true
+  accepts_nested_attributes_for :listing_documents, allow_destroy: true
+  accepts_nested_attributes_for :listing_secure_documents, allow_destroy: true
   accepts_nested_attributes_for :listing_invitations
 end
