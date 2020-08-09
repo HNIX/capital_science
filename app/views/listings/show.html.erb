@@ -1,7 +1,7 @@
 <div class="container mx-auto my-8 px-4">
   <div class="max-w-3xl mx-auto">
     <div class="flex justify-between items-center mb-4">
-      <h1 class="h3"><%= link_to 'Listings', listings_path %> > Listing #<%= @listing.id %></h1>
+      <h1 class="h3"><%= link_to 'Listings', listings_path %> > Listing #<%= @listing.id %></h3>
       <% if current_account == @listing.account %>
         <%= link_to 'Edit', edit_listing_path(@listing), class: "btn btn-link" %>
         <%= link_to 'Invite A User', new_listing_listing_invitation_path(@listing), class: "btn btn-primary outline no-underline" %>
@@ -29,11 +29,23 @@
         <% end %>
       <% end %>
 
+
             <div class="mb-4">
         <h5>Title</h5>
         <%= @listing.title %>
         <% if @listing.private_listing %>
           <h5>Private Listing</h5>
+        <% end %>
+        <% if @listing.nda %>
+          <%= @listing.nda.name %>
+        <% else %>
+          <div>No NDA associated with this listing</div>
+        <% end %>
+        <% if current_user.nda_signings.find_by(listing_id: @listing.id) %>
+          <div>You signed an NDA for this listing</div>
+
+        <% else %>
+          <div>You have not signed an NDA for this listing</div>
         <% end %>
 
         <div class="flex flex-shrink-0">

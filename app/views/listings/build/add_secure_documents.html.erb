@@ -23,7 +23,7 @@
 
   <ul class="list-unstyled file-upload-list" id="album-photo-list">
     <%= form.fields_for :listing_secure_documents do |ld| %>
-      <%= render partial: "listings/document", locals: { document: ld.object, f: ld } %>
+      <%= render partial: "listings/secure_document", locals: { document: ld.object, f: ld } %>
     <% end %>
   </ul>
 

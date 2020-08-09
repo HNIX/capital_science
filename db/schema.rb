@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_05_030055) do
+ActiveRecord::Schema.define(version: 2020_08_07_211714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,7 +172,9 @@ ActiveRecord::Schema.define(version: 2020_08_05_030055) do
     t.float "cap_rate"
     t.string "type"
     t.float "noi"
+    t.bigint "nda_id"
     t.index ["account_id"], name: "index_listings_on_account_id"
+    t.index ["nda_id"], name: "index_listings_on_nda_id"
     t.index ["owner_id"], name: "index_listings_on_owner_id"
   end
 
@@ -185,6 +187,30 @@ ActiveRecord::Schema.define(version: 2020_08_05_030055) do
     t.boolean "secure_access"
     t.index ["listing_id"], name: "index_memberships_on_listing_id"
     t.index ["user_id"], name: "index_memberships_on_user_id"
+  end
+
+  create_table "nda_signings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "listing_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "signed_on"
+    t.text "content"
+    t.string "signature"
+    t.string "ip_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_nda_signings_on_account_id"
+    t.index ["listing_id"], name: "index_nda_signings_on_listing_id"
+    t.index ["user_id"], name: "index_nda_signings_on_user_id"
+  end
+
+  create_table "ndas", force: :cascade do |t|
+    t.string "name"
+    t.text "content"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_ndas_on_account_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -317,6 +343,10 @@ ActiveRecord::Schema.define(version: 2020_08_05_030055) do
   add_foreign_key "listings", "users", column: "owner_id"
   add_foreign_key "memberships", "listings"
   add_foreign_key "memberships", "users"
+  add_foreign_key "nda_signings", "accounts"
+  add_foreign_key "nda_signings", "listings"
+  add_foreign_key "nda_signings", "users"
+  add_foreign_key "ndas", "accounts"
   add_foreign_key "properties", "listings"
   add_foreign_key "user_connected_accounts", "users"
 end

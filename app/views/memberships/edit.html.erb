@@ -17,7 +17,7 @@
         <h1 class="h2"><%= @listing.title %></h1>
       </div>
 
-      <p class="my-4">Editing account permissions for <%= @membership.user.name || @membership.user.email %>.</p>
+      <p class="my-4">Editing listing permissions for <%= @membership.user.name || @membership.user.email %> (<%= @membership.user.email %>).</p>
 
       <%= render "form", membership: @membership %>
     </div>

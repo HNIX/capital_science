@@ -1,0 +1,19 @@
+<div class="container mx-auto my-8 px-4">
+  <div class="max-w-3xl mx-auto">
+    
+  <div class="form-group mt-10 flex justify-between hide-in-pdf">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="h3">NDA</h3>
+    </div>
+    <%= link_to "Download (PDF)", listing_nda_signing_path(@listing, @nda_signing, :format => 'pdf'), class: "btn btn-primary" %>  
+  </div>
+    
+    <div class="bg-white rounded shadow p-8">
+      <div class="mb-4">
+        
+        <%= @nda_signing.content %>
+        <%= image_tag @nda_signing.signature %>
+      </div>
+    </div>
+  </div>
+</div>

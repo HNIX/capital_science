@@ -48,4 +48,44 @@
       </div>
     </div>
   <% end %>
+
+  <% if @memberships.exists? %>
+  <h1 class="h3">Shared Listings</h1>
+    <div class="bg-white rounded shadow table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="p-3 uppercase text-left text-xs"><%= sortable @memberships, :created_at, 'Created At', class: 'text-gray-700' %></th>
+            <th class="p-3 uppercase text-left text-xs">Listing Name</th>
+            <th class="p-3 uppercase text-left text-xs">Role</th>
+            <th class="p-3 uppercase text-left text-xs">Secure Access</th>
+            <th class="p-3 uppercase text-left text-xs text-gray-700 w-20">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        <% @memberships.each do |membership| %>
+          <tr class="group border-t border-gray-400 hover:bg-gray-100">
+                      <td class="p-3"><%= membership.created_at %></td>
+                      <td class="p-3"><%= membership.listing.title %></td>
+                      <td class="p-3"><%= membership.roles %></td>
+                      <td class="p-3"><%= membership.secure_access %></td>
+          
+            <td>
+              <%= link_to "View", membership.listing, class: "btn btn-link no-underline" %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @pagy.pages > 1 %>
+      <div class="text-center my-6">
+        <%== pagy_nav(@pagy) %>
+      </div>
+    <% end %>
+
+  
+  <% end %>
 </div>

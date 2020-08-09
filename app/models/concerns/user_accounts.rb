@@ -33,7 +33,7 @@ module UserAccounts
       create_default_account if personal_account.nil?
 
       # Sync the personal account name with the user's name
-      personal_account.update(name: name)
+      personal_account.update(name: name) unless personal_account.nil?
     end
   end
 end

@@ -1,0 +1,51 @@
+<%= form_with(model: [@listing, nda_signing]) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  
+  <h4><%= @listing.nda.name %></h4>
+
+  <div class="overflow-auto h-64">
+    <%= form.text_field :content, class: "invisible", :value => fill_nda_content(@listing.nda.content, @listing, current_user).html_safe  %>
+    <%= fill_nda_content(@listing.nda.content, @listing, current_user).html_safe %>
+  </div>
+ <hr class="my-8">
+
+  <div class="h-64">
+    <div id="signature-pad" class="signature-pad">
+      <div class="signature-pad--body">
+        <canvas></canvas>
+      </div>
+      <div class="signature-pad--footer">
+        <div class="description">Sign above</div>
+
+        <div class="signature-pad--actions">
+          <div>
+            <button type="button" class="button clear" data-action="clear">Clear</button>
+            <button type="button" class="button" data-action="change-color">Change color</button>
+            <button type="button" class="button" data-action="undo">Undo</button>
+
+          </div>
+          <div>
+            <button type="button" class="button save" data-action="save-png">Save as PNG</button>
+            <button type="button" class="button save" data-action="save-jpg">Save as JPG</button>
+            <button type="button" class="button save" data-action="save-svg">Save as SVG</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <%= form.text_field :signature, as: :hidden, id: 'signature_pad_input', class: "invisible" %>
+  </div>
+  <!-- Divider -->
+
+  <div class="form-group mt-10 flex justify-between">
+  <%= form.button "Sign Non-Disclosure Agreement", class: "btn btn-primary", id: "signature_pad_save" %>
+</div>
+  <%= javascript_pack_tag 'signaturePadInit' %>
+
+<% end %>
+
+
+
+
+
+
+

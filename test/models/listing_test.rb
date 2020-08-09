@@ -18,11 +18,13 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
+#  nda_id          :bigint
 #  owner_id        :bigint
 #
 # Indexes
 #
 #  index_listings_on_account_id  (account_id)
+#  index_listings_on_nda_id      (nda_id)
 #  index_listings_on_owner_id    (owner_id)
 #
 # Foreign Keys

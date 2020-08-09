@@ -18,11 +18,13 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
+#  nda_id          :bigint
 #  owner_id        :bigint
 #
 # Indexes
 #
 #  index_listings_on_account_id  (account_id)
+#  index_listings_on_nda_id      (nda_id)
 #  index_listings_on_owner_id    (owner_id)
 #
 # Foreign Keys
@@ -36,6 +38,7 @@ class Listing < ApplicationRecord
 
   belongs_to :owner, class_name: "User"
   belongs_to :account
+  belongs_to :nda
   has_rich_text :description
   has_many :properties, inverse_of: :listing, dependent: :destroy
   has_many :listing_images, dependent: :destroy
@@ -44,6 +47,7 @@ class Listing < ApplicationRecord
   has_many :memberships, dependent: :destroy
   has_many :users, through: :memberships
   has_many :listing_invitations, dependent: :destroy
+  has_many :nda_signings
 
   scope :sorted, ->{ order(updated_at: :desc)}
   scope :account, -> (account) {where(account: account)}

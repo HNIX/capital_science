@@ -29,7 +29,7 @@
     <%= yield :head %>
   </head>
 
-  <body class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased">
+  <body class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased" onselectstart="return false">
     <div class="main">
       <%= render partial: "shared/flash" %>
       <%= render partial: "shared/navbar" %>
@@ -40,5 +40,6 @@
     </div>
 
     <%= render partial: "shared/footer" %>
+
   </body>
 </html>

@@ -112,6 +112,42 @@
       
     </div>
 
+   <!-- Divider -->
+  <hr class="my-5">
+  
+  <div class="flex flex-wrap -mx-3 mb-2">
+      
+
+     <div class="rounded my-8 w-full md:w-2/5 px-3 mb-6 md:mb-0">
+         <!-- label -->
+        <div class="text-gray-700 font-medium">Require NDA
+        </div>
+        <!-- Text -->
+        <small class="form-text text-muted">
+          Require users to sign an NDA before viewing all or parts of your listing.
+        </small>
+      
+      <!-- Toggle Button -->
+
+      <label for="require_nda" class=" w-full md:w-1/3 flex px-3 my-6 md:mb-0 cursor-pointer">
+         
+        <!-- toggle -->
+        <div class="relative">
+          <input class="hidden" id="require_nda" type="checkbox" value="1" checked="checked" name="listing[require_nda]">
+          <%= form.check_box :private_listing, class: "hidden", id: "private_listing" %>
+          <!-- line -->
+          <div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+          <!-- dot -->
+          <div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
+        </div>
+        <%= form.collection_select :nda_id, current_account.ndas, :id, :name %>
+      </label>
+      </div>
+
+     
+      
+    </div>
+
   <!-- Divider -->
   <hr class="my-8">
 

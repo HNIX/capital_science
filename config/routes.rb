@@ -59,6 +59,7 @@ Rails.application.routes.draw do
 
     resources :account_users, path: :members
     resources :account_invitations, path: :invitations, module: :accounts
+    resources :ndas
   end
   resources :account_invitations
 
@@ -67,6 +68,7 @@ Rails.application.routes.draw do
     resources :memberships, path: :members
     resources :listing_invitations, path: :invitations, module: :listings
     resources :build, controller: 'listings/build'
+    resources :nda_signings
   end
   resources :listing_invitations
   

@@ -31,6 +31,7 @@ import "src/timezone"
 import "src/tooltips"
 import "src/wizard"
 
+
 import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload } from 'fileUpload'
 
 // Use 'DOMContentLoaded' event if not using Turbolinks
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fileUpload(fileInput)
   })
 })
+
 
 import LocalTime from "local-time"
 LocalTime.start()
