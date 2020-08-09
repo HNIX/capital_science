@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_07_211714) do
+ActiveRecord::Schema.define(version: 2020_08_09_151923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,9 +170,9 @@ ActiveRecord::Schema.define(version: 2020_08_07_211714) do
     t.float "price"
     t.boolean "hide_price"
     t.float "cap_rate"
-    t.string "type"
     t.float "noi"
     t.bigint "nda_id"
+    t.string "investment_type"
     t.index ["account_id"], name: "index_listings_on_account_id"
     t.index ["nda_id"], name: "index_listings_on_nda_id"
     t.index ["owner_id"], name: "index_listings_on_owner_id"

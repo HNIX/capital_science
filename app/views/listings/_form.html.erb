@@ -19,7 +19,7 @@
         Sale Type
       </label>
       <div class="relative">
-        <%= form.select :type, [['Investment', 'investment'], ['Investment NNN', 'investment_nnn'], ['Owner User', 'owner_user'],['Investment or Owner User', 'investment_or_owner_user']], class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-state" %>
+        <%= form.select :investment_type, [['Investment', 'Investment'], ['Investment NNN', 'Investment NNN'], ['Owner User', 'Owner User'],['Investment or Owner User', 'Investment or Owner User']], class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-state" %>
         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
           <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
         </div>
@@ -56,6 +56,7 @@
           </div>
           
         </div>
+
     
   </div>
 
@@ -65,10 +66,8 @@
 
   <div class="flex flex-wrap -mx-3 mb-2">
     <div class="w-full md:w-full px-3 mb-6 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-        Conditions
-      </label>
-      <%= form.text_field :type, class: "appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-city", placeholder: "1000000" %>
+      <%= form.label :description %>
+      <%= form.rich_text_area :description %>
     </div>
       
   </div>
