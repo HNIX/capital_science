@@ -1,0 +1,8 @@
+<div class="bg-white border border-gray-300 rounded">
+  <%= nav_link_to "Listing Basics", edit_listing_path(@listing), class: "block no-underline p-3 px-6 rounded-t", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+  <%= nav_link_to "Properties", listing_build_path(@listing, :add_properties), class: "block no-underline p-3 px-6", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+  <%= nav_link_to "Property Details", listing_build_path(@listing, :property_details), class: "block no-underline p-3 px-6", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+  <%= nav_link_to "Images", listing_build_path(@listing, :add_images), class: "block no-underline p-3 px-6", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+  <%= nav_link_to "Public Documents", listing_build_path(@listing, :add_documents), class: "block no-underline p-3 px-6", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+  <%= nav_link_to "Secure Documents", listing_build_path(@listing, :add_secure_documents), class: "block no-underline p-3 px-6", active_class: "bg-primary-500 text-white hover:text-white", inactive_class: "text-gray-700 hover:text-gray-700 hover:bg-gray-100" %>
+</div>

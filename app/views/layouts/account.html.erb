@@ -13,9 +13,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%# All assets are defined in Webpacker app/javascripts now %>
+   
+    <%= javascript_include_tag 'https://maps.googleapis.com/maps/api/js?key='+Rails.application.credentials.google_maps[:api_key] %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
 
     <%= tag.meta name: "direct-upload-url", content: rails_direct_uploads_path %>
 
@@ -32,24 +35,26 @@
     <%= yield :head %>
   </head>
 
-  <body class="bg-gray-100 font-sans font-normal leading-normal h-full antialiased">
+  <body class="md:overflow-hidden bg-gray-200 my-auto w-full">
     
-    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-200 font-roboto">
-        
-        <%= render partial: "shared/sidebar" %>
+     <%= render partial: "shared/navbar2" %>
 
+    <!-- start wrapper -->
+    <div class="h-screen md:flex">
+      
+      <%= render partial: "shared/sidebar2" %>
+
+      <!-- start content -->
+      <div class="flex-1 flex flex-col">
         
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-<!--                 <div class="container mx-auto px-6 py-8">
- -->                    <%= yield %>
-<!--                 </div>
- -->                 
-            </main>
+        <div class="md:overflow-y-scroll pb-32">
+          
+                <%= yield %>                 
         </div>
+      </div>
+
     </div>
-
    
-
+  <%= javascript_pack_tag 'theme', 'data-turbolinks-track': 'reload' %>
   </body>
 </html>

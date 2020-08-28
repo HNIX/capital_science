@@ -1,91 +1,98 @@
-<div class="container mx-auto my-8 px-4">
+<div class="flex-1 p-10 m-md:mt-16">
+
   <div class="flex justify-between items-center mb-4">
     <h1 class="h3">Listings</h1>
-
-    <% if @listings.exists? %>
+    <div>
       <%= link_to 'New Listing', new_listing_path, class: "btn btn-primary" %>
-    <% end %>
+    </div>
   </div>
 
-  <% if @listings.exists? %>
-    <div class="bg-white rounded shadow table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @listings, :user_id, 'User', class: 'text-gray-700' %></th>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @listings, :title, 'Title', class: 'text-gray-700' %></th>
-            <th class="p-3 uppercase text-left text-xs text-gray-700 w-20">Actions</th>
-          </tr>
-        </thead>
+  <% if @listings.exists? || @member_listings.exists? %>
+  <div class="flex flex-col">
+    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Investment Type
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Brokerage
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @all_listings.each do |listing| %>
+            
 
-        <tbody>
-        <% @listings.each do |listing| %>
-          <tr class="group border-t border-gray-400 hover:bg-gray-100">
-                      <td class="p-3"><%= listing.owner_id %></td>
-                      <td class="p-3"><%= listing.title %></td>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 h-10 w-10">
+                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-gray-900">
+                      <%= listing.title %>
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">
+                      Listed on: <%= listing.created_at %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-900"><%= listing.investment_type %></div>
+                <div class="text-sm leading-5 text-gray-500">Optimization</div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  <% if listing.account.id == current_account.id %>
+                    Owned Listing
+                  <% else %>
+                    Shared Listing
+                  <% end %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= listing.account.name %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                <%= link_to "View", listing, class: "text-indigo-600 hover:text-indigo-900" %>
+              </td>
+            </tr>
+          <% end %>
+
           
-            <td>
-              <%= link_to "View", listing, class: "btn btn-link no-underline" %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
+            
 
-    <% if @pagy.pages > 1 %>
-      <div class="text-center my-6">
-        <%== pagy_nav(@pagy) %>
+            <!-- More rows... -->
+          </tbody>
+        </table>
       </div>
-    <% end %>
-
+    </div>
+  </div>
   <% else %>
-    <div class="bg-white rounded shadow flex flex-col items-center justify-between p-8 lg:flex-row">
-      <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
-      <div class="flex-1 text-center">
-        <p class="h3 mb-4">Create your first Listing</p>
-        <%= link_to 'New Listing', new_listing_path, class: "btn btn-primary" %>
-      </div>
-    </div>
-  <% end %>
-
-  <% if @memberships.exists? %>
-  <h1 class="h3">Shared Listings</h1>
-    <div class="bg-white rounded shadow table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th class="p-3 uppercase text-left text-xs"><%= sortable @memberships, :created_at, 'Created At', class: 'text-gray-700' %></th>
-            <th class="p-3 uppercase text-left text-xs">Listing Name</th>
-            <th class="p-3 uppercase text-left text-xs">Role</th>
-            <th class="p-3 uppercase text-left text-xs">Secure Access</th>
-            <th class="p-3 uppercase text-left text-xs text-gray-700 w-20">Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-        <% @memberships.each do |membership| %>
-          <tr class="group border-t border-gray-400 hover:bg-gray-100">
-                      <td class="p-3"><%= membership.created_at %></td>
-                      <td class="p-3"><%= membership.listing.title %></td>
-                      <td class="p-3"><%= membership.roles %></td>
-                      <td class="p-3"><%= membership.secure_access %></td>
-          
-            <td>
-              <%= link_to "View", membership.listing, class: "btn btn-link no-underline" %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <% if @pagy.pages > 1 %>
-      <div class="text-center my-6">
-        <%== pagy_nav(@pagy) %>
+      <div class="bg-white rounded shadow flex flex-col items-center justify-between p-8 lg:flex-row">
+        <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+        <div class="flex-1 text-center">
+          <p class="h3 mb-4">Create your first Listing</p>
+          <%= link_to 'New Listing', new_listing_path, class: "btn btn-primary" %>
+        </div>
       </div>
     <% end %>
 
-  
-  <% end %>
+
+
+
+
+    
 </div>

@@ -1,27 +1,48 @@
 class MembershipsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_listing
-  before_action :set_membership, only: [:edit, :update, :destroy, :switch]
+  before_action :set_membership, only: [:show, :edit, :update, :destroy]
   # before_action :require_admin, except: [:index, :show]
 
   # GET /accounts
   def index
-    redirect_to @listing
+    @pagy, @memberships = pagy(Membership.where(listing_id: current_account.listings.pluck(:id)))
   end
 
   # GET /account_users/1
   def show
-    redirect_to @listing
+    
   end
 
-  # GET /account_users/1/edit
+  # GET /listings/new
+  def new   
+    @listing = Listing.find(params[:listing_id])
+    @membership = Membership.new(listing_id: @listing.id)
+  end
+
+  # GET /listings/1/edit
   def edit
+    unless current_account == @membership.listing.account
+      redirect_to root_url, notice: 'You cannot edit memberships'
+    end
+  end
+
+  # POST /listings
+  def create
+    @membership = Membership.new(membership_params)
+    
+    @membership.user = current_user
+
+    if @membership.save
+      redirect_to membership_path(@membership)
+    else
+      render :new
+    end
   end
 
   # PATCH/PUT /account_users/1
   def update
     if @membership.update(membership_params)
-      redirect_to @listing, notice: "Listing member was successfully updated."
+      redirect_to @membership, notice: "Listing member was successfully updated."
     else
       render :edit
     end
@@ -30,18 +51,14 @@ class MembershipsController < ApplicationController
   # DELETE /account_users/1
   def destroy
     @membership.destroy
-    redirect_to @listing, notice: "Listing member was successfully removed."
+    redirect_to memberships_path, notice: "Listing member was successfully removed."
   end
 
   private
 
-  def set_listing
-    @listing = current_user.listings.find(params[:listing_id])
-  end
-
   # Use callbacks to share common setup or constraints between actions.
   def set_membership
-    @membership = @listing.memberships.find(params[:id])
+    @membership = Membership.find(params[:id])
   end
 
   # Only allow a trusted parameter "white list" through.

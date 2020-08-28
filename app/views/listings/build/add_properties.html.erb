@@ -1,43 +1,35 @@
-<div class="container mx-auto my-8 px-4">
-  <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="h3">Add Listing Properties</h1>
-      <%= link_to 'Back', edit_listing_path(@listing), class: "btn btn-link" %>
-    </div>
+<div class="flex flex-wrap my-4 lg:px-4 container mx-auto">
+  <div class="lg:w-1/4 w-full p-4">
+    <%= render partial: "listings/form_sidebar" %>
+  </div>
 
-    <div class="bg-white rounded shadow p-8">
+  <div class="lg:w-3/4 w-full p-4">
       
+    <%= form_for @listing, url: wizard_path, method: :put do |form| %>
+      <%= render "shared/error_messages", resource: form.object %>
 
-<%= form_for @listing, url: wizard_path, method: :put do |form| %>
-  <%= render "shared/error_messages", resource: form.object %>
+      
+      <div data-controller="nested-form">
+        <template data-target="nested-form.template">
+          <%= form.fields_for :properties, Property.new, child_index: 'NEW_RECORD' do |property| %>
+            <%= render "listings/property_fields", property: property %>
+          <% end %>
+        </template>
 
-  <div data-controller="nested-form">
-    <template data-target="nested-form.template">
-      <%= form.fields_for :properties, Property.new, child_index: 'NEW_RECORD' do |property| %>
-        <%= render "listings/property_fields", property: property %>
-      <% end %>
-    </template>
+        <%= form.fields_for :properties do |property| %>
+          <%= render "listings/property_fields", property: property %>
+        <% end %>
 
-    <%= form.fields_for :properties do |property| %>
-      <%= render "listings/property_fields", property: property %>
+       
+           <div class="mb-3 flex justify-between" data-target="nested-form.links">
+            <%= link_to "Add Property", "#", class: "btn btn-primary outline no-underline mr-3", data: { action: "click->nested-form#add_association" } %>
+            <%= link_to 'skip', next_wizard_path %>
+            <%= form.button class: "btn btn-primary" %>
+          </div>
+          
+      </div>
+
+       
     <% end %>
-
-    <div class="mb-3" data-target="nested-form.links">
-      <%= link_to "Add Property", "#", class: "btn btn-outline-primary", data: { action: "click->nested-form#add_association" } %>
-    </div>
-  </div>
-
-   <div class="form-group flex justify-between">
-    <%= form.button class: "btn btn-primary" %>
-    <%= link_to 'skip', next_wizard_path %>
-
-    <% if form.object.persisted? %>
-      <%= link_to 'Delete', form.object, class: "btn btn-danger outline", method: :delete, data: { remote: true, confirm: "Are you sure?" } %>
-    <% end %>
-  </div>
-<% end %>
-
-
-    </div>
   </div>
 </div>

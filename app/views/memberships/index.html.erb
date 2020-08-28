@@ -1,0 +1,80 @@
+<div class="flex flex-wrap my-4 lg:px-4">
+  <div class="lg:w-1/4 w-full p-4">
+    <%= render partial: "shared/agreements_sidebar" %>
+  </div>
+
+  <div class="lg:w-3/4 w-full p-4">
+    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-300">
+
+      <div class="flex justify-between items-center mb-3">
+        <h1 class="h2 flex-1">Listing Memberships</h1>
+
+      </div>
+
+        <% if @memberships.exists? %>
+        <table class="w-full">
+          <thead>
+            <tr>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">User</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Listing</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Created at</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Role</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">Secure Access</th>
+              <th class="p-3 uppercase text-left text-xs text-gray-700">NDA</th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @memberships.each do |membership| %>
+
+              <tr class="group border-t border-gray-400 hover:bg-gray-200">
+                <td class="p-3">
+                  <%= link_to membership.user.name, membership_path(membership), class: "text-gray-900 no-underline hover:text-primary" %>
+                </td>
+                <td class="p-3">
+                  <%= link_to membership.listing.title, listing_path(membership.listing), class: "text-gray-900 no-underline hover:text-primary" %>
+                </td>
+                <td class="p-3">
+                  <%= membership.created_at %>
+                </td>
+
+                <td class="p-3">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    <%= membership_roles(membership).join(", ") %>
+                  </span>
+                </td>
+
+                <td class="p-3">
+                  <%= membership.secure_access ? "True" : "False" %>
+                </td>
+
+                <td class="p-3">
+                  <% if membership.user.nda_signings.find_by(listing_id: membership.listing.id) %>
+                      <%= link_to "View NDA", listing_nda_signing_path(membership.listing, membership.user.nda_signings.find_by(listing_id: membership.listing.id)) %>
+                  <% end %>
+                </td>
+
+                <td class="p-3 w-32 text-center"> 
+                  <%= link_to "View", membership_path(membership), class: "text-gray-900 no-underline hover:text-primary" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+        <% if @pagy.pages > 1 %>
+          <div class="text-center my-6">
+            <%%== pagy_nav(@pagy) %>
+          </div>
+        <% end %>
+        
+        <% else %>
+        <div class="text-center p-8">
+          <%= image_tag "empty.svg", class: "w-1/3 mb-4 m-auto" %>
+         
+        </div>
+        <% end %>
+    </div>
+  </div>
+</div>

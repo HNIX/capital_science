@@ -1,17 +1,27 @@
 class NdaSigningsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_listing
+  before_action :set_listing, except: :index
   before_action :set_nda_signing, except: [:index, :new, :create]
   #before_action :require_non_personal_account, :require_subscription, except: [:index, :public_listings, :show]
 
   # GET /listings
   def index
-    @pagy, @account_nda_signings = pagy(current_account.nda_signings.sort_by_params(params[:sort], sort_direction))
-    @pagy, @user_nda_signings = pagy(current_user.nda_signings.sort_by_params(params[:sort], sort_direction))
+    # @pagy, @nda_signings = pagy(current_account.nda_signings.sort_by_params(params[:sort], sort_direction))
+    # @pagy, @user_nda_signings = pagy(current_user.nda_signings.sort_by_params(params[:sort], sort_direction))
+
+    if params[:listing_id]
+      @nda_signings = Listing.find(params[:listing_id]).nda_signings
+    else
+      @pagy, @nda_signings = pagy(current_account.nda_signings.sort_by_params(params[:sort], sort_direction))
+      @pagy, @user_nda_signings = pagy(current_user.nda_signings.sort_by_params(params[:sort], sort_direction))
+      
+    end
   end
 
   # GET /listings/1
   def show
+    @listing = @nda_signing.listing 
+
    unless current_account == @nda_signing.account || current_user == @nda_signing.user
      redirect_to listing_path(@listing), notice: "You are not allowed to view this NDA"
    end
@@ -51,7 +61,7 @@ class NdaSigningsController < ApplicationController
 
   # PATCH/PUT /listings/1
   def update
-   redirect_to listing_ndas_url, notice: 'You cannot edit an NDA after it has been signed'
+   redirect_to listing_ndas_url(@listing), notice: 'You cannot edit an NDA after it has been signed'
   end
 
   # DELETE /listings/1
@@ -61,12 +71,14 @@ class NdaSigningsController < ApplicationController
   end
 
   private
-    def set_listing
-      @listing = Listing.find(params[:listing_id])
-    end
+    
     # Use callbacks to share common setup or constraints between actions.
     def set_nda_signing
       @nda_signing = NdaSigning.find(params[:id])
+    end
+
+    def set_listing
+      @listing = Listing.find(params[:listing_id])
     end
 
     # Only allow a trusted parameter "white list" through.

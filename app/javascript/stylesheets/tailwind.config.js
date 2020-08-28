@@ -12,6 +12,24 @@ module.exports = {
   // All the default values will be compiled unless they are overridden below
   theme: {
     // Extend (add to) the default theme in the `extend` key
+
+    screens: {
+      'm-xl': {'max': '1279px'},
+      // => @media (max-width: 1279px) { ... }
+
+      'm-lg': {'max': '1023px'},
+      // => @media (max-width: 1023px) { ... }
+
+      'm-md': {'max': '767px'},
+      // => @media (max-width: 767px) { ... }
+
+      'm-sm': {'max': '639px'},
+      // => @media (max-width: 639px) { ... }
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+    },
     extend: {
       colors: {
         "primary-200": "#eef1ff",

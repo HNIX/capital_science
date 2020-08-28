@@ -1,23 +1,17 @@
 <%= form_for @listing do |form| %>
   <%= render "shared/error_messages", resource: form.object %>
   
-  
-
-  <div class="form-group">
-    <%= form.label :title %>
-    <%= form.text_field :title, class: "form-control" %>
-  </div>
-
- <!--  <div class="form-group">
-    <%= form.label :description %>
-    <%= form.rich_text_area :description %>
-  </div> -->
-  
-  <div class="flex flex-wrap -mx-3 mb-2">
-     <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-        Sale Type
-      </label>
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg p-8">
+    
+   <div class="flex flex-wrap -mx-3 md:mb-8">
+     <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
+      <label for="name" class="block text-sm leading-5 font-medium text-gray-700">Listing Name</label>
+      <div class="relative">
+        <%= form.text_field :title, class: "form-control" %>
+      </div>
+    </div>
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label for="investment_type" class="block text-sm leading-5 font-medium text-gray-700">Investment Type</label>
       <div class="relative">
         <%= form.select :investment_type, [['Investment', 'Investment'], ['Investment NNN', 'Investment NNN'], ['Owner User', 'Owner User'],['Investment or Owner User', 'Investment or Owner User']], class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-state" %>
         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -25,8 +19,12 @@
         </div>
       </div>
     </div>
-    
-    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+  </div>
+
+  
+  <div class="flex flex-wrap -mx-3">
+     
+    <div class="w-full md:w-3/12 px-3 mb-6 md:mb-0">
       <div>
         <label for="price" class="block text-sm leading-5 font-medium text-gray-700">Price</label>
         <div class="mt-1 relative rounded-md shadow-sm">
@@ -41,119 +39,160 @@
       </div>
     </div>
         
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <div>
-            <label for="price" class="block text-sm leading-5 font-medium text-gray-700">NOI</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm sm:leading-5">
-                  $
-                </span>
-              </div>
-              <%= form.number_field :noi, class: "appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight pl-7 pr-12 sm:text-sm sm:leading-5 focus:outline-none focus:bg-white focus:border-gray-500", id: "noi", placeholder: "0.00" %>
-                
-            </div>
+    <div class="w-full md:w-3/12 px-3 mb-6 md:mb-0">
+      <div>
+        <label for="noi" class="block text-sm leading-5 font-medium text-gray-700">NOI</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 sm:text-sm sm:leading-5">
+              $
+            </span>
           </div>
-          
+          <%= form.number_field :noi, class: "appearance-none block w-full text-gray-700 border border-gray-400 rounded py-3 px-4 leading-tight pl-7 pr-12 sm:text-sm sm:leading-5 focus:outline-none focus:bg-white focus:border-gray-500", id: "noi", placeholder: "0.00" %>
+            
         </div>
+      </div>
+      
+    </div>
+
+    <div class="w-full md:w-2/12 px-3 mb-6 md:mb-0">
+      <div>
+        <label for="cap_rate" class="block text-sm leading-5 font-medium text-gray-700">Cap Rate</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          
+          <%= form.number_field :cap_rate, class: "block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "cap_rate", placeholder: "6" %>
+            <div class="absolute inset-y-0 right-6 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 sm:text-sm sm:leading-5">
+              %
+            </span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="w-full md:w-4/12 p-6 mb-6 md:mb-0">
+      <!-- Text -->
+        <small class="form-text text-muted">
+          Cap rate is calculated automatically if NOI is provided. 
+        </small>
+    </div>
 
     
   </div>
+</div>
 
-
-  <!-- Divider -->
-  <hr class="my-5">
-
-  <div class="flex flex-wrap -mx-3 mb-2">
-    <div class="w-full md:w-full px-3 mb-6 md:mb-0">
-      <%= form.label :description %>
-      <%= form.rich_text_area :description %>
-    </div>
-      
-  </div>
-
-   <!-- Divider -->
-  <hr class="my-5">
+ 
   
-  <div class="flex flex-wrap -mx-3 mb-2">
-      
-
-     <div class="rounded my-8 w-full md:w-2/5 px-3 mb-6 md:mb-0">
-         <!-- label -->
-        <div class="text-gray-700 font-medium">Private Listing
-        </div>
-        <!-- Text -->
-        <small class="form-text text-muted">
-          You choose who can see and interact with this listing.
-        </small>
-      
-      <!-- Toggle Button -->
-
-      <label for="private_listing" class=" w-full md:w-1/3 flex px-3 my-6 md:mb-0 cursor-pointer">
-         
-        <!-- toggle -->
-        <div class="relative">
-          <!-- input -->
-          <%= form.check_box :private_listing, class: "hidden", id: "private_listing" %>
-          <!-- line -->
-          <div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-          <!-- dot -->
-          <div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
-        </div>
-       
-      </label>
+   <div class="bg-white shadow overflow-hidden sm:rounded-lg p-8 mt-6">
+    <div class="pb-4 border-b border-gray-200 mb-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Listing Privacy Settings
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          Determine who can view your listing
+        </p>
       </div>
-
-      <div class="border border-gray-200 rounded right-0 p-8 my-8 bg-gray-200 w-full md:w-3/5 px-3 mb-6 md:mb-0">
-        <h3>Public Listings</h3>
-        <p>Anyone on the internet can see this listing. Only signed in users can view the listing details.</p>
-      </div>
-      
-    </div>
-
-   <!-- Divider -->
-  <hr class="my-5">
-  
-  <div class="flex flex-wrap -mx-3 mb-2">
-      
-
-     <div class="rounded my-8 w-full md:w-2/5 px-3 mb-6 md:mb-0">
+   <div class="flex flex-wrap -mx-3">
+     <div class="w-full md:w-1/2 md:pr-10 px-3 mb-6 md:mb-0">
          <!-- label -->
-        <div class="text-gray-700 font-medium">Require NDA
-        </div>
+        <label for="toggle" class="block text-sm leading-5 font-medium text-gray-700">Require NDA</label> 
         <!-- Text -->
         <small class="form-text text-muted">
           Require users to sign an NDA before viewing all or parts of your listing.
         </small>
-      
-      <!-- Toggle Button -->
 
-      <label for="require_nda" class=" w-full md:w-1/3 flex px-3 my-6 md:mb-0 cursor-pointer">
-         
-        <!-- toggle -->
-        <div class="relative">
-          <input class="hidden" id="require_nda" type="checkbox" value="1" checked="checked" name="listing[require_nda]">
-          <%= form.check_box :private_listing, class: "hidden", id: "private_listing" %>
-          <!-- line -->
-          <div class="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-          <!-- dot -->
-          <div class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"></div>
+      
+        <!-- Toggle Button -->
+
+        <div class="flex flex-col md:mt-2">
+        <div class="flex flex-col">
+            <label class="inline-flex items-center mt-3">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Details & Documents</span>
+            </label>
+
+           <label class="inline-flex items-center mt-3">
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" ><span class="ml-2 text-gray-700">Secure Documents Only</span>
+            </label>
         </div>
-        <%= form.collection_select :nda_id, current_account.ndas, :id, :name %>
-      </label>
+    </div>
+
+        <div class="relative inline-flex md:my-4 w-full">
+        <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.764-9.763 25.592 0 35.355l181 181c4.88 4.882 11.279 7.323 17.677 7.323s12.796-2.441 17.678-7.322l181-181c9.763-9.764 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+
+        <%= form.collection_select :nda_id, current_account.ndas, :id, :name, class: "border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none" %>
+        
       </div>
 
-     
+      </div>
       
+
+
+     <div class="w-full md:w-1/2 px-6 mb-6 md:mb-0">
+       <!-- label -->
+      <label for="toggle" class="block text-sm leading-5 font-medium text-gray-700">Private Listing</label> 
+      <!-- Text -->
+        <small class="form-text text-muted">
+          You choose who can see and interact with this listing.
+        </small>       
+
+        <div class="flex flex-col mb-4">
+            <div class="flex flex-col">
+                <label class="inline-flex items-center mt-3">
+                     <%= form.check_box :private_listing, class: "form-checkbox h-5 w-5 text-gray-600" %>
+                    <span class="ml-2 text-gray-700">Private</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="max-w-sm w-full lg:max-w-full lg:flex">
+          <div class="border border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+            <div class="mb-2">
+              <p class="text-sm text-gray-600 flex items-center mb-4">
+                <svg class="fill-current text-gray-500 w-3 h-3 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" />
+                </svg>
+                Private listings are NOT visible to the public
+              </p>
+              <p class="text-gray-700 text-base">If you want your listing to be private you must manually grant users access to the listing.</p>
+            </div>
+           
+          </div>
+        </div>
+   
     </div>
+
+
+  </div>
+</div>
+
+
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg p-8 mt-6">
+    <div class="pb-4 border-b border-gray-200 mb-6">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Listing Highlights
+        </h3>
+        <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+          Make it good
+        </p>
+      </div>
+
+  <div class="flex flex-wrap -mx-3 mb-2">
+    <div class="w-full md:w-full px-3 mb-6 md:mb-0"> 
+      <%= form.rich_text_area :description %>
+    </div>
+      
+  </div>
+</div>
 
   <!-- Divider -->
   <hr class="my-8">
 
   <div class="form-group mt-10 flex justify-between">
     <% if form.object.persisted? %>
-      <%= form.button class: "btn btn-primary" %>
       <%= link_to 'Delete', form.object, class: "btn btn-danger outline", method: :delete, data: { remote: true, confirm: "Are you sure?" } %>
+      <%= link_to 'skip', listing_build_path(@listing, :add_properties) %>
+      <%= form.button class: "btn btn-primary" %>
     <% else %>
       <%= link_to 'Cancel', listings_path, class: "btn btn-link" %>
       <div class="text-xs uppercase">

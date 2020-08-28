@@ -85,6 +85,10 @@ class Listing < ApplicationRecord
     aasm.events(possible: true).map(&:name) & %i[publish stop start close open]
   end
 
+  def address
+    [address1, address_city, address_zip, address_state].compact.join(", ")
+  end
+
   accepts_nested_attributes_for :properties, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :listing_images, allow_destroy: true
   accepts_nested_attributes_for :listing_documents, allow_destroy: true

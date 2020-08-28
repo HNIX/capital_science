@@ -12,6 +12,8 @@
 #  buildings      :integer
 #  floors         :integer
 #  land_area      :float
+#  latitude       :float
+#  longitude      :float
 #  name           :string
 #  primary_type   :string
 #  rent_type      :string

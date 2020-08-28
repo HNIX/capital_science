@@ -65,11 +65,16 @@ Rails.application.routes.draw do
 
   #Listings
   resources :listings do 
-    resources :memberships, path: :members
     resources :listing_invitations, path: :invitations, module: :listings
     resources :build, controller: 'listings/build'
+    post :join
     resources :nda_signings
   end
+
+  get 'nda_signings' => 'nda_signings#index', as: :nda_signings
+
+  resources :memberships, path: :members
+
   resources :listing_invitations
   
   patch "listings/:id/publish" => "listings#publish", as: 'publish_listing'
@@ -77,7 +82,7 @@ Rails.application.routes.draw do
   patch "listings/:id/start" => "listings#start", as: 'start_listing'
   patch "listings/:id/close" => "listings#close", as: 'close_listing'
   patch "listings/:id/open" => "listings#open", as: 'open_listing'
-  
+
   get '/public_listings', to: 'listings#public_listings', as: 'public_listings'
 
   # Payments

@@ -5,82 +5,236 @@
   </div>
 <% end %>
 
-<header class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-indigo-600">
-  <div class="flex items-center">
-      <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none lg:hidden">
-          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-      </button>
+<!-- start navbar -->
+<div class="m-md:fixed m-md:w-full m-md:top-0 m-md:z-20 flex flex-row flex-wrap items-center bg-white p-3 border-b bg-indigo-900">
+    
+    
 
-      <div class="relative mx-4 lg:mx-0">
-          <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-              <svg class="h-5 w-5 text-gray-500" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-          </span>
+    <div class="dropdown relative m-md:static">
 
-          <input class="form-input w-32 sm:w-64 rounded-md pl-10 pr-4 focus:border-indigo-600" type="text" placeholder="Search">
-      </div>
-  </div>
-
-  <!-- <div class="block lg:hidden">
-    <button type="button" id="sidebar-open" class="flex px-6 items-center lg:hidden text-gray-500 focus:outline-none focus:text-gray-700" data-action="click->toggle#toggle touch->toggle#toggle">
-      <svg class="fill-current w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path></svg>
-    </button>
-  </div> -->
-  <% if user_signed_in? %>
-    <div class="flex items-center">
-        <button class="flex mx-4 text-gray-600 focus:outline-none">
-            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15 17H20L18.5951 15.5951C18.2141 15.2141 18 14.6973 18 14.1585V11C18 8.38757 16.3304 6.16509 14 5.34142V5C14 3.89543 13.1046 3 12 3C10.8954 3 10 3.89543 10 5V5.34142C7.66962 6.16509 6 8.38757 6 11V14.1585C6 14.6973 5.78595 15.2141 5.40493 15.5951L4 17H9M15 17V18C15 19.6569 13.6569 21 12 21C10.3431 21 9 19.6569 9 18V17M15 17H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <button class="menu-btn focus:outline-none focus:shadow-outline flex flex-wrap items-center">
+          
+          <div class="ml-2 capitalize flex ">
+            <h1 class="text-sm text-white capitalize text-white ml-1 flex-1 m-0 p-0 leading-none"><%= current_account.name %></h1>
+            <i class="fad fa-chevron-down ml-2 text-xs leading-none text-white"></i>
+          </div>                        
         </button>
 
-        <div x-data="{ dropdownOpen: false }"  class="relative">
-            <button @click="dropdownOpen = !dropdownOpen" class="flex mx-4 text-gray-600 focus:outline-none">
-                <span class="appearance-none flex items-center inline-block text-gray-700">
-                    <%= account_avatar current_account, include_user: true, class: "rounded-full h-8 w-8" %>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="1rem" height="1rem" class="h-4 w-4"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path></svg>
-                </span>
-            </button>
+        <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
 
-            <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10"></div>
-
-            <div x-show="dropdownOpen" class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-                <%= link_to current_account, class: 'border-b text-sm no-underline block px-6 py-3 text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' do %>
-                  Signed in as <strong><%= current_account.name %></strong>
-                <% end %>
-
-                <%= link_to 'Profile',  edit_user_registration_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' %>
-                <%= link_to 'Password', account_password_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' %>
-                <%= link_to 'Accounts', user_connected_accounts_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Devise.omniauth_configs.any? %>
-                <%= link_to 'Billing',  subscription_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Jumpstart.config.payments_enabled? %>
-                <%= link_to "Accounts", accounts_path, class: 'border-t text-xs uppercase font-bold text-gray-800 no-underline block px-6 py-3 bg-white hover:bg-gray-300 whitespace-no-wrap' %>
-                <% current_user.accounts.each do |account| %>
-                  <%= link_to account.name, switch_account_path(account), remote: true, method: :patch, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' %>
-                <% end %>
-
-
-                <% if current_user.admin? %>
-                  <div class="border-t px-6 py-3 text-gray-800 bg-white font-bold text-xs uppercase">Admin</div>
-                  <%= link_to 'Dashboard', admin_root_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false } %>
-                  <%= link_to 'Sidekiq', admin_sidekiq_web_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } if defined?(::Sidekiq) %>
-                <% end %>
-
-                <% if Rails.env.development? %>
-                  <div class="border-t px-6 py-3 text-gray-800 bg-white font-bold text-xs uppercase">Development</div>
-                  <%= link_to 'Jumpstart Config', jumpstart_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false } %>
-                  <%= link_to 'Jumpstart Docs', jumpstart.docs_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } %>
-                  <%= link_to 'Letter Opener', letter_opener_web_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } %>
-                <% end %>
-
-                <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'no-underline block px-6 py-3 border-t text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' %>
-            </div>
+        <div class="text-gray-500 menu hidden m-md:mt-10 m-md:w-full rounded bg-white shadow-md absolute z-20 w-60 mt-5 py-2 animated faster">
+            <% current_user.accounts.impersonal.each do |account| %>
+                <% if current_account != account %>
+                    <%= link_to account.name, switch_account_path(account), method: :patch, class: "btn btn-link no-underline" %>
+                  <% else %>
+                    <span class="btn btn-link no-underline"><%= account.name %> (Current)</span>
+                  <% end %>
+                
+            <% end %>
         </div>
+
+    </div> 
+    
+    <!-- navbar content toggle -->
+    <button id="navbarToggle" class="hidden m-md:block m-md:fixed right-0 mr-6">
+      <i class="fad fa-chevron-double-down"></i>
+    </button>
+    <!-- end navbar content toggle -->
+
+    <!-- navbar content -->
+    <div id="navbar" class="animated m-md:hidden m-md:fixed m-md:top-0 m-md:w-full m-md:left-0 m-md:mt-16 m-md:border-t m-md:border-b m-md:border-gray-200 m-md:p-10 m-md:bg-white flex-1 pl-3 flex flex-row flex-wrap justify-between items-center m-md:flex-col m-md:items-center">
+      <!-- left -->
+      <div class="text-white m-md:w-full m-md:flex m-md:flex-row m-md:justify-evenly m-md:pb-10 m-md:mb-10 m-md:border-b m-md:border-gray-200">
+        
+      </div>
+      <!-- end left -->      
+
+      <!-- right -->
+      <div class="flex flex-row-reverse items-center"> 
+        <% if user_signed_in? %>
+        <!-- user -->
+        <div class="dropdown relative m-md:static">
+
+          <button class="menu-btn focus:outline-none focus:shadow-outline flex flex-wrap items-center">
+            <div class="w-8 h-8 overflow-hidden rounded-full">
+              <%= account_avatar current_account, include_user: true, class: "w-full h-full object-cover" %>
+            </div> 
+
+            <div class="ml-2 capitalize flex ">
+              <h1 class="text-sm text-white font-semibold m-0 p-0 leading-none"><%= current_user.name %></h1>
+              <i class="fad fa-chevron-down ml-2 text-xs leading-none"></i>
+            </div>                        
+          </button>
+
+          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
+
+          <div class="text-gray-500 menu hidden m-md:mt-10 m-md:w-full rounded bg-white shadow-md absolute z-20 right-0 w-40 mt-5 py-2 animated faster">
+
+
+            <%= link_to edit_user_registration_path, class: 'px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out' do %>
+              <i class="fad fa-user-edit text-xs mr-1"></i>
+              <span class="sr-only">Edit Profile</span>
+            <% end %>
+
+            <%= link_to 'Password', account_password_path, class: 'px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out' %>
+
+            <%= link_to 'Accounts', user_connected_accounts_path, class: 'px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out' if Devise.omniauth_configs.any? %>
+
+            <%= link_to 'Billing',  subscription_path, class: 'px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out' if Jumpstart.config.payments_enabled? %>
+
+            <% if current_user.admin? %>
+              <div class="border-t px-6 py-3 text-gray-800 bg-white font-bold text-xs uppercase">Admin</div>
+              <%= link_to 'Dashboard', admin_root_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false } %>
+              <%= link_to 'Sidekiq', admin_sidekiq_web_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } if defined?(::Sidekiq) %>
+            <% end %>
+
+            <% if Rails.env.development? %>
+              <div class="border-t px-6 py-3 text-gray-800 bg-white font-bold text-xs uppercase">Development</div>
+              <%= link_to 'Jumpstart Config', jumpstart_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', data: { turbolinks: false } %>
+              <%= link_to 'Jumpstart Docs', jumpstart.docs_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } %>
+              <%= link_to 'Letter Opener', letter_opener_web_path(script_name: nil), class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap', target: :_blank, data: { turbolinks: false } %>
+            <% end %>
+
+            <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'no-underline block px-6 py-3 border-t text-sm text-gray-800 bg-white hover:bg-gray-300 whitespace-no-wrap' %>
+
+          </div>
+        </div>
+        <!-- end user -->
+
+        <% else %>
+          <%= link_to 'Log In', new_user_session_path, class: 'nav-link' %>
+          <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary' %>
+        <% end %>
+
+        <!-- notifcation -->
+        <div class="dropdown relative mr-5 m-md:static">
+
+          <button class="text-white menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300">
+            <i class="fad fa-bells"></i>               
+          </button>
+
+          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
+
+          <div class="menu hidden rounded bg-white m-md:right-0 m-md:w-full shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster">
+            <!-- top -->
+            <div class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm">
+              <h1>notifications</h1>
+              <div class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1">
+                <strong>5</strong>
+              </div>
+            </div>
+            <hr>
+            <!-- end top -->
+
+            <!-- body -->
+
+            <!-- item -->
+            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
+
+              <div class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300">
+                <i class="fad fa-birthday-cake text-sm"></i>
+              </div>
+
+              <div class="flex-1 flex flex-rowbg-green-100">
+                <div class="flex-1">
+                  <h1 class="text-sm font-semibold">poll..</h1>
+                  <p class="text-xs text-gray-500">text here also</p>
+                </div>
+                <div class="text-right text-xs text-gray-500">
+                  <p>4 min ago</p>
+                </div>
+              </div>
+
+            </a>
+            <hr>
+            <!-- end item -->
+
+            
+
+
+            <!-- end body -->
+
+            <!-- bottom -->
+            <hr>
+            <div class="px-4 py-2 mt-2">
+              <a href="#" class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500">
+                view all
+              </a>
+            </div>
+            <!-- end bottom -->            
+          </div>
+        </div>
+        <!-- end notifcation -->
+
+        <!-- messages -->
+        <div class="dropdown relative mr-5 m-md:static">
+
+          <button class="text-white menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300">
+            <i class="fad fa-comments"></i>               
+          </button>
+
+          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
+
+          <div class="menu hidden m-md:w-full m-md:right-0 rounded bg-white shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster">
+            <!-- top -->
+            <div class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm">
+              <h1>messages</h1>
+              <div class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1">
+                <strong>3</strong>
+              </div>
+            </div>
+            <hr>
+            <!-- end top -->
+
+            <!-- body -->
+
+            <!-- item -->
+            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
+
+              <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-100 border border-gray-300">
+                <img class="w-full h-full object-cover" src="img/user1.jpg" alt="">
+              </div>
+
+              <div class="flex-1 flex flex-rowbg-green-100">
+                <div class="flex-1">
+                  <h1 class="text-sm font-semibold">mohamed said</h1>
+                  <p class="text-xs text-gray-500">yeah i know</p>
+                </div>
+                <div class="text-right text-xs text-gray-500">
+                  <p>4 min ago</p>
+                </div>
+              </div>
+
+            </a>
+            <hr>
+            <!-- end item --> 
+
+            
+
+
+            <!-- end body -->
+
+            <!-- bottom -->
+            <hr>
+            <div class="px-4 py-2 mt-2">
+              <a href="#" class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500">
+                view all
+              </a>
+            </div>
+            <!-- end bottom -->            
+          </div>
+        </div>
+        <!-- end messages -->               
+
+
+      </div>
+      <!-- end right -->
     </div>
-  <% else %>
-        <%= link_to 'Log In', new_user_session_path, class: 'nav-link' %>
-        <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary' %>
-  <% end %>
-</header>
+    <!-- end navbar content -->
+
+  </div>
+<!-- end navbar -->
+
+
+
+

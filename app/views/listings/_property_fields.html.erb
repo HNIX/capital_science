@@ -1,4 +1,6 @@
 <%= content_tag :div, class: "nested-fields", data: { new_record: property.object.new_record? } do %>
+<div class="bg-white shadow overflow-hidden sm:rounded-lg p-8 mb-6">
+
     <div class="flex flex-wrap -mx-3 mb-2">
       <div class="w-full px-3 mb-6">
           <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
@@ -25,8 +27,9 @@
           <%= property.text_field :address_zip, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-zip", placeholder: "37027" %>
         </div>
     </div>
-          <small><%= link_to "Remove", "#", data: { action: "click->nested-form#remove_association" } %></small>
-
+    <div class="flex justify-end">
+      <small><%= link_to "Remove", "#", data: { action: "click->nested-form#remove_association" } %></small>
+    </div>
     <%= property.hidden_field :_destroy %>
+    </div>
 <% end %>
-

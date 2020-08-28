@@ -1,3 +1,5 @@
 <% model.operator_events.each do |event| %>
-  <%= link_to t(event, scope: [model.class.name.underscore, :event]), [event, model], method: :patch, class: "btn btn-#{t event, scope: [model.class.name.underscore, :btn_class]}" %>
+  <%= link_to t(event, scope: [model.class.name.underscore, :event]), [event, model], method: :patch, class: "block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" %>
 <% end %>
+
+<!-- btn-#{t event, scope: [model.class.name.underscore, :btn_class]} -->

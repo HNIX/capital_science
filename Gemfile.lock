@@ -180,6 +180,7 @@ GEM
     execjs (2.7.0)
     fastimage (2.1.7)
     ffi (1.13.1)
+    geocoder (1.6.3)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     hashie (4.1.0)
@@ -426,7 +427,6 @@ GEM
     wicked_pdf (2.1.0)
       activesupport
     wkhtmltopdf-binary (0.12.6.3)
-    wkhtmltopdf-binary-edge (0.12.5.1)
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.3.1)
@@ -450,6 +450,7 @@ DEPENDENCIES
   devise (>= 4.7.1)
   devise_masquerade!
   fastimage
+  geocoder
   image_processing (~> 1.9, >= 1.9.2)
   inline_svg (~> 1.6)
   invisible_captcha (~> 1.0)
@@ -495,7 +496,6 @@ DEPENDENCIES
   wicked
   wicked_pdf
   wkhtmltopdf-binary
-  wkhtmltopdf-binary-edge
 
 RUBY VERSION
    ruby 2.7.0p0

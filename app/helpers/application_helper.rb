@@ -33,6 +33,33 @@ module ApplicationHelper
     link_to title, path, options
   end
 
+  def nav_progress(options = {})
+    options[:class] = Array.wrap(options[:class])
+    active_class = options.delete(:active_class) || "active"
+    inactive_class = options.delete(:inactive_class) || ""
+    pre_class = options.delete(:pre_class) || ""
+
+    active = if (paths = Array.wrap(options[:starts_with])) && paths.present?
+      paths.any? { |path| request.path.start_with?(path) }
+    end
+
+    pre = if (paths = Array.wrap(options[:pre_path])) && paths.present?
+      paths.any? { |path| request.path.start_with?(path) }
+    end
+    
+    classes = if active
+      active_class
+    elsif pre
+      pre_class
+    else 
+      inactive_class
+    end
+    
+    options[:class] << classes
+
+    content_tag :div, "", options
+  end
+
   def disable_with(text)
     "<i class=\"far fa-spinner-third fa-spin\"></i> #{text}".html_safe
   end

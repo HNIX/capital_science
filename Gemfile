@@ -88,6 +88,7 @@ gem 'fastimage'
 gem 'wicked'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'geocoder'
 
 # We always want the latest versions of these gems, so no version numbers
 gem "omniauth", github: "omniauth/omniauth"

@@ -1,0 +1,19 @@
+<div class="flex flex-wrap my-4 lg:px-4">
+  <div class="lg:w-3/4 w-full p-4 mx-auto">
+    <div class="text-sm text-gray-600 mb-5">
+      <%= link_to "All Listings", listings_path, class: "hover:text-black" %>
+      <%= render_svg "icons/cheveron-right", styles: "fill-current icon-sm text-gray-600 inline-block" %>
+      
+      Membership
+    </div>
+
+    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-300">
+      <div class="flex items-center">
+        <h1 class="h2">New Membership</h1>
+      </div>
+
+
+      <%= render "new_form", membership: @membership %>
+    </div>
+  </div>
+</div>

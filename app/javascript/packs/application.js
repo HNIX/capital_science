@@ -15,6 +15,7 @@ require("channels")
 require("trix")
 require("@rails/actiontext")
 require("jquery")
+require("./maps")
 
 // Tailwind CSS
 import "stylesheets/application"
@@ -30,7 +31,7 @@ import "src/forms"
 import "src/timezone"
 import "src/tooltips"
 import "src/wizard"
-
+import "src/gmaps"
 
 import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload } from 'fileUpload'
 

@@ -1,23 +1,33 @@
-<div class="container mx-auto my-8 px-4">
-  <div class="max-w-3xl mx-auto">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="h3"><%= link_to 'Ndas', account_ndas_path(current_account) %> > NDA #<%= @nda.id %></h1>
-      <% if current_account == @nda.account %>
-        <%= link_to 'Edit', edit_account_nda_path(current_account, @nda), class: "btn btn-link" %>
-      <% end %>
+<div class="flex flex-wrap my-4 lg:px-4">
+  <div class="lg:w-1/4 w-full p-4">
+    <%= render partial: "shared/account_navbar" %>
+  </div>
+
+  <div class="lg:w-3/4 w-full p-4">
+    <div class="text-sm text-gray-600 mb-5">
+      <%= link_to "All NDAs", account_ndas_path(current_account), class: "hover:text-black" %>
+      <%= render_svg "icons/cheveron-right", styles: "fill-current icon-sm text-gray-600 inline-block" %>
+      <%= link_to @nda.name, account_nda_path(current_account, @nda), class: "hover:text-black" %>
     </div>
 
-    <div class="bg-white rounded shadow p-8">
-      
+    <div class="lg:p-10 p-4 bg-white rounded-lg border border-gray-300">
 
-      <div class="mb-4">
+      <div class="flex justify-between items-end mb-5">
+        <div class="flex items-center">
+          <h1 class="h2"><%= @nda.name %></h1>
+        </div>
+
+        <div>
+          <%= link_to 'Edit', edit_account_nda_path(current_account, @nda), class: "btn btn-primary outline" %>
+        </div>
+      </div>
+
+        <div class="mb-4">
         <h5>Name</h5>
         <%= @nda.name %>
         <%= @nda.content %>
 
       </div>
-
-      
 
     </div>
   </div>

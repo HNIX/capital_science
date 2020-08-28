@@ -1,0 +1,25 @@
+<div class="flex flex-wrap my-4 lg:px-4 container mx-auto">
+  <div class="lg:w-1/4 w-full p-4">
+    <%= render partial: "listings/form_sidebar" %>
+  </div>
+
+  <div class="lg:w-3/4 w-full p-4">
+      
+    <%= form_for @listing, url: wizard_path, method: :put do |form| %>
+      <%= render "shared/error_messages", resource: form.object %>
+      <% @properties.each do |property| %> 
+
+        <div data-controller="nested-form">
+        <%= form.fields_for :properties, property do |f| %>
+          <%= render "listings/property_detail_fields", f: f, property: property %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="form-group flex justify-between">
+        <%= link_to 'Add Property', previous_wizard_path, class: "btn btn-primary outline no-underline mr-3" %>
+        <%= link_to 'skip', next_wizard_path %>
+        <%= form.button class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,26 +1,23 @@
 class ListingsController < ApplicationController
-  before_action :authenticate_user!, except: [:public_listings, :show]
-  before_action :set_listing, except: [:index, :public_listings, :new, :create]
-  before_action :require_account, except: [:public_listings, :show]
-  before_action :require_non_personal_account, :require_subscription, except: [:index, :public_listings, :show]
+  before_action :authenticate_user!, except: [:show]
+  before_action :set_listing, except: [:index, :new, :create, :join]
+  before_action :require_account, except: [:show]
+  before_action :require_non_personal_account, :require_subscription, except: [:index, :show, :join]
   helper_method :has_secure_access
+  before_action :authorize_show, only: :show
 
   # GET /listings
   def index
     @pagy, @listings = pagy(current_account.listings.sort_by_params(params[:sort], sort_direction))
     @pagy, @public_listings = pagy(Listing.state("active").private_listing(false).sort_by_params(params[:sort], sort_direction))
-    @pagy, @memberships = pagy(current_user.memberships.sort_by_params(params[:sort], sort_direction))
-  end
-
-  def public_listings
-    @pagy, @listings = pagy(Listing.state("active").private_listing(false).sort_by_params(params[:sort], sort_direction))
+    @pagy, @member_listings = pagy(Listing.joins(:memberships).where(memberships: {user_id: current_user.id}).sort_by_params(params[:sort], sort_direction))
+  
+    @all_listings = (@listings + @member_listings).uniq
   end
  
   # GET /listings/1
   def show
-   unless current_account == @listing.account || !@listing.private_listing || @listing.memberships.exists?(user_id: current_user.id)
-     redirect_to root_path, notice: "You are not allowed to view this listing"
-   end
+   
   end
 
   # GET /listings/new
@@ -108,8 +105,27 @@ class ListingsController < ApplicationController
   end
 
   def has_secure_access
-    member = @listing.memberships.find_by(user_id: current_user.id)
-    current_account == @listing.account || member.secure_access? 
+
+    if user_signed_in?
+      member = @listing.memberships.find_by(user_id: current_user.id)
+
+      if member 
+        member.secure_access? 
+      else
+        current_account == @listing.account
+      end
+    end
+  end
+
+  def join
+    @listing = Listing.find(params[:listing_id])
+    @membership = Membership.new(listing_id: @listing.id, user_id: params[:user_id])
+    
+    if @membership.save
+      redirect_to listing_path(@listing), notice: 'You have successfully joined this listing'
+    else
+      render :show, notice: 'Something went wrong, please try to join again later.'
+    end
   end
 
   private
@@ -143,10 +159,23 @@ class ListingsController < ApplicationController
        end
     end
 
+    def authorize_show 
+      if @listing.private_listing
+        if user_signed_in?
+          unless current_account == @listing.account || @listing.memberships.exists?(user_id: current_user.id)
+            redirect_to root_path, notice: "You are not allowed to view this listing" 
+          end
+        else 
+          redirect_to root_path, notice: "You are not allowed to view this listing" 
+        end
+      end
+    end
+
 
     # Only allow a trusted parameter "white list" through.
-    def listing_params
-      params.require(:listing).permit(:owner_id, :account_id, :nda_id, :investment_type, :description, :title, :draft, :private_listing, :price, :noi, properties_attributes: [:id, :user_id, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
+     def listing_params
+      params.require(:listing).permit(:owner_id, :account_id, :nda_id, :investment_type, :description, :title, :draft, :private_listing, :price, :noi, 
+        properties_attributes: [:primary_type, :secondary_type, :asset_class, :rent_type, :units, :floors, :buildings, :land_area, :zoning, :id, :user_id, :sf, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
         listing_images_attributes: {}, listing_documents_attributes: {}, listing_secure_documents_attributes: {})
     end
 end

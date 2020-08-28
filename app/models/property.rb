@@ -12,6 +12,8 @@
 #  buildings      :integer
 #  floors         :integer
 #  land_area      :float
+#  latitude       :float
+#  longitude      :float
 #  name           :string
 #  primary_type   :string
 #  rent_type      :string
@@ -33,6 +35,16 @@
 #
 class Property < ApplicationRecord
   belongs_to :listing
+  geocoded_by :address
+  after_validation :geocode, if: :address_changed? 
+
+  def address
+  	[address1, address_city, address_zip, address_state].compact.join(", ")
+  end
+
+  def address_changed? 
+  	address1_changed? || address_city_changed? || address_zip_changed? || address_state_changed? 
+  end
 
   scope :sorted, ->{ order(created_at: :asc)}
 end

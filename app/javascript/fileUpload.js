@@ -143,6 +143,7 @@ const multipleImageUpload = (fileInput) => {
     .use(Dashboard, {
       target: formGroup,
       inline: true,
+      width: "100%",
       height: 300,
       replaceTargetContent: true,
     })
@@ -169,6 +170,7 @@ const multipleFileUpload = (fileInput) => {
     .use(Dashboard, {
       target: formGroup,
       inline: true,
+      width: "100%",
       height: 300,
       replaceTargetContent: true,
     })
@@ -195,6 +197,7 @@ const multipleSecureFileUpload = (fileInput) => {
     .use(Dashboard, {
       target: formGroup,
       inline: true,
+      width: "100%",
       height: 300,
       replaceTargetContent: true,
     })
