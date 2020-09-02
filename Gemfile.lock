@@ -476,6 +476,7 @@ DEPENDENCIES
   redis (~> 4.0)
   ruby-oembed (~> 0.13.0)
   sass-rails (~> 6.0)
+  selectize-rails
   selenium-webdriver
   shrine (~> 3.0)
   sidekiq

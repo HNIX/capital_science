@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_024424) do
+ActiveRecord::Schema.define(version: 2020_08_29_143152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,6 +118,30 @@ ActiveRecord::Schema.define(version: 2020_08_25_024424) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "contact_lists", force: :cascade do |t|
+    t.bigint "contact_id"
+    t.bigint "list_id"
+    t.index ["contact_id"], name: "index_contact_lists_on_contact_id"
+    t.index ["list_id"], name: "index_contact_lists_on_list_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "email"
+    t.string "phone"
+    t.string "first_name"
+    t.string "last_name"
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.bigint "owner_id"
+    t.string "company"
+    t.jsonb "role"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["owner_id"], name: "index_contacts_on_owner_id"
+    t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
   create_table "listing_documents", force: :cascade do |t|
     t.jsonb "document_data"
     t.bigint "listing_id", null: false
@@ -176,6 +200,16 @@ ActiveRecord::Schema.define(version: 2020_08_25_024424) do
     t.index ["account_id"], name: "index_listings_on_account_id"
     t.index ["nda_id"], name: "index_listings_on_nda_id"
     t.index ["owner_id"], name: "index_listings_on_owner_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.bigint "owner_id"
+    t.string "name"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_lists_on_account_id"
+    t.index ["owner_id"], name: "index_lists_on_owner_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -338,11 +372,13 @@ ActiveRecord::Schema.define(version: 2020_08_25_024424) do
   add_foreign_key "account_users", "users"
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "contacts", "accounts"
   add_foreign_key "listing_documents", "listings"
   add_foreign_key "listing_invitations", "listings"
   add_foreign_key "listing_invitations", "users", column: "sender_id"
   add_foreign_key "listing_secure_documents", "listings"
   add_foreign_key "listings", "users", column: "owner_id"
+  add_foreign_key "lists", "accounts"
   add_foreign_key "memberships", "listings"
   add_foreign_key "memberships", "users"
   add_foreign_key "nda_signings", "accounts"

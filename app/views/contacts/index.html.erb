@@ -1,0 +1,83 @@
+<div class="flex-1 p-10 m-md:mt-16">
+
+  <div class="flex justify-between items-center mb-4">
+    <h1 class="h3">Contacts</h1>
+    <div>
+      <%= link_to 'New Contact', new_contact_path, class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <% if @contacts.exists? %>
+  <div class="flex flex-col">
+    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+      <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Email
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Phone
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                List
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @contacts.each do |contact| %>
+            
+
+            <tr>
+             
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-900"><%= contact.first_name %> <%= contact.last_name %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-900"><%= contact.email %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-900"><%= contact.phone %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                <div class="text-sm leading-5 text-gray-900">
+                  <%= contact.lists.map(&:name).join(", ") %>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+                <%= link_to "View", contact, class: "text-indigo-600 hover:text-indigo-900" %>
+                <%= link_to "Edit", edit_contact_path(contact), class: "text-indigo-600 hover:text-indigo-900" %>
+              </td>
+            </tr>
+          <% end %>
+
+          
+            
+
+            <!-- More rows... -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% else %>
+      <div class="bg-white rounded shadow flex flex-col items-center justify-between p-8 lg:flex-row">
+        <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+        <div class="flex-1 text-center">
+          <p class="h3 mb-4">Create your first Contact</p>
+          <%= link_to 'New Contact', new_contact_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+
+
+
+
+
+    
+</div>

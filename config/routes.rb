@@ -76,6 +76,9 @@ Rails.application.routes.draw do
   resources :memberships, path: :members
 
   resources :listing_invitations
+  resources :contact_lists, only: [:create]
+  resources :contacts
+  resources :lists
   
   patch "listings/:id/publish" => "listings#publish", as: 'publish_listing'
   patch "listings/:id/stop" => "listings#stop", as: 'stop_listing'

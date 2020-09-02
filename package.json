@@ -18,6 +18,7 @@
     "local-time": "^2.1.0",
     "purgecss": "^2.1.0",
     "randomstring": "^1.1.5",
+    "selectize": "^0.12.6",
     "simplelightbox": "^2.2.1",
     "slim-select": "^1.23.1",
     "stimulus": "^1.1.1",

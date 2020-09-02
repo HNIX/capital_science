@@ -8,14 +8,16 @@
 // layout file, like app/views/layouts/application.html.erb
 
 // Rails functionality
-window.Rails = require("@rails/ujs")
+window.Rails = require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 require("trix")
 require("@rails/actiontext")
 require("jquery")
-require("./maps")
+window.$ = window.jQuery = jQuery;
+require("selectize")
+require("src/list")
 
 // Tailwind CSS
 import "stylesheets/application"
@@ -56,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fileUpload(fileInput)
   })
 })
-
 
 import LocalTime from "local-time"
 LocalTime.start()

@@ -41,6 +41,8 @@ class Account < ApplicationRecord
   has_many :listings, dependent: :destroy
   has_many :ndas, dependent: :destroy
   has_many :nda_signings, dependent: :destroy
+  has_many :contacts
+  has_many :lists
 
   has_one_attached :logo
 

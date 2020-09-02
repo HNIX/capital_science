@@ -66,6 +66,8 @@ class User < ApplicationRecord
   has_many :invitations, :class_name => "ListingInvitation", :foreign_key => 'recipient_id'
   has_many :sent_invites, :class_name => "ListingInvitation", :foreign_key => 'sender_id'
   has_many :nda_signings
+  has_many :contacts, :foreign_key => 'owner_id'
+  has_many :lists, :foreign_key => 'owner_id'
 
   # We don't need users to confirm their email address on create,
   # just when they change it
