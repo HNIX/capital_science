@@ -8,7 +8,9 @@
           <%= @listing.title %>
         </h3>
         <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
-          <%= @listing.properties.first.address_city %>, <%= @listing.properties.first.address_state %>
+          <% if @listing.properties.exists? %>
+            <%= @listing.properties.first.address_city %>, <%= @listing.properties.first.address_state %>
+          <% end %>
         </p>
 
       </div>
@@ -98,7 +100,11 @@
       <div class="bg-gray-200 lg:flex lg:justify-center">
           <div class="bg-white lg:flex lg:shadow-lg lg:rounded-lg w-full">
               <div class="lg:w-1/2">
+                <% if @listing.listing_images.exists? %>
                   <div class="h-64 bg-cover lg:rounded-lg lg:h-full" style="background-image: url(<%= @listing.listing_images.first.image_url %>)"></div>
+                <% else %>
+                  <div class="h-64 bg-cover lg:rounded-lg lg:h-full" style="background-image: url(<%= asset_path 'empty.svg' %>)"></div>
+                <% end %>
               </div>
 
               <div class="py-12 px-12 max-w-xl lg:max-w-5xl lg:w-1/2">
@@ -252,7 +258,7 @@
                     </span>
                   </td>
                   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                    <%= property.sf.to_s(:delimited) %>
+                    <%= property.sf.to_s(:delimited) if property.sf %>
                   </td>
                   <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                     <%= property.floors %>

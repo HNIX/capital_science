@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-  before_action :set_listing, except: [:index, :new, :create, :join]
+  before_action :set_listing, except: [:index, :new, :create, :join, :members]
   before_action :require_account, except: [:show]
   before_action :require_non_personal_account, :require_subscription, except: [:index, :show, :join]
   helper_method :has_secure_access
@@ -36,8 +36,7 @@ class ListingsController < ApplicationController
   # POST /listings
   def create
     # @listing = current_user.listings.new(listing_params)
-    @listing = Listing.new(listing_params.merge(owner: current_user))
-    @listing.account_id = current_account.id
+    @listing = current_account.listings.new(listing_params.merge(owner: current_user))
 
     if @listing.save
       redirect_to listing_build_path(@listing, :add_properties)
@@ -119,13 +118,29 @@ class ListingsController < ApplicationController
 
   def join
     @listing = Listing.find(params[:listing_id])
-    @membership = Membership.new(listing_id: @listing.id, user_id: params[:user_id])
+
+    @membership = @listing.memberships.new(user: current_user)
+
+    @contact = @listing.account.contacts.where(account: @listing.account, email: current_user.email).first_or_create do |contact|
+      contact.first_name = current_user.first_name
+      contact.last_name = current_user.last_name
+      contact.owner = current_user
+    end
+
+    if @contact
+      @membership.contact_ids = @contact.id
+    end
     
     if @membership.save
       redirect_to listing_path(@listing), notice: 'You have successfully joined this listing'
     else
       render :show, notice: 'Something went wrong, please try to join again later.'
     end
+    
+  end
+
+  def members
+    @listing = Listing.find(params[:listing_id])
   end
 
   private

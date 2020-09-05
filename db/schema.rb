@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_29_143152) do
+ActiveRecord::Schema.define(version: 2020_09_05_135922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -118,11 +118,25 @@ ActiveRecord::Schema.define(version: 2020_08_29_143152) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "contact_listing_invitations", force: :cascade do |t|
+    t.bigint "listing_invitation_id", null: false
+    t.bigint "contact_id", null: false
+    t.index ["contact_id"], name: "index_contact_listing_invitations_on_contact_id"
+    t.index ["listing_invitation_id"], name: "index_contact_listing_invitations_on_listing_invitation_id"
+  end
+
   create_table "contact_lists", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "list_id"
     t.index ["contact_id"], name: "index_contact_lists_on_contact_id"
     t.index ["list_id"], name: "index_contact_lists_on_list_id"
+  end
+
+  create_table "contact_memberships", force: :cascade do |t|
+    t.bigint "membership_id", null: false
+    t.bigint "contact_id", null: false
+    t.index ["contact_id"], name: "index_contact_memberships_on_contact_id"
+    t.index ["membership_id"], name: "index_contact_memberships_on_membership_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -372,6 +386,10 @@ ActiveRecord::Schema.define(version: 2020_08_29_143152) do
   add_foreign_key "account_users", "users"
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "contact_listing_invitations", "contacts"
+  add_foreign_key "contact_listing_invitations", "listing_invitations"
+  add_foreign_key "contact_memberships", "contacts"
+  add_foreign_key "contact_memberships", "memberships"
   add_foreign_key "contacts", "accounts"
   add_foreign_key "listing_documents", "listings"
   add_foreign_key "listing_invitations", "listings"

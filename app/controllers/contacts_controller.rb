@@ -28,8 +28,7 @@ class ContactsController < ApplicationController
   # POST /listings
   def create
     # @listing = current_user.listings.new(listing_params)
-    @contact = Contact.new(contact_params.merge(owner: current_user))
-    @contact.account_id = current_account.id
+    @contact = current_account.contacts.new(contact_params.merge(owner: current_user))
 
     if @contact.save
       redirect_to contacts_path
@@ -70,6 +69,6 @@ class ContactsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
      def contact_params
-      params.require(:contact).permit(:first_name, :last_name, :email, :phone, :account_id, :user_id, :owner_id, list_ids: [])
+      params.require(:contact).permit(*Membership::ROLES, :first_name, :last_name, :email, :phone, :account_id, :user_id, :owner_id, list_ids: [])
     end
 end

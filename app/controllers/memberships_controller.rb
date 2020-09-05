@@ -2,10 +2,11 @@ class MembershipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_membership, only: [:show, :edit, :update, :destroy]
   # before_action :require_admin, except: [:index, :show]
+  before_action :set_listing
 
   # GET /accounts
   def index
-    @pagy, @memberships = pagy(Membership.where(listing_id: current_account.listings.pluck(:id)))
+    @pagy, @memberships = pagy(@listing.memberships)
   end
 
   # GET /account_users/1
@@ -56,6 +57,10 @@ class MembershipsController < ApplicationController
 
   private
 
+  def set_listing
+    @listing = Listing.find(params[:listing_id])
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_membership
     @membership = Membership.find(params[:id])
@@ -63,7 +68,7 @@ class MembershipsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def membership_params
-    params.require(:membership).permit(*AccountUser::ROLES, :secure_access)
+    params.require(:membership).permit(*Membership::ROLES, :secure_access, contact_ids: [])
   end
 
   # def require_admin

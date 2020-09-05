@@ -20,7 +20,7 @@ module ListingsHelper
     total_sf = 0
 
     listing.properties.each do |property|
-      total_sf += property.sf
+      total_sf += property.sf if !property.sf.nil? 
     end
 
     total_sf.to_s(:delimited)
@@ -30,7 +30,7 @@ module ListingsHelper
     total_units = 0
 
     listing.properties.each do |property|
-      total_units += property.units
+      total_units += property.units if !property.units.nil? 
     end
 
     total_units.to_s(:delimited)
@@ -40,7 +40,7 @@ module ListingsHelper
   	total_la = 0
 
     listing.properties.each do |property|
-      total_la += property.land_area
+      total_la += property.land_area if !property.land_area.nil? 
     end
 
     total_la
@@ -51,13 +51,16 @@ module ListingsHelper
   	total_sf = 0
 
     listing.properties.each do |property|
-      total_sf += property.sf
+      total_sf += property.sf if !property.sf.nil? 
     end
 
-    psf = listing.price / total_sf
+    psf = listing.price / total_sf if !total_sf.nil? && !listing.price.nil? 
 
     psf
 
   end 
+
+
+  
 
 end

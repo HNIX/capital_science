@@ -7,7 +7,7 @@ class Listings::ListingInvitationsController < ApplicationController
     @listing_invitation = ListingInvitation.new
   end
 
-  def create
+  def create    
     @listing_invitation = ListingInvitation.new(invitation_params)
     if @listing_invitation.save_and_send_invite
       redirect_to @listing
@@ -32,6 +32,20 @@ class Listings::ListingInvitationsController < ApplicationController
     redirect_to @listing
   end
 
+  def create_batch 
+    contact_ids = params[:listing_invitation][:contact_ids].reject! { |c| c.empty? }
+
+    contact_ids.each do |id|
+      contact = Contact.find(id)
+      
+      invitation = ListingInvitation.new(name:contact.first_name, email:contact.email, sender: current_user, listing: @listing, contact_ids: contact.id)
+
+      invitation.save_and_send_invite
+    end
+    
+    redirect_to listing_memberships_url
+  end
+  
   private
 
   def set_listing
@@ -45,7 +59,7 @@ class Listings::ListingInvitationsController < ApplicationController
   def invitation_params
     params
       .require(:listing_invitation)
-      .permit(:name, :email, Membership::ROLES)
+      .permit(contact_ids: [])
       .merge(listing: @listing, sender: current_user)
   end
 

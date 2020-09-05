@@ -23,8 +23,10 @@
 class Membership < ApplicationRecord
   belongs_to :user
   belongs_to :listing
+  has_many :contact_memberships
+  has_many :contacts, through: :contact_memberships, dependent: :destroy
 
-  validates :user_id, uniqueness: {scope: :listing_id}
+  validates :user_id, uniqueness: {scope: :listing_id, message: "is already a member of this listing"}
   # validate :owner_must_be_admin, on: :update, if: ->{ admin_changed? && account_owner? }
 
   # Add account roles to this line

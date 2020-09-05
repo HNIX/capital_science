@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   resources :announcements, only: [:index]
   resources :api_tokens
+
   resources :accounts do
     member do
       patch :switch
@@ -61,21 +62,30 @@ Rails.application.routes.draw do
     resources :account_invitations, path: :invitations, module: :accounts
     resources :ndas
   end
+
   resources :account_invitations
 
   #Listings
   resources :listings do 
-    resources :listing_invitations, path: :invitations, module: :listings
+    resources :listing_invitations, path: :invitations, module: :listings do 
+      collection do 
+        post 'create_batch' => 'listing_invitations#create_batch', as: 'create_batch'
+      end 
+    end  
     resources :build, controller: 'listings/build'
-    post :join
     resources :nda_signings
+    resources :memberships, path: :members
+
+    post :join
+    
   end
+
+  resources :listing_invitations
 
   get 'nda_signings' => 'nda_signings#index', as: :nda_signings
 
-  resources :memberships, path: :members
+  
 
-  resources :listing_invitations
   resources :contact_lists, only: [:create]
   resources :contacts
   resources :lists
@@ -85,8 +95,6 @@ Rails.application.routes.draw do
   patch "listings/:id/start" => "listings#start", as: 'start_listing'
   patch "listings/:id/close" => "listings#close", as: 'close_listing'
   patch "listings/:id/open" => "listings#open", as: 'open_listing'
-
-  get '/public_listings', to: 'listings#public_listings', as: 'public_listings'
 
   # Payments
   resource :card

@@ -23,23 +23,15 @@
 #  fk_rails_...  (sender_id => users.id)
 #
 class ListingInvitation < ApplicationRecord
-  self.ignored_columns = ["recipient_id"]
   belongs_to :listing
   belongs_to :sender, :class_name => 'User', optional: true
+  has_many :contact_listing_invitations
+  has_many :contacts, through: :contact_listing_invitations, dependent: :destroy
 
   has_secure_token
 
   validates :name, :email, presence: true
   validates :email, uniqueness: {scope: :listing_id, message: "has already been invited"}
-
-  # Store the roles in the roles json column and cast to booleans
-  store_accessor :roles, *Membership::ROLES
-
-  # Cast roles to/from booleans
-  Membership::ROLES.each do |role|
-    define_method(:"#{role}=") { |value| super ActiveRecord::Type::Boolean.new.cast(value) }
-    define_method(:"#{role}?") { send(role) }
-  end
 
   def save_and_send_invite
     if save
@@ -47,8 +39,14 @@ class ListingInvitation < ApplicationRecord
     end
   end
 
-  def accept!(user)
-    membership = listing.memberships.new(user: user, roles: roles)
+  def accept!(invitation, user)
+    membership = listing.memberships.new(user: user)
+
+    if invitation.contacts
+      membership.contact_ids = invitation.contacts.first.id 
+      membership.roles = invitation.contacts.first.role
+    end
+    
     if membership.valid?
       ApplicationRecord.transaction do
         membership.save!

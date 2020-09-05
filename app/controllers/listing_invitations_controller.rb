@@ -1,14 +1,14 @@
 class ListingInvitationsController < ApplicationController
 	before_action :set_listing_invitation
-    before_action :authenticate_user_with_invite!
+	before_action :authenticate_user_with_invite!
 
-     def show
+	 def show
 	    @listing = @listing_invitation.listing
 	    @invited_by = @listing_invitation.sender
 	 end
 
 	  def update
-	    if @listing_invitation.accept!(current_user)
+	    if @listing_invitation.accept!(@listing_invitation, current_user)
 	      redirect_to listings_path
 	    else
 	      message = @listing_invitation.errors.full_messages.first || "Something went wrong"
@@ -20,8 +20,8 @@ class ListingInvitationsController < ApplicationController
 	    @listing_invitation.reject!
 	    redirect_to root_path
 	  end
-	
-    private
+
+	private
 
 	  def set_listing_invitation
 	    @listing_invitation = ListingInvitation.find_by!(token: params[:id])
