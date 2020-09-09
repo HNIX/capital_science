@@ -42,9 +42,15 @@ class ListingInvitation < ApplicationRecord
   def accept!(invitation, user)
     membership = listing.memberships.new(user: user)
 
-    if invitation.contacts
-      membership.contact_ids = invitation.contacts.first.id 
-      membership.roles = invitation.contacts.first.role
+    @contact = invitation.contacts.where(account: listing.account, email: user.email).first_or_create do |contact|
+      contact.first_name = user.first_name
+      contact.last_name = user.last_name
+      contact.owner = user
+    end
+
+    if @contact 
+      membership.contact_ids = @contact.id 
+      membership.roles = @contact.role
     end
     
     if membership.valid?

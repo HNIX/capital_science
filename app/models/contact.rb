@@ -29,10 +29,13 @@ class Contact < ApplicationRecord
   belongs_to :account
   #belongs_to :user
   belongs_to :owner, :class_name => 'User'
+  
   has_many :contact_lists
-  has_many :contact_listing_invitations
   has_many :lists, through: :contact_lists
+
+  has_many :contact_listing_invitations
   has_many :listing_invitations, through: :contact_listing_invitations, dependent: :destroy
+
   has_many :contact_memberships
   has_many :memberships, through: :contact_memberships, dependent: :destroy
 

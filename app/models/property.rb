@@ -38,6 +38,11 @@ class Property < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: :address_changed? 
 
+  validates :address1, presence: :true
+  validates :address_city, presence: :true
+  validates :address_state, presence: :true
+  validates :address_zip, presence: :true
+
   def address
   	[address1, address_city, address_zip, address_state].compact.join(", ")
   end

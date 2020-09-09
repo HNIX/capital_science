@@ -32,8 +32,6 @@
 #  fk_rails_...  (owner_id => users.id)
 #
 class Listing < ApplicationRecord
-  self.ignored_columns = ["draft"]
-  self.ignored_columns = ["private"]
   include AASM
 
   belongs_to :owner, class_name: "User"
@@ -55,6 +53,8 @@ class Listing < ApplicationRecord
   scope :private_listing, -> (private_listing) {where(private_listing: private_listing)}
 
   validates :title, presence: :true
+  validates :investment_type, presence: :true
+  validates :price, presence: :true
 
   aasm do
     state :draft, initial: true
