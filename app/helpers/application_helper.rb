@@ -33,6 +33,16 @@ module ApplicationHelper
     link_to title, path, options
   end
 
+  def sidebar_active(options = {})
+   
+    active = if (paths = Array.wrap(options[:starts_with])) && paths.present?
+      paths.any? { |path| request.path.start_with?(path) }
+    end
+
+    active
+   
+  end
+
   def nav_progress(options = {})
     options[:class] = Array.wrap(options[:class])
     active_class = options.delete(:active_class) || "active"

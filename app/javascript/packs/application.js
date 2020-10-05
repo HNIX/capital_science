@@ -8,7 +8,7 @@
 // layout file, like app/views/layouts/application.html.erb
 
 // Rails functionality
-window.Rails = require("@rails/ujs").start()
+window.Rails = require("@rails/ujs")
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
@@ -33,9 +33,14 @@ import "src/forms"
 import "src/timezone"
 import "src/tooltips"
 import "src/wizard"
-import "src/gmaps"
-
+import ahoy from "ahoy.js";
+import Splide from '@splidejs/splide';
 import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload } from 'fileUpload'
+
+require("flatpickr/dist/flatpickr.css")
+require("selectize/dist/css/selectize.css");
+require("selectize/dist/css/selectize.default.css");
+require("@splidejs/splide/dist/css/splide.min.css");
 
 // Use 'DOMContentLoaded' event if not using Turbolinks
 document.addEventListener('turbolinks:load', () => {
@@ -52,12 +57,47 @@ document.addEventListener('turbolinks:load', () => {
   })
 })
 
+window.initMap = function(...args) {
+  const event = document.createEvent("Events")
+  event.initEvent("google-maps-callback", true, true)
+  event.args = args
+  window.dispatchEvent(event)
+}
+
 // listen on 'turbolinks:load' instead of 'DOMContentLoaded' if using Turbolinks
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.upload-file').forEach(fileInput => {
     fileUpload(fileInput)
   })
 })
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  document.querySelectorAll('.public-document').forEach(item => {
+    item.addEventListener("click", function(e) {
+      ahoy.track("Downloaded public document", e.target.dataset);
+    });
+  })
+
+  document.querySelectorAll('.secure-document').forEach(item => {
+    item.addEventListener("click", function(e) {
+      ahoy.track("Downloaded secure document", e.target.dataset);
+    });
+  })
+
+});
+
+document.addEventListener( 'DOMContentLoaded', function () {
+  new Splide( '.splide', {
+    type   : 'loop',
+    padding: {
+      right: '5rem',
+      left : '5rem',
+    },
+    pagination: false,
+  } ).mount();
+} );
 
 import LocalTime from "local-time"
 LocalTime.start()

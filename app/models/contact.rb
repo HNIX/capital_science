@@ -50,5 +50,7 @@ class Contact < ApplicationRecord
     define_method(:"#{role}?") { send(role) }
   end
 
+  
+
 
 end

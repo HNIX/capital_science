@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  layout  :choose_layout
+  #layout  :choose_layout
 
   include SetCurrentRequestDetails
   include Jumpstart::Controller

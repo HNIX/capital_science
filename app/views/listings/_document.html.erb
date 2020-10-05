@@ -1,12 +1,11 @@
-
-    <!-- Item -->
-    <div class="w-1/2 md:w-1/2 lg:w-1/4 px-2 my-2">
-        <div class="shadow overflow-hidden sm:rounded-lg">
-              <%= image_tag "pdf.png", class: "img-thumbnail mr-3 w-full" %>
-              <div class="truncate p-2 border border-gray-200">
-              <%= link_to document.document.original_filename %>
-        	  </div>
-          <div class="flex p-3 border justify-end border-gray-200">
+<!-- Item -->
+<div class="w-1/2 md:w-1/2 lg:w-1/4 px-2 my-2">
+    <div class="shadow overflow-hidden sm:rounded-lg">
+        <%= image_tag "pdf.png", class: "img-thumbnail mr-3 w-full" %>
+        <div class="truncate p-2 border border-gray-200">
+            <%= link_to document.document.original_filename %>
+        </div>
+        <div class="flex p-3 border justify-end border-gray-200">
             <div class="flex flex-col">
                 <div class="flex flex-col">
                     <label class="inline-flex items-center">
@@ -16,7 +15,5 @@
                 </div>
             </div>
         </div>
-        
-        
-        </div>
     </div>
+</div>

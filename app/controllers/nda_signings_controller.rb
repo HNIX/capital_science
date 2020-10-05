@@ -38,6 +38,7 @@ class NdaSigningsController < ApplicationController
   # GET /listings/new
   def new
     @nda_signing = NdaSigning.new
+    ahoy.track "Started Agreement Signing", id: @listing.id
   end
 
   # GET /listings/1/edit
@@ -53,6 +54,7 @@ class NdaSigningsController < ApplicationController
     @nda_signing.ip_address = request.remote_ip
 
     if @nda_signing.save
+      ahoy.track "Signed Agreement", id: @listing.id
       redirect_to listing_nda_signing_path(@listing, @nda_signing), notice: 'Your NDA was successfully signed'
     else
       render :new

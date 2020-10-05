@@ -17,7 +17,7 @@ class ListingsController < ApplicationController
  
   # GET /listings/1
   def show
-   
+    ahoy.track "Viewed listing", id: @listing.id
   end
 
   # GET /listings/new
@@ -132,6 +132,7 @@ class ListingsController < ApplicationController
     end
     
     if @membership.save
+      ahoy.track "Joined listing", id: @listing.id
       redirect_to listing_path(@listing), notice: 'You have successfully joined this listing'
     else
       render :show, notice: 'Something went wrong, please try to join again later.'
@@ -190,7 +191,7 @@ class ListingsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
      def listing_params
       params.require(:listing).permit(:owner_id, :account_id, :nda_id, :investment_type, :description, :title, :draft, :private_listing, :price, :noi, 
-        properties_attributes: [:primary_type, :secondary_type, :asset_class, :rent_type, :units, :floors, :buildings, :land_area, :zoning, :id, :user_id, :sf, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
+        properties_attributes: [:primary_type, :secondary_type, :asset_class, :rent_type, :units, :floors, :buildings, :land_area, :zoning, :id, :user_id, :sf, :name, :address, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
         listing_images_attributes: {}, listing_documents_attributes: {}, listing_secure_documents_attributes: {})
     end
 end

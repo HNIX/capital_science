@@ -68,6 +68,8 @@ class User < ApplicationRecord
   has_many :nda_signings
   has_many :contacts, :foreign_key => 'owner_id'
   has_many :lists, :foreign_key => 'owner_id'
+  has_many :visits, class_name: "Ahoy::Visit"
+  has_many :events, class_name: "Ahoy::Event"
 
   # We don't need users to confirm their email address on create,
   # just when they change it

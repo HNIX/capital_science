@@ -1,0 +1,128 @@
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<div class="flex flex-col mb-6 rounded-b-lg sm:rounded-lg shadow overflow-hidden">
+  <div class="overflow-x-auto">
+    <div class="align-middle inline-block min-w-full">
+      <div class="overflow-hidden">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Property
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Type
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Asset Class
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Square Footage
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Floors
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Units
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Buildings
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Land Area
+              </th>
+              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Zoning
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+          <% @listing.properties.each do |property| %>
+            <tr>
+              <td class="px-6 py-4 whitespace-no-wrap">
+                <div class="flex items-center">
+                  <div class="ml-4">
+                    <div class="text-sm leading-5 font-medium text-gray-900">
+                      <%= property.address1 %> <%= property.address2 %>
+                    </div>
+                    <div class="text-sm leading-5 text-gray-500">
+                      <%= property.address_city %>, <%= property.address_state %> <%= property.address_zip %>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap">
+                <div class="text-sm leading-5 text-gray-900"><%= property.primary_type %></div>
+                <div class="text-sm leading-5 text-gray-500"><%= property.secondary_type %></div>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap">
+                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                  <%= property.asset_class %>
+                </span>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.sf.to_s(:delimited) if property.sf %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.floors %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.units %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.buildings %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.land_area %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+                <%= property.zoning %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @listing.properties.count > 1 %>   
+              <tr>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm leading-5 font-medium text-gray-900">
+                        Total
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200">
+                  -
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200">
+                  -
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  <%= total_sf(@listing) %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  -
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  <%= total_units(@listing) %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  <%= @listing.properties.count %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  <%= total_land_area(@listing) %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
+                  -
+                </td>
+              </tr>
+            <% end %>
+        <!-- More rows... -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

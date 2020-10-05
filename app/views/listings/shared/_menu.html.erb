@@ -1,0 +1,37 @@
+<% if user_signed_in? %>
+  <% if current_account == @listing.account %>
+      <div class="dropdown">
+          <div class="menu-btn">
+            <div class="btn btn-tertiary no-underline mt-6 p-6 w-full justify-center" id="action-menu" aria-label="Action menu" aria-haspopup="true">Listing Actions</div>
+          </div>
+          <!--
+            Profile dropdown panel, show/hide based on dropdown state.
+
+            Entering: "transition ease-out duration-100"
+              From: "transform opacity-0 scale-95"
+              To: "transform opacity-100 scale-100"
+            Leaving: "transition ease-in duration-75"
+              From: "transform opacity-100 scale-100"
+              To: "transform opacity-0 scale-95"
+          -->
+          <div class="menu hidden origin-top-right right-0 w-full rounded-md shadow-lg">
+            <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+              <%= link_to 'Edit', edit_listing_path(@listing), class: 'block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out' %>
+    
+              <%= link_to 'Invite A User', new_listing_listing_invitation_path(@listing), class: 'block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out' %>
+
+              <%= render 'shared/events', model: @listing %>
+            </div>
+          </div>
+ 
+        </div>
+
+
+  <% elsif current_user.memberships.find_by(listing_id: @listing.id) && !current_user.nda_signings.find_by(listing_id: @listing.id) %>
+    <%= link_to 'Sign Agreement', new_listing_nda_signing_path(@listing), class: "mt-6 btn btn-primary w-full justify-center p-6" %>
+  <% elsif !current_user.memberships.find_by(listing_id: @listing.id) %>
+    <%= link_to 'Join Listing', listing_join_path(@listing, user_id: current_user.id), method: :post, class: "mt-6 btn btn-primary w-full justify-center p-6" %>
+  <% end %>
+<% else %>
+  <%= link_to 'Sign In to Join', new_user_session_path, class: "mt-6 btn btn-primary w-full justify-center p-6" %>
+<% end %>

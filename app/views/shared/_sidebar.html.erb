@@ -1,50 +1,92 @@
- <!--Sidebar-->
-<div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false" class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
-
-<div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'" class="fixed z-30 inset-y-0 left-0 w-64 transition duration-300 transform bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0">
-   <div class="flex items-center justify-center mt-8">
-       <div class="flex items-center flex-shrink-0 mr-6">
-          <%= link_to root_path do %>
-            <%= render_svg "logo", styles: "fill-current text-gray-700 hover:text-gray-800" %>
-            <span class="sr-only"><%= Jumpstart.config.application_name %></span>
-          <% end %>
-        </div>
-   </div>
-
-   <nav class="mt-10 relative overflow-x-hidden overflow-y-auto flex-1">
-       <%= link_to current_account, class: 'flex items-center mt-4 py-4 px-6 block bg-primary-500 text-white hover:text-white bg-opacity-25' do %>
-          Signed in as <strong><%= current_account.name %></strong>
-        <% end %>
-
-       <a class="flex items-center py-4 px-6 block border-l-4 bg-gray-600 bg-opacity-25 text-gray-100 border-gray-100" href="https://dashboard-tailwindcomponents.netlify.app/" target="_blank">
-           <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-               <path d="M2 10C2 5.58172 5.58172 2 10 2V10H18C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10Z" fill="currentColor"/>
-               <path d="M12 2.25195C14.8113 2.97552 17.0245 5.18877 17.748 8.00004H12V2.25195Z" fill="currentColor"/>
-           </svg>
-
-           <span class="mx-4">Dashboard</span>
-       </a>
-
-       <%= nav_link_to "Listings", listings_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
-        <%= link_to 'Account',  edit_user_registration_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
-        <%= link_to 'Accounts', user_connected_accounts_path, class: 'no-underline block px-6 py-3 text-sm text-gray-800 bg-white  hover:bg-gray-300 whitespace-no-wrap' if Devise.omniauth_configs.any? %>
-      
-
-
-        <% if current_user.admin? %>
-          <%= link_to 'Admin Dashboard', admin_root_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', data: { turbolinks: false } %>
-          <%= link_to 'Sidekiq', admin_sidekiq_web_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } if defined?(::Sidekiq) %>
-        <% end %>
-
-        <% if Rails.env.development? %>
-          <%= link_to 'Jumpstart Config', jumpstart_path(script_name: nil), class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', data: { turbolinks: false } %>
-          <%= link_to 'Jumpstart Docs', jumpstart.docs_path, class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } %>
-          <%= link_to 'Letter Opener', letter_opener_web_path(script_name: nil), class: 'flex items-center py-4 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100', target: :_blank, data: { turbolinks: false } %>
-        <% end %>
-
-        
+<div class="fixed h-full hidden lg:block">
+<!-- start sidebar -->
+  <div id="sideBar" class="relative flex bg-gray-900 border-r py-10 w-56 h-full shadow-xl animated faster">
     
-  </nav>
 
-    <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'absolute bottom-0 flex items-center mt-4 py-2 px-6 block border-l-4 border-gray-900 text-gray-500 hover:bg-gray-600 hover:bg-opacity-25 hover:text-gray-100' %>
+    <!-- sidebar content -->
+    <div class="flex flex-col w-full">
+      
+      <!-- menu item -->
+      <div class="px-2" data-controller="toggle">
+        <!-- link -->
+        <%= link_to listings_path, class: "rounded font-hairline px-4 py-2 flex items-center justify-between block text-gray-400 focus:text-white hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white " do %>
+              <div class="flex">
+                <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M7 3H2v14h5V3zm2 0v14h9V3H9zM0 3c0-1.1.9-2 2-2h16a2 2 0 012 2v14a2 2 0 01-2 2H2a2 2 0 01-2-2V3zm3 1h3v2H3V4zm0 3h3v2H3V7zm0 3h3v2H3v-2z"/>
+                </svg>
+                Listings
+              </div> 
+              <div class="" data-action="click->toggle#toggle touch->toggle#toggle">
+                <svg class="w-5 h-5 fill-current text-color-gray-400 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="1rem" height="1rem" class="h-4 w-4">
+                  <path class="<%= sidebar_active(starts_with: ['/listings']) ? 'hidden' : '' %>" data-target="toggle.toggleable" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                  <path class="<%= sidebar_active(starts_with: ['/listings']) ? '' : 'hidden' %>" data-target="toggle.toggleable" d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/>
+                </svg>
+              </div>
+        <% end %>
+        <!-- end link -->
+
+        <!-- dropdown -->
+        <div class="pl-9 <%= sidebar_active(starts_with: ['/listings']) ? '' : 'hidden' %>" data-target="toggle.toggleable">
+          <div class="flex flex-col border-gray-400">
+            <a href="./index.html" class="rounded font-hairline px-3 py-3 flex items-center block text-gray-400 hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white">
+              Shared Listings
+            </a>
+            <%= link_to 'New Listing', new_listing_path, class: "rounded font-hairline px-3 py-3 flex items-center block text-gray-400 hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white" %>
+          </div>
+        </div>
+        <!-- end dropdown -->
+      </div>
+      <!-- end menu item -->
+
+      <!-- menu item -->
+      <div class="px-2 mt-4" data-controller="toggle">
+        <!-- link -->
+        <%= link_to contacts_path, class: 'rounded font-hairline px-4 py-3 flex items-center justify-between block text-gray-400 focus:text-white hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white' do %>
+              <div class="flex">
+                <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M7 8a4 4 0 110-8 4 4 0 010 8zm0 1c2.15 0 4.2.4 6.1 1.09L12 16h-1.25L10 20H4l-.75-4H2L.9 10.09A17.93 17.93 0 017 9zm8.31.17c1.32.18 2.59.48 3.8.92L18 16h-1.25L16 20h-3.96l.37-2h1.25l1.65-8.83zM13 0a4 4 0 11-1.33 7.76 5.96 5.96 0 000-7.52C12.1.1 12.53 0 13 0z"/>
+                </svg>
+                Contacts
+              </div> 
+              <div class="" data-action="click->toggle#toggle touch->toggle#toggle">
+                <svg class="w-5 h-5 fill-current text-color-gray-400 ml-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="1rem" height="1rem" class="h-4 w-4">
+                  <path class="<%= sidebar_active(starts_with: ['/contacts']) ? 'hidden' : '' %>" data-target="toggle.toggleable" d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                  <path class="<%= sidebar_active(starts_with: ['/contacts']) ? '' : 'hidden' %>" data-target="toggle.toggleable" d="M10.707 7.05L10 6.343 4.343 12l1.414 1.414L10 9.172l4.243 4.242L15.657 12z"/>
+                </svg>
+              </div>
+        <% end %>
+        <!-- end link -->
+
+        <!-- dropdown -->
+        <div class="pl-9 <%= sidebar_active(starts_with: ['/contacts']) ? '' : 'hidden' %>" data-target="toggle.toggleable">
+          <div class="flex flex-col border-gray-400">
+            <a href="./index.html" class="rounded font-hairline px-3 py-3 flex items-center block text-gray-400 hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white">
+              Memberships
+            </a>
+            <%= link_to 'Contact Lists', lists_path, class: "rounded font-hairline px-3 py-3 flex items-center block text-gray-400 hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white" %>
+            <%= link_to 'New Contact', new_contact_path, class: "rounded font-hairline px-3 py-3 flex items-center block text-gray-400 hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white" %>
+          </div>
+        </div>
+        <!-- end dropdown -->
+      </div>
+      <!-- end menu item -->
+
+      <!-- menu item -->
+      <div class="px-2 mt-4">
+        <!-- link -->
+        <%= link_to nda_signings_path, class: 'rounded font-hairline px-4 py-3 flex items-center block text-gray-400 focus:text-white hover:rounded-lg hover:bg-gray-200 hover:bg-opacity-25 no-underline hover:text-white' do %>
+          <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+            <path d="M4 18h12V6h-4V2H4v16zm-2 1V0h12l4 4v16H2v-1z"/>
+          </svg>
+          Agreements              
+        <% end %>
+        <!-- end link -->
+      </div>
+      <!-- end menu item --> 
+
+    </div>
+    <!-- end sidebar content -->
+
+  </div>
+  <!-- end sidbar -->
 </div>

@@ -1,85 +1,199 @@
-<div class="flex-1 p-10 m-md:mt-16">
+<div class="flex-1 relative z-0 overflow-y-auto focus:outline-none" tabindex="0">
+  <div class="pb-6">
+    <div class="relative border-b border-gray-200 space-y-4">
+      <div class="space-y-3 md:flex md:items-center md:justify-between md:space-y-0">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Listings
+        </h3>
+        <div class="flex space-x-3 md:absolute md:top-3 md:right-0">
+          <span class="shadow-sm rounded-md">
+            <%= link_to 'New Listing', new_listing_path, class: "btn btn-primary" %>
+          </span>
+        </div>
+      </div>
+      <div>
+        <!-- Dropdown menu on small screens -->
+        <div class="sm:hidden">
+          <select aria-label="Selected tab" class="form-select block w-full pl-3 pr-10 py-2 text-base leading-6 border-gray-300 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5 transition ease-in-out duration-150">
+            <option selected>All</option>
 
-  <div class="flex justify-between items-center mb-4">
-    <h1 class="h3">Listings</h1>
-    <div>
-      <%= link_to 'New Listing', new_listing_path, class: "btn btn-primary" %>
-    </div>
-  </div>
+            <option>Draft</option>
 
-  <% if @listings.exists? || @member_listings.exists? %>
-  <div class="flex flex-col">
-    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-      <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Investment Type
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Brokerage
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <% @all_listings.each do |listing| %>
-            
+            <option>Active</option>
 
-            <tr>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10">
-                    <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60" alt="">
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm leading-5 font-medium text-gray-900">
-                      <%= listing.title %>
-                    </div>
-                    <div class="text-sm leading-5 text-gray-500">
-                      Listed on: <%= listing.created_at %>
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <div class="text-sm leading-5 text-gray-900"><%= listing.investment_type %></div>
-                <div class="text-sm leading-5 text-gray-500">Optimization</div>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  <% if listing.account.id == current_account.id %>
-                    Owned Listing
-                  <% else %>
-                    Shared Listing
-                  <% end %>
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                <%= listing.account.name %>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-                <%= link_to "View", listing, class: "text-indigo-600 hover:text-indigo-900" %>
-              </td>
-            </tr>
-          <% end %>
+            <option>Closed</option>
 
-          
-            
+            <option>Shared</option>
+          </select>
+        </div>
+        <!-- Tabs at small breakpoint and up -->
+        <div class="hidden sm:block">
+          <nav class="-mb-px flex space-x-8">
+            <a href="#" class="whitespace-no-wrap pb-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300" aria-current="page">
+              All
+            </a>
 
-            <!-- More rows... -->
-          </tbody>
-        </table>
+            <a href="#" class="whitespace-no-wrap pb-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+              Draft
+            </a>
+
+            <a href="#" class="whitespace-no-wrap pb-4 px-1 border-b-2 border-indigo-500 font-medium text-sm leading-5 text-indigo-600 focus:outline-none focus:text-indigo-800 focus:border-indigo-700">
+              Active
+            </a>
+
+            <a href="#" class="whitespace-no-wrap pb-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+              Closed
+            </a>
+
+            <a href="#" class="whitespace-no-wrap pb-4 px-1 border-b-2 border-transparent font-medium text-sm leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300">
+              Shared
+            </a>
+          </nav>
+        </div>
       </div>
     </div>
   </div>
+  <% if @listings.exists? || @member_listings.exists? %>
+    <div class="hidden sm:block">
+        <div class="align-middle inline-block min-w-full border-b border-gray-200 rounded-lg shadow overflow-hidden">
+          <table class="min-w-full">
+            <thead>
+              <tr class="border-t border-gray-200">
+                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="lg:pl-2">Listing</span>
+                </th>
+                <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Members
+                </th>
+                <th class="hidden md:table-cell px-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Last updated
+                </th>
+                <th class="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-100">
+              <% @listings.each do |listing| %>
+              <tr>
+                <td class="px-6 py-3 max-w-0 w-9/12 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                  <div class="flex items-center space-x-3 lg:pl-2">
+                    <div class="flex-shrink-0 h-10 w-10">
+                      <%= listing_thumbnail(listing,  class: "h-10 w-10 rounded-full") %>
+                    </div>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 <%= listing_state_color(listing) %> text-gray-800">
+                      <%= listing.aasm_state.capitalize %>
+                    </span>
+                    <%= link_to listing.title, listing, class: "truncate hover:text-gray-600" %>
+                    <span class="text-gray-500 font-normal">in <%= city_state(listing) %></span>
+                  </div>
+                </td>
+                
+                <td class="px-6 py-3 text-sm leading-5 text-gray-500 font-medium">
+                  <div class="flex items-center space-x-2">
+                    <div class="flex flex-shrink-0 -space-x-1">
+                      <% listing.memberships.sort_by{|t| - t.created_at.to_i}.first(4).each do |member| %>
+                        <%= image_tag avatar_url_for(member.user), class: "max-w-none h-6 w-6 rounded-full text-white shadow-solid" %>
+                      <% end %>
+                    </div>
+                    <% if listing.memberships.count > 4 %>
+                      <span class="flex-shrink-0 text-xs leading-5 font-medium">+<%= listing.memberships.count - 4 %></span>
+                    <% end %>
+                  </div>
+                </td>
+                <td class="hidden md:table-cell px-6 py-3 whitespace-no-wrap text-sm leading-5 text-gray-500 text-right">
+                  <%= time_ago_in_words(listing.updated_at) %> ago
+                </td>
+                <td class="pr-6">
+                  <div class="relative flex justify-end items-center" data-controller="toggle">
+                    <button id="project-options-menu-0" data-action="click->toggle#toggle touch->toggle#toggle click@window->toggle#clickOutside" aria-has-popup="true" type="button" class="w-8 h-8 inline-flex items-center justify-center text-gray-400 rounded-full bg-transparent hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition ease-in-out duration-150">
+                      <!-- Heroicon name: dots-vertical -->
+                      <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                      </svg>
+                    </button>
+                    <!--
+                      Dropdown panel, show/hide based on dropdown state.
+
+                      Entering: "transition ease-out duration-100"
+                        From: "transform opacity-0 scale-95"
+                        To: "transform opacity-100 scale-100"
+                      Leaving: "transition ease-in duration-75"
+                        From: "transform opacity-100 scale-100"
+                        To: "transform opacity-0 scale-95"
+                    -->
+                    <div class="hidden mx-3 origin-top-right absolute right-7 top-0 w-48 mt-1 rounded-md shadow-lg" data-target="toggle.toggleable">
+                      <div class="z-10 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="project-options-menu-0">
+                        <div class="py-1">
+                          <%= link_to edit_listing_path(listing), class: "group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900", role: "menuitem" do %>
+                            <!-- Heroicon name: pencil-alt -->
+                              <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                                <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                              </svg>
+                              Edit
+                          <% end %>
+                          <a href="#" class="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+                            <!-- Heroicon name: duplicate -->
+                            <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M7 9a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H9a2 2 0 01-2-2V9z" />
+                              <path d="M5 3a2 2 0 00-2 2v6a2 2 0 002 2V5h8a2 2 0 00-2-2H5z" />
+                            </svg>
+                            Duplicate
+                          </a>
+                          <a href="#" class="group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+                            <!-- Heroicon name: user-add -->
+                            <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                            </svg>
+                            Share
+                          </a>
+                        </div>
+                        <div class="border-t border-gray-100"></div>
+                        <div class="py-1">    
+                          <%= link_to listing_path(listing), method: :delete, data: { confirm: 'Are you sure?' }, class: "group flex items-center px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900", role: "menuitem" do %>
+                            <!-- Heroicon name: trash -->
+                            <svg class="mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                            Delete
+                          <% end %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <% end %>
+              <!-- More project rows... -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Projects list (only on smallest breakpoint) -->
+      <div class="sm:hidden">
+        
+        <ul class="list-none border-t border-gray-200">
+        <% @listings.each do |listing| %>
+          <li>
+            <%= link_to listing_path(listing), class: "flex items-center justify-between py-4 hover:bg-gray-50" do %>
+              <div class="flex items-center truncate space-x-3">
+                <div class="flex-shrink-0 h-10 w-10">
+                  <%= listing_thumbnail(listing,  class: "h-10 w-10 rounded-full") %>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium leading-4 <%= listing_state_color(listing) %> text-gray-800">
+                  <%= listing.aasm_state.capitalize %>
+                </span>
+                <p class="font-medium truncate text-sm leading-6"><%= listing.title %> <span class="truncate font-normal text-gray-500">in <%= city_state(listing) %></span></p>
+              </div>
+              <!-- Heroicon name: chevron-right -->
+              <svg class="ml-4 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            <% end %>
+          </li>
+        <% end %>
+          <!-- More project rows... -->
+        </ul>
+      </div>
   <% else %>
       <div class="bg-white rounded shadow flex flex-col items-center justify-between p-8 lg:flex-row">
         <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
@@ -96,3 +210,5 @@
 
     
 </div>
+
+

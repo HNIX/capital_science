@@ -1,0 +1,36 @@
+<% if Jumpstart.config.payments_enabled? && (!user_signed_in? || current_account_admin?) && not_subscribed? %>
+  <%= nav_link_to "Pricing", pricing_path, class: "nav-link" %>
+<% end %>
+
+<%= nav_link_to content_tag(:span, "What's New"), announcements_path, class: ["nav-link", unread_announcements_class(current_user)] %>
+
+<% if user_signed_in? && current_account %>
+    <%= link_to listings_path, class: 'font-hairline p-2 flex items-center text-gray-500 rounded hover:bg-indigo-500 no-underline hover:text-white' do %>
+        <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7 3H2v14h5V3zm2 0v14h9V3H9zM0 3c0-1.1.9-2 2-2h16a2 2 0 012 2v14a2 2 0 01-2 2H2a2 2 0 01-2-2V3zm3 1h3v2H3V4zm0 3h3v2H3V7zm0 3h3v2H3v-2z"/></svg>
+        Listings
+    <% end %>
+
+    <!-- link -->
+    <a href="./index.html" class="font-hairline p-2 flex items-center text-gray-500 rounded hover:bg-indigo-500 no-underline hover:text-white">
+    <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20a10 10 0 110-20 10 10 0 010 20zm-5.6-4.29a9.95 9.95 0 0111.2 0 8 8 0 10-11.2 0zm6.12-7.64l3.02-3.02 1.41 1.41-3.02 3.02a2 2 0 11-1.41-1.41z"/></svg>                
+    Analytics
+    </a>
+    <!-- end link -->
+
+    <!-- link -->
+
+    <%= link_to contacts_path, class: 'font-hairline p-2 flex items-center text-gray-500 rounded hover:bg-indigo-500 no-underline hover:text-white' do %>
+    <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M7 8a4 4 0 110-8 4 4 0 010 8zm0 1c2.15 0 4.2.4 6.1 1.09L12 16h-1.25L10 20H4l-.75-4H2L.9 10.09A17.93 17.93 0 017 9zm8.31.17c1.32.18 2.59.48 3.8.92L18 16h-1.25L16 20h-3.96l.37-2h1.25l1.65-8.83zM13 0a4 4 0 11-1.33 7.76 5.96 5.96 0 000-7.52C12.1.1 12.53 0 13 0z"/></svg>                
+    Contacts
+    <% end %>
+    <!-- end link -->
+
+    <!-- link -->
+    <%= link_to account_ndas_path(current_account), class: 'font-hairline p-2 flex items-center text-gray-500 rounded hover:bg-indigo-500 no-underline hover:text-white' do %>
+        <svg class="w-5 h-5 fill-current text-color-gray-400 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 18h12V6h-4V2H4v16zm-2 1V0h12l4 4v16H2v-1z"/></svg>
+        Agreements
+    <% end %>
+    <!-- end link --> 
+<% else %>
+    <%= link_to 'Sign Up', new_user_registration_path, class: 'btn btn-primary mt-2' %>
+<% end %>

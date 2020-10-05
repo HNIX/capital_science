@@ -1,31 +1,22 @@
-<%= content_tag :div, class: "nested-fields", data: { new_record: property.object.new_record? } do %>
+<%= content_tag :div, class: "nested-fields", data: { new_record: property.object.new_record?, controller: "places", action: "google-maps-callback@window->places#initMap" } do %>
 <div class="bg-white shadow overflow-hidden sm:rounded-lg p-8 mb-6">
 
     <div class="flex flex-wrap -mx-3 mb-2">
       <div class="w-full px-3 mb-6">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-            Address
-          </label>
-          <%= property.text_field :address1, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-city", placeholder: "123 Broadway" %>
-        </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
-            City
-          </label>
-          <%= property.text_field :address_city, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-city", placeholder: "Nashville" %>
-        </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
-            State
-          </label>
-            <%= property.text_field :address_state, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-state", placeholder: "Tennessee"  %>
-        </div>
-        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-          <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-            Zip
-          </label>
-          <%= property.text_field :address_zip, class: "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", id: "grid-zip", placeholder: "37027" %>
-        </div>
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+          Address
+        </label>
+        <%= property.search_field :address, class: 'appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500', data: { target: "places.field", action: "keydown->places#keydown" }%>
+      </div>
+
+        <%= property.hidden_field :latitude, class: 'form-control', data: { target: "places.latitude" } %>    
+        <%= property.hidden_field :longitude, class: 'form-control', data: { target: "places.longitude" } %>   
+        <%= property.hidden_field :address1, class: 'form-control', data: { target: "places.home" } %>
+        <%= property.hidden_field :address2, class: 'form-control', data: { target: "places.street" } %>
+        <%= property.hidden_field :address_city, class: 'form-control', data: { target: "places.city" } %>
+        <%= property.hidden_field :address_state, class: 'form-control', data: { target: "places.region" } %> 
+        <%= property.hidden_field :address_zip, class: 'form-control', data: { target: "places.postalCode" } %> 
+        
     </div>
     <div class="flex justify-end">
       <small><%= link_to "Remove", "#", data: { action: "click->nested-form#remove_association" } %></small>

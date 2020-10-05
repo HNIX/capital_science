@@ -33,7 +33,7 @@ class Listings::BuildController < ApplicationController
   # Only allow a trusted parameter "white list" through.
     def listing_params
       params.require(:listing).permit(:owner_id, :account_id, :nda_id, :investment_type, :description, :title, :draft, :private_listing, :price, :noi, 
-        properties_attributes: [:primary_type, :secondary_type, :asset_class, :rent_type, :units, :floors, :buildings, :land_area, :zoning, :id, :user_id, :sf, :name, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
+        properties_attributes: [:primary_type, :secondary_type, :asset_class, :rent_type, :units, :floors, :buildings, :land_area, :zoning, :id, :user_id, :sf, :name, :address, :latitude, :longitude, :address_object, :address1, :address2, :address_city, :address_state, :address_zip, :_destroy], 
         listing_images_attributes: {}, listing_documents_attributes: {}, listing_secure_documents_attributes: {})
     end
 end

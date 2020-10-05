@@ -60,7 +60,48 @@ module ListingsHelper
 
   end 
 
+  def listing_state_color(listing)
+    case listing.aasm_state
+    when "draft"
+      "bg-blue-100 text-blue-800"
+    when "active"
+      "bg-green-100 text-green-800"
+    when "closed"
+      "bg-gray-100 text-gray-800"
+    when "inactive"
+      "bg-yellow-100 text-yellow-800"
+    end
+  end
 
-  
+  def city_state(listing)
+    if listing.properties.exists? 
+      city = listing.properties.first.address_city
+      state = listing.properties.first.address_state
+
+      if !city.blank? && !state.blank? 
+        city + ", " + state
+      elsif !city.blank?
+        city
+      else
+        state
+      end
+    else
+      ""
+    end
+  end
+
+
+  def listing_thumbnail(listing, options = {})
+    size = options[:size] || 48
+    classes = options[:class]
+
+    if listing.listing_images.exists?
+      image_tag listing.listing_images.first.image_url, class: classes
+    else
+      content = content_tag(:span, listing.title.to_s.first, class: "initials")
+
+      content_tag :span, content, class: "avatar bg-blue-500 #{classes}"
+    end
+  end
 
 end

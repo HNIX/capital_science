@@ -2415,38 +2415,6 @@ if (!Array.prototype.indexOf) {
 }
 
 
-document.addEventListener("turbolinks:load", function() {
-
-  var map = new GMaps({
-    div: '#map',
-    lat: 38.5816,
-    lng: -121.4944
-  });
-  window.map = map;
-
-  var properties = JSON.parse(document.querySelector("#map").dataset.properties);
-  window.properties = properties;
-
-  var bounds = new google.maps.LatLngBounds();
-
-  properties.forEach(function(property) {
-    if (property.latitude && property.longitude) {
-      var marker = map.addMarker({
-        lat: property.latitude,
-        lng: property.longitude,
-        title: property.address,
-        infoWindow: { 
-          content: `<p><a href='/properties/${property.id}'>${property.address}</a></p>`
-        }
-      });
-
-      bounds.extend(marker.position);
-    }
-  });
-
-  map.fitBounds(bounds);
-});
-
 return GMaps;
 
 

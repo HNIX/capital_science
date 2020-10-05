@@ -3,9 +3,11 @@
 # Table name: properties
 #
 #  id             :bigint           not null, primary key
+#  address        :string
 #  address1       :string
 #  address2       :string
 #  address_city   :string
+#  address_object :jsonb
 #  address_state  :string
 #  address_zip    :string
 #  asset_class    :string
@@ -35,20 +37,20 @@
 #
 class Property < ApplicationRecord
   belongs_to :listing
-  geocoded_by :address
-  after_validation :geocode, if: :address_changed? 
+  #geocoded_by :full_address
+  #after_validation :geocode, if: :address_field_changed? 
 
-  validates :address1, presence: :true
-  validates :address_city, presence: :true
-  validates :address_state, presence: :true
-  validates :address_zip, presence: :true
+  validates :address, presence: :true
 
-  def address
-  	[address1, address_city, address_zip, address_state].compact.join(", ")
+  # def address
+  # 	[address1, address_city, address_zip, address_state].compact.join(", ")
+  # end
+  def full_address
+    address
   end
 
-  def address_changed? 
-  	address1_changed? || address_city_changed? || address_zip_changed? || address_state_changed? 
+  def address_field_changed? 
+    address_changed? 
   end
 
   scope :sorted, ->{ order(created_at: :asc)}

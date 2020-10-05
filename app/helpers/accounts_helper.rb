@@ -36,4 +36,17 @@ module AccountsHelper
   def account_admin?(account, account_user)
     AccountUser.find_by(account: account, user: account_user).admin?
   end
+
+  def view_count(user, listing)
+    Ahoy::Event.where(name: "Viewed listing", user_id: user.id).where_props(id: listing.id).count
+  end
+
+  def download_count(user, listing)
+    public_count = Ahoy::Event.where(name: "Downloaded public document", user_id: user.id).where_props(id: "#{listing.id}").count
+    secure_count = Ahoy::Event.where(name: "Downloaded secure document", user_id: user.id).where_props(id: "#{listing.id}").count
+
+    downloads = public_count + secure_count
+
+    return downloads
+  end
 end

@@ -16,6 +16,12 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google_maps[:api_key] %>&libraries=places&callback=initMap" async defer data-turbolinks-eval="false"></script>
+
+
+    <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.12.1/css/pro.min.css">
+    
+    <%= tag.meta name: "direct-upload-url", content: rails_direct_uploads_path %>
 
     <%# Be sure to add your own custom favicons %>
     <%= render "shared/favicons" %>
@@ -23,6 +29,7 @@
 
     <%# Replace this with your FontAwesome Pro Kit code %>
     <script src="https://kit.fontawesome.com/0e5ab6a736.js"></script>
+    <script src="https://dashboard-tailwindcomponents.netlify.app/assets/build/js/main.js?id=df2dfe6a4e2040ea9f2c"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
 
@@ -34,12 +41,19 @@
       <%= render partial: "shared/flash" %>
       <%= render partial: "shared/navbar" %>
 
-      <div class="px-3 lg:px-0">
-        <%= yield %>
+       <!-- start content -->
+      <div class="flex mt-14 lg:mt-16">
+        
+        <%= render partial: "shared/sidebar" if current_user %>
+
+        <div class="<%= 'lg:ml-56' if current_user %> w-full pt-6 lg:pt-12 px-6 lg:px-16">
+          <%= yield %>
+        </div>
       </div>
     </div>
 
-    <%= render partial: "shared/footer" %>
+    <%= render partial: "shared/footer" unless current_user %>
+    <%= javascript_pack_tag 'theme', 'data-turbolinks-track': 'reload' if current_user %>
 
   </body>
 </html>

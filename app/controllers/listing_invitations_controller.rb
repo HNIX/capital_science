@@ -3,12 +3,13 @@ class ListingInvitationsController < ApplicationController
 	before_action :authenticate_user_with_invite!
 
 	 def show
-	    @listing = @listing_invitation.listing
 	    @invited_by = @listing_invitation.sender
+	    ahoy.track "Viewed listing invitation", id: @listing.id
 	 end
 
 	  def update
 	    if @listing_invitation.accept!(@listing_invitation, current_user)
+	      ahoy.track "Accepted listing invitation", id: @listing.id
 	      redirect_to listings_path
 	    else
 	      message = @listing_invitation.errors.full_messages.first || "Something went wrong"
@@ -25,6 +26,7 @@ class ListingInvitationsController < ApplicationController
 
 	  def set_listing_invitation
 	    @listing_invitation = ListingInvitation.find_by!(token: params[:id])
+	    @listing = @listing_invitation.listing
 	  rescue ActiveRecord::RecordNotFound
 	    redirect_to root_path, alert: "Whoops, we weren't able to find this invitation. Check with your account admin for a new invitation."
 	  end

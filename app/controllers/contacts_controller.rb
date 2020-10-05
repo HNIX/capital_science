@@ -10,7 +10,13 @@ class ContactsController < ApplicationController
  
   # GET /listings/1
   def show
-   
+    if @user = User.find_by_email(@contact.email)
+      @pagy, @events = pagy(@user.events, items: 10)
+    end
+
+    @listing_ids = current_account.listings.distinct.pluck(:id)
+
+    
   end
 
   # GET /listings/new

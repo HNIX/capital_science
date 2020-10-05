@@ -1,0 +1,100 @@
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<div class="bg-white shadow overflow-hidden rounded-b-lg sm:rounded-lg mb-6">
+  <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Listing Information
+    </h3>
+    <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+      Details and financials.
+    </p>
+  </div>
+  <div class="px-4 py-5 sm:px-6">
+    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+      <div class="sm:col-span-1">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Investment Type
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+          <%= @listing.investment_type %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Brokerage
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+          <%= @listing.account.name %>
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Cap Rate
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+          6%
+        </dd>
+      </div>
+      <div class="sm:col-span-1">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Price/SF
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+          <%= number_to_currency(sf_price(@listing), :unit => "$") %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Details
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+            <% if @listing.description.to_s.length > 250 %>
+                <%= truncate(strip_tags(@listing.description.to_s), length: 250) %>
+                <%= link_to 'read more', '', class: "read-more-#{@listing.id}" %>
+                <script>
+                $('.read-more-<%= @listing.id %>').on('click', function(e) {
+                    e.preventDefault()
+                    $('#desc-rm').removeClass("hidden")
+                })
+
+                $('#desc-close').on('click', function(e) {
+                    e.preventDefault()
+                    $('#desc-rm').addClass("hidden")
+                })
+                </script>
+            <% else %>
+                <%= @listing.description %>
+            <% end %>
+        </dd>
+      </div>
+      <div class="sm:col-span-2">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Marketing Brochure
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900">
+          <ul class="border border-gray-200 rounded-md">
+            <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm leading-5">
+              <div class="w-0 flex-1 flex items-center">
+                <!-- Heroicon name: paper-clip -->
+                <svg class="flex-shrink-0 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                </svg>
+                <span class="ml-2 flex-1 w-0 truncate">
+                  resume_back_end_developer.pdf
+                </span>
+              </div>
+              <div class="ml-4 flex-shrink-0">
+                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out">
+                  Download
+                </a>
+              </div>
+            </li>
+            
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>

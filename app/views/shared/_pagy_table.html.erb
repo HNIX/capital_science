@@ -1,0 +1,15 @@
+<% link = pagy_link_proc(pagy, 'class="relative inline-flex items-center px-4 py-2 border border-cool-gray-300 text-sm leading-5 font-medium rounded-md text-cool-gray-700 bg-white hover:text-cool-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-cool-gray-100 active:text-cool-gray-700 transition ease-in-out duration-150"') -%>
+<!-- Pagination -->
+<nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-cool-gray-200 sm:px-6">
+    <div class="hidden sm:block">
+    <%== pagy_info(pagy, 'Activity'.pluralize(pagy.count)) %>
+    </div>
+    <div class="flex-1 flex justify-between sm:justify-end">
+    <% if pagy.prev %> 
+        <%== link.call(pagy.prev, pagy_t('pagy.nav.prev'), 'aria-label="previous"') %>
+    <% end %>
+    <% if pagy.next %>
+        <%== link.call(pagy.next, pagy_t('pagy.nav.next'), 'aria-label="next"') %>
+    <% end %>
+    </div>
+</nav>

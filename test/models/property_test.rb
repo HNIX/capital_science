@@ -3,9 +3,11 @@
 # Table name: properties
 #
 #  id             :bigint           not null, primary key
+#  address        :string
 #  address1       :string
 #  address2       :string
 #  address_city   :string
+#  address_object :jsonb
 #  address_state  :string
 #  address_zip    :string
 #  asset_class    :string
