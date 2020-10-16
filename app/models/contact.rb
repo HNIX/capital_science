@@ -39,6 +39,9 @@ class Contact < ApplicationRecord
   has_many :contact_memberships
   has_many :memberships, through: :contact_memberships, dependent: :destroy
 
+  has_many :contact_activities
+  has_many :activities, through: :contact_activities
+
   has_person_name
 
   # Store the roles in the roles json column and cast to booleans

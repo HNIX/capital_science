@@ -1,0 +1,109 @@
+<!--
+  Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
+  Read the documentation to get started: https://tailwindui.com/documentation
+-->
+<div class="z-10 fixed inset-0 overflow-hidden hidden" data-target="toggle.toggleable">
+  <div class="absolute inset-0 overflow-hidden bg-gray-600 bg-opacity-25">
+    <section class="absolute inset-y-0 pl-16 max-w-full right-0 flex">
+      <!--
+        Slide-over panel, show/hide based on slide-over state.
+
+        Entering: "transform transition ease-in-out duration-500 sm:duration-700"
+          From: "translate-x-full"
+          To: "translate-x-0"
+        Leaving: "transform transition ease-in-out duration-500 sm:duration-700"
+          From: "translate-x-0"
+          To: "translate-x-full"
+      -->
+      <div class="w-md">
+          <%= form_for(activity, html: {class: "h-full flex flex-col bg-white shadow-xl"}) do |form| %>
+          <div class="flex-1 h-0 overflow-y-auto">
+            <header class="space-y-1 py-6 px-4 bg-indigo-700 sm:px-6">
+              <div class="flex items-center justify-between space-x-3">
+                <h2 class="text-lg leading-7 font-medium text-white">
+                  New Activity
+                </h2>
+                <div class="h-7 flex items-center">
+                  <button aria-label="Close panel" class="text-indigo-200 hover:text-white transition ease-in-out duration-150" data-action="click->toggle#toggle touch->toggle#toggle">
+                    <!-- Heroicon name: x -->
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div>
+                <p class="text-sm leading-5 text-indigo-300">
+                  Get started by filling in the information below to create your new project.
+                </p>
+              </div>
+            </header>
+            <div class="flex-1 flex flex-col justify-between">
+              <div class="px-4 divide-y divide-gray-200 sm:px-6">
+                <%= render "shared/error_messages", resource: form.object %>
+                <div class="space-y-6 pt-6 pb-5">       
+                  <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6 sm:col-span-6">
+                        <label for="first_name" class="block text-sm font-medium leading-5 text-gray-700">Contacts</label>
+                        <%= form.select :contact_ids, current_account.contacts.all.pluck(:first_name, :id), {}, { multiple: true, selected: @contact.id, class: "selectize" } %>
+                    </div>
+                    <div class="col-span-6 sm:col-span-6">
+                        <label for="first_name" class="block text-sm font-medium leading-5 text-gray-700">Activity Type</label>
+                        <%= form.select :event, Activity::EVENTS, include_blank: 'Select', id: 'activity_event', class: 'mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5' %>                 
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-6">
+                        <label for="first_name" class="block text-sm font-medium leading-5 text-gray-700">Listing</label>
+                        <%= form.select :listing_ids, current_account.listings.all.pluck(:title, :id), {}, { multiple: true, class: "selectize" } %>
+                    </div>
+                   
+
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="last_name" class="block text-sm font-medium leading-5 text-gray-700">Status</label>
+                        <%= form.text_field :status, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                    </div>
+
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="first_name" class="block text-sm font-medium leading-5 text-gray-700">Due Date</label>
+                        <%= form.date_field :due_date, as: :date, value: form.object.try(:strftime,"%m/%d/%Y"), class: 'mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5' %>
+                    </div>
+
+                    <div class="sm:col-span-6">
+                        <label for="about" class="block text-sm font-medium leading-5 text-gray-700">
+                            Comment
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                            <%= form.text_area :comment, rows:"3", class: "form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
+                    </div>
+                  </div>         
+                </div>   
+                <div class="space-y-4 pt-4 pb-6"> 
+                  <div class="space-y-1">
+                    <label for="description" class="block text-sm font-medium leading-5 text-gray-900">
+                      Assigned To
+                    </label>
+                    <div class="relative rounded-md shadow-sm">
+                      <%= form.select :user_ids, current_account.users.all.pluck(:first_name, :id), {}, { multiple: true, selected: @contact.id, class: "selectize"  } %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-shrink-0 px-4 py-4 space-x-4 flex justify-end">
+            <span class="inline-flex rounded-md shadow-sm">
+              <button type="button" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                Cancel
+              </button>
+            </span>
+            <span class="inline-flex rounded-md shadow-sm">
+              <%= form.button "Create", class: "btn btn-primary" %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </section>
+  </div>
+</div>

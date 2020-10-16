@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_001346) do
+ActiveRecord::Schema.define(version: 2020_10_05_151019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,19 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "activities", force: :cascade do |t|
+    t.datetime "due_date"
+    t.string "status"
+    t.text "comment"
+    t.string "event"
+    t.bigint "owner_id"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_activities_on_account_id"
+    t.index ["owner_id"], name: "index_activities_on_owner_id"
+  end
+
   create_table "ahoy_events", force: :cascade do |t|
     t.bigint "visit_id"
     t.bigint "user_id"
@@ -160,6 +173,15 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
+  create_table "contact_activities", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "activity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_contact_activities_on_activity_id"
+    t.index ["contact_id"], name: "index_contact_activities_on_contact_id"
+  end
+
   create_table "contact_listing_invitations", force: :cascade do |t|
     t.bigint "listing_invitation_id", null: false
     t.bigint "contact_id", null: false
@@ -196,6 +218,15 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["owner_id"], name: "index_contacts_on_owner_id"
     t.index ["user_id"], name: "index_contacts_on_user_id"
+  end
+
+  create_table "listing_activities", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "activity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_listing_activities_on_activity_id"
+    t.index ["listing_id"], name: "index_listing_activities_on_listing_id"
   end
 
   create_table "listing_documents", force: :cascade do |t|
@@ -371,6 +402,15 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
     t.index ["listing_id"], name: "index_properties_on_listing_id"
   end
 
+  create_table "user_activities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "activity_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["activity_id"], name: "index_user_activities_on_activity_id"
+    t.index ["user_id"], name: "index_user_activities_on_user_id"
+  end
+
   create_table "user_connected_accounts", force: :cascade do |t|
     t.bigint "user_id"
     t.string "provider"
@@ -429,12 +469,17 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "accounts", "users", column: "owner_id"
+  add_foreign_key "activities", "accounts"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "contact_activities", "activities"
+  add_foreign_key "contact_activities", "contacts"
   add_foreign_key "contact_listing_invitations", "contacts"
   add_foreign_key "contact_listing_invitations", "listing_invitations"
   add_foreign_key "contact_memberships", "contacts"
   add_foreign_key "contact_memberships", "memberships"
   add_foreign_key "contacts", "accounts"
+  add_foreign_key "listing_activities", "activities"
+  add_foreign_key "listing_activities", "listings"
   add_foreign_key "listing_documents", "listings"
   add_foreign_key "listing_invitations", "listings"
   add_foreign_key "listing_invitations", "users", column: "sender_id"
@@ -448,5 +493,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_001346) do
   add_foreign_key "nda_signings", "users"
   add_foreign_key "ndas", "accounts"
   add_foreign_key "properties", "listings"
+  add_foreign_key "user_activities", "activities"
+  add_foreign_key "user_activities", "users"
   add_foreign_key "user_connected_accounts", "users"
 end

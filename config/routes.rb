@@ -89,6 +89,10 @@ Rails.application.routes.draw do
   resources :contact_lists, only: [:create]
   resources :contacts
   resources :lists
+  resources :activities
+  resources :listing_activities, only: [:create]
+  resources :contact_activities, only: [:create]
+  resources :user_activities, only: [:create]
   
   patch "listings/:id/publish" => "listings#publish", as: 'publish_listing'
   patch "listings/:id/stop" => "listings#stop", as: 'stop_listing'

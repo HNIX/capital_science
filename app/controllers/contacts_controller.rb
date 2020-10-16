@@ -11,12 +11,12 @@ class ContactsController < ApplicationController
   # GET /listings/1
   def show
     if @user = User.find_by_email(@contact.email)
-      @pagy, @events = pagy(@user.events, items: 10)
+      @pagy, @events = pagy(@user.events, items: 5)
     end
 
-    @listing_ids = current_account.listings.distinct.pluck(:id)
+    @activity = Activity.new
 
-    
+    @listing_ids = current_account.listings.distinct.pluck(:id)
   end
 
   # GET /listings/new
@@ -75,6 +75,6 @@ class ContactsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
      def contact_params
-      params.require(:contact).permit(*Membership::ROLES, :first_name, :last_name, :email, :phone, :account_id, :user_id, :owner_id, list_ids: [])
+      params.require(:contact).permit(*Membership::ROLES, :first_name, :company, :last_name, :email, :phone, :account_id, :user_id, :owner_id, list_ids: [])
     end
 end

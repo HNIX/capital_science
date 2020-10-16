@@ -47,6 +47,9 @@ class Listing < ApplicationRecord
   has_many :listing_invitations, dependent: :destroy
   has_many :nda_signings
 
+  has_many :listing_activities
+  has_many :activities, through: :listing_activities
+
   scope :sorted, ->{ order(updated_at: :desc)}
   scope :account, -> (account) {where(account: account)}
   scope :state, -> (aasm_state) {where(aasm_state: aasm_state)}

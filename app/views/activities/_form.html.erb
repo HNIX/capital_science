@@ -1,0 +1,83 @@
+<%= form_for @activity do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  
+  <div class="bg-white shadow sm:rounded-lg p-8">
+    
+   <div class="flex flex-wrap -mx-3 md:mb-8">
+     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label for="name" class="block text-sm leading-5 font-medium text-gray-700">Type</label>
+      <div class="relative">
+        <%= form.text_field :event, class: "form-control" %>
+      </div>
+    </div>
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label for="name" class="block text-sm leading-5 font-medium text-gray-700">Status</label>
+      <div class="relative">
+        <%= form.text_field :status, class: "form-control" %>
+      </div>
+    </div>
+   </div>
+
+   <div class="flex flex-wrap -mx-3 md:mb-8">
+     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label for="name" class="block text-sm leading-5 font-medium text-gray-700">Due Date</label>
+      <div class="relative">
+        <%= form.date_field :due_date, as: :date, value: form.object.try(:strftime,"%m/%d/%Y"), class: 'form-control' %>
+      </div>
+    </div>
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label for="name" class="block text-sm leading-5 font-medium text-gray-700">Comment</label>
+      <div class="relative">
+        <%= form.text_field :comment, class: "form-control" %>
+      </div>
+    </div>
+   </div>
+
+    
+
+    <div class="flex flex-wrap -mx-3 md:mb-8">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label for="list" class="block text-sm leading-5 font-medium text-gray-700">Users</label>
+        <div class="relative">
+            <%= form.select :user_ids, current_account.users.all.pluck(:first_name, :id), {}, { multiple: true, class: "selectize"  } %>
+        </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap -mx-3 md:mb-8">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label for="list" class="block text-sm leading-5 font-medium text-gray-700">Users</label>
+        <div class="relative">
+            <%= form.select :listing_ids, current_account.listings.all.pluck(:title, :id), {}, { multiple: true } %>                 
+        </div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap -mx-3 md:mb-8">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label for="list" class="block text-sm leading-5 font-medium text-gray-700">Contacts</label>
+        <div class="relative">
+            <%= form.select :contact_ids, current_account.contacts.all.pluck(:first_name, :id), {}, { multiple: true  } %>
+        </div>
+        </div>
+    </div>
+
+
+
+
+ </div>
+
+
+<!-- Divider -->
+  <hr class="my-8">
+
+  <div class="form-group mt-10 flex justify-between">
+    <% if form.object.persisted? %>
+      <%= link_to 'Delete', form.object, class: "btn btn-danger outline", method: :delete, data: { remote: true, confirm: "Are you sure?" } %>
+      <%= form.button class: "btn btn-primary" %>
+    <% else %>
+      <%= link_to 'Cancel', contacts_path, class: "btn btn-link" %>
+      <%= form.button "Create", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+<% end %>
