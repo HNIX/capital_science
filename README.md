@@ -1,14 +1,4 @@
-# Jumpstart Pro Rails Template
-
-All your Rails apps should start off with a bunch of great defaults. It's like Laravel Spark, for Rails.
-
-**Note:** Requires Rails 5.2 or higher
-
-## Getting Started
-
-Jumpstart Pro is a preconfigured Rails application, so you can either
-download the code or clone this repository and add your own repo as a
-remote to merge in updates.
+# Capital Science
 
 #### Requirements
 
@@ -24,19 +14,7 @@ You'll need the following installed to run the template successfully:
   processes in development
 * [Stripe CLI](https://stripe.com/docs/stripe-cli) for Stripe webhooks in development - `brew install stripe/stripe-cli/stripe`
 
-#### Initial Setup
-
-First, you'll want to tweak `config/database.yml` and change the
-database name. You can also rename the app in the Jumpstart admin UI
-which updates the app name in the navbar, footer, etc.
-
-Optionally, you can rename the application name in
-`config/application.rb`. This won't affect anything, so it's not too
-important.
-
-Next, you can run `bin/setup` to install Rubygem and Javascript dependencies. This will also install foreman system wide for you and setup your database.
-
-#### Running Jumpstart Pro
+#### Running
 
 If you're using foreman: `foreman start`
 
