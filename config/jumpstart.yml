@@ -1,14 +1,17 @@
 --- !ruby/object:Jumpstart::Configuration
-application_name: Capital Viewer
-business_name: Capital Viewer, LLC
-domain: crecamp.com
-support_email: support@crecamp.com
-default_from_email: CRECamp <support@crecamp.com>
+application_name: Capital Science
+business_name: Capital Science
+domain: capitalsci.com
+support_email: support@capitalsci.com
+default_from_email: Capital Science <support@capitalsci.com>
 business_address: ''
 background_job_processor: sidekiq
 email_provider: sendgrid
 personal_accounts: true
 livereload: false
-register_with_account: true
+register_with_account: false
 payment_processors:
 - stripe
+multitenancy:
+- subdomain
+- domain
