@@ -8,11 +8,11 @@ gem "rails", "~> 6.0.0"
 # Use postgresql as the database for Active Record
 gem "pg"
 # Use Puma as the app server
-gem "puma", "~> 4.3"
+gem "puma", "~> 5.0"
 # Use SCSS for stylesheets
 gem "sass-rails", "~> 6.0"
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker", "~> 5.1"
+gem "webpacker", github: "rails/webpacker"
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem "turbolinks", "~> 5"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -65,18 +65,20 @@ gem "administrate", github: "excid3/administrate", branch: "jumpstart" # '~> 0.1
 gem "administrate-field-active_storage", "~> 0.3.0"
 gem "attr_encrypted", "~> 3.1"
 gem "devise", ">= 4.7.1"
+gem "devise-i18n", "~> 1.9"
 gem "devise_masquerade", github: "excid3/devise_masquerade"
 gem "image_processing", "~> 1.9", ">= 1.9.2"
 gem "inline_svg", "~> 1.6"
 gem "invisible_captcha", "~> 1.0"
 gem "local_time", "~> 2.1"
 gem "name_of_person", "~> 1.0"
+gem "noticed", "~> 1.2"
 gem "oj", "~> 3.8", ">= 3.8.1"
 gem "pagy", "~> 3.7"
-gem "pay", "~> 2.1.0"
+gem "pay", "~> 2.2.0"
 gem "pg_search", "~> 2.3"
 gem "receipts", "~> 1.0.0"
-gem "ruby-oembed", "~> 0.13.0", require: "oembed"
+gem "ruby-oembed", "~> 0.14.0", require: "oembed"
 gem "turbolinks_render", "~> 0.9.12"
 gem 'aasm'
 gem "pundit"

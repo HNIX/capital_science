@@ -7,14 +7,14 @@ module Jumpstart
 
       if user.save
         # Ensure Jumpstart free plan exists for admin users
-        Plan.create_with(name: "Free", interval: :month, trial_period_days: 0).find_or_create_by(details: { jumpstart_id: :free })
+        Plan.create_with(name: "Free", interval: :month, trial_period_days: 0).find_or_create_by(details: {jumpstart_id: :free})
 
         # Create a fake subscription for the admin user so they have access to everything by default
         user.accounts.first.subscriptions.create(subscription_params)
 
-        redirect_to root_path(anchor: :users), notice: "#{user.name} (#{user.email}) has been added as an admin."
+        redirect_to root_path(anchor: :users), notice: "#{user.name} (#{user.email}) has been added as an admin. #{view_context.link_to("Login", main_app.new_user_session_path)}"
       else
-        redirect_to root_path(anchor: :users), alert: "Unable to save user. Make sure to fill out all fields and have a strong enough password."
+        redirect_to root_path(anchor: :users), alert: user.errors.full_messages.first
       end
     end
 

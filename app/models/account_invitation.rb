@@ -29,7 +29,7 @@ class AccountInvitation < ApplicationRecord
   has_secure_token
 
   validates :name, :email, presence: true
-  validates :email, uniqueness: {scope: :account_id, message: "has already been invited"}
+  validates :email, uniqueness: {scope: :account_id, message: :invited}
 
   # Store the roles in the roles json column and cast to booleans
   store_accessor :roles, *AccountUser::ROLES
@@ -53,6 +53,11 @@ class AccountInvitation < ApplicationRecord
         account_user.save!
         destroy!
       end
+
+      [account.owner, invited_by].uniq.each do |recipient|
+        AcceptedInvite.with(account: account, user: user).deliver_later(recipient)
+      end
+
       account_user
     else
       errors.add(:base, account_user.errors.full_messages.first)

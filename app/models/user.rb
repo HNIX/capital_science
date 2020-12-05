@@ -21,6 +21,7 @@
 #  invitations_count      :integer          default(0)
 #  invited_by_type        :string
 #  last_name              :string
+#  preferred_language     :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -74,6 +75,7 @@ class User < ApplicationRecord
 
   has_many :user_activities
   has_many :activities, through: :user_activities
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   # We don't need users to confirm their email address on create,
   # just when they change it

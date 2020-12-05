@@ -334,6 +334,20 @@ ActiveRecord::Schema.define(version: 2020_10_05_151019) do
     t.index ["account_id"], name: "index_ndas_on_account_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "recipient_type", null: false
+    t.bigint "recipient_id", null: false
+    t.string "type"
+    t.jsonb "params"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "interacted_at"
+    t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient_type_and_recipient_id"
+  end
+
   create_table "pay_charges", force: :cascade do |t|
     t.bigint "owner_id"
     t.string "processor", null: false
@@ -456,6 +470,7 @@ ActiveRecord::Schema.define(version: 2020_10_05_151019) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "preferred_language"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"

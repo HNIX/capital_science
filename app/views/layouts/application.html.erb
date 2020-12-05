@@ -31,13 +31,20 @@
     <script src="https://kit.fontawesome.com/0e5ab6a736.js"></script>
     <script src="https://dashboard-tailwindcomponents.netlify.app/assets/build/js/main.js?id=df2dfe6a4e2040ea9f2c"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <%#<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet"> %>
 
     <%= yield :head %>
   </head>
 
-  <body class="bg-gray-200 font-sans font-normal leading-normal h-full antialiased" onselectstart="return false">    
-    <div>
+  <%
+=begin%>
+ <body class="bg-gray-200 font-sans font-normal leading-normal h-full antialiased" onselectstart="return false">    
+    <div> 
+<%
+=end%>
+  <body class="h-full font-sans antialiased font-normal leading-normal bg-gray-100">
+    <div class="main">
       <%= render partial: "shared/flash" %>
       <%= render partial: "shared/public_navbar" %>
       <main>

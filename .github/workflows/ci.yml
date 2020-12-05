@@ -17,11 +17,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
         ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
       redis:
         image: redis
         ports: ['6379:6379']
@@ -35,10 +30,10 @@ jobs:
         with:
           ruby-version: 2.7
 
-      - name: Setup Node 12
+      - name: Setup Node 14
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
 
       - name: Get yarn cache
         id: yarn-cache
@@ -64,8 +59,16 @@ jobs:
         run: |
           sudo apt-get -yqq install libpq-dev
           gem install bundler
-          bundle install --path vendor/bundle --jobs 4 --retry 3
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
           yarn install --frozen-lockfile
+
+      - name: Standardrb Check
+        run: bundle exec standardrb
+
+# Uncomment to enable Brakeman checks in CI
+#     - name: Brakeman Check
+#       run: bundle exec brakeman
 
       - name: Run tests
         env:
@@ -78,3 +81,5 @@ jobs:
           bin/rails db:test:prepare
           bin/rails test
 
+# Uncomment to run system tests in CI
+#          bin/rails test:system

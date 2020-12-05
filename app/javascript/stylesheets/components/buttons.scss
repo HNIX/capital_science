@@ -1,5 +1,5 @@
 .btn {
-  @apply inline-flex font-bold text-sm text-center px-4 py-0 rounded no-underline items-center justify-between;
+  @apply inline-flex text-sm font-semibold text-center px-4 py-0 rounded no-underline items-center justify-between;
 
   height: 40px;
   line-height: 40px;
@@ -9,10 +9,6 @@
   &:focus {
     @apply cursor-pointer;
   }
-
-  //@media screen and (max-width: 767px) {
-    //@apply block w-full mb-4;
-  //}
 }
 
 .btn-small {
@@ -30,11 +26,11 @@
 }
 
 .btn-primary {
-  @apply bg-primary-500 text-white;
+  @apply bg-primary-600 text-white;
 
   &:hover,
   &:focus {
-    @apply bg-primary-600 text-white;
+    @apply bg-primary-500 text-white;
   }
 
   &.outline {
@@ -48,11 +44,11 @@
 }
 
 .btn-secondary {
-  @apply bg-secondary-500 text-white;
+  @apply bg-secondary-600 text-white;
 
   &:hover,
   &:focus {
-    @apply bg-secondary-600 text-white;
+    @apply bg-secondary-500 text-white;
   }
 
   &.outline {
@@ -66,11 +62,11 @@
 }
 
 .btn-tertiary {
-  @apply bg-tertiary-500 text-white;
+  @apply bg-tertiary-600 text-white;
 
   &:hover,
   &:focus {
-    @apply bg-tertiary-600 text-white;
+    @apply bg-tertiary-500 text-white;
   }
 
   &.outline {
@@ -84,11 +80,11 @@
 }
 
 .btn-danger {
-  @apply bg-danger-500 text-white;
+  @apply bg-danger-600 text-white;
 
   &:hover,
   &:focus {
-    @apply bg-danger-600 text-white;
+    @apply bg-danger-500 text-white;
   }
 
   &.outline {
@@ -110,15 +106,15 @@
   }
 
   &.primary {
-    @apply text-primary-500;
+    @apply text-primary-600;
   }
 
   &.secondary {
-    @apply text-secondary-500;
+    @apply text-secondary-600;
   }
 
   &.tertiary {
-    @apply text-tertiary-500;
+    @apply text-tertiary-600;
   }
 
   &.gray {
@@ -135,4 +131,8 @@
 
     transform: none;
   }
+}
+
+.btn-expanded {
+  @apply block w-full;
 }

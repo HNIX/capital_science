@@ -28,6 +28,12 @@ require "test_helper"
 class AccountInvitationTest < ActiveSupport::TestCase
   setup do
     @account_invitation = account_invitations(:one)
+    @account = @account_invitation.account
+  end
+
+  test "cannot invite same email twice" do
+    invitation = @account.account_invitations.create(name: "whatever", email: @account_invitation.email)
+    assert_not invitation.valid?
   end
 
   test "accept" do
@@ -47,5 +53,13 @@ class AccountInvitationTest < ActiveSupport::TestCase
     assert_difference "AccountInvitation.count", -1 do
       @account_invitation.reject!
     end
+  end
+
+  test "accept sends notifications account owner and inviter" do
+    assert_difference "Notification.count", 2 do
+      account_invitations(:two).accept!(users(:invited))
+    end
+    assert_equal @account, Notification.last.account
+    assert_equal users(:invited), Notification.last.params[:user]
   end
 end

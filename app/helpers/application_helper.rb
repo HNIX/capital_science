@@ -85,9 +85,9 @@ module ApplicationHelper
   end
 
   def fa_icon(name, options = {})
-    weight = options[:weight] || "far"
-    classes = [weight, "fa-#{name}", options[:class]]
-    content_tag :i, nil, class: classes
+    weight = options.delete(:weight) || "far"
+    options[:class] = [weight, "fa-#{name}", options.delete(:class)]
+    content_tag :i, nil, options
   end
 
   def badge(text, options = {})
@@ -98,7 +98,7 @@ module ApplicationHelper
 
     content_tag :div, text, options
   end
-  
+
   def title(page_title)
     content_for(:title) { page_title }
   end

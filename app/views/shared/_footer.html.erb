@@ -1,5 +1,5 @@
-<div class="bg-white border-t border-gray-400 py-4 lg:px-6 px-2 w-full h-auto text-sm">
-  <div class="text-sm flex flex-col-reverse p-4 lg:flex-row lg:justify-between lg:p-0">
+<div class="w-full h-auto px-2 py-4 text-sm lg:px-6">
+  <div class="flex flex-col-reverse p-4 text-sm lg:flex-row lg:justify-between lg:p-0">
     <div class="flex items-center justify-center">
       <%= link_to root_path do %>
         <%= render_svg 'mark', styles: "fill-current text-gray-600 hover:text-gray-700" %>
@@ -8,9 +8,9 @@
     </div>
 
     <div class="flex flex-col items-center lg:flex-row">
-      <%= link_to "About Us", about_path, class: "text-gray-700 no-underline block lg:my-0 my-2 lg:px-4" %>
-      <%= link_to "Privacy Policy", privacy_path, class: "text-gray-700 hover:text-gray-800 no-underline block lg:my-0 my-2 lg:px-4" %>
-      <%= link_to "Terms of Service", terms_path, class: "text-gray-700 hover:text-gray-800 no-underline block lg:my-0 my-2 lg:pl-4" %>
+      <%= link_to t(".about"), about_path, class: "text-gray-700 no-underline block lg:my-0 my-2 lg:px-4" %>
+      <%= link_to t(".privacy"), privacy_path, class: "text-gray-700 hover:text-gray-800 no-underline block lg:my-0 my-2 lg:px-4" %>
+      <%= link_to t(".terms"), terms_path, class: "text-gray-700 hover:text-gray-800 no-underline block lg:my-0 my-2 lg:pl-4" %>
     </div>
   </div>
 </div>
