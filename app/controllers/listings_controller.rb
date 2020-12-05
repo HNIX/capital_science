@@ -1,6 +1,7 @@
 class ListingsController < ApplicationController
+  layout :resolve_layout
   before_action :authenticate_user!, except: [:show]
-  before_action :set_listing, except: [:index, :new, :create, :join, :members]
+  before_action :set_listing, except: [:index, :public, :new, :create, :join, :members]
   before_action :require_account, except: [:show]
   before_action :require_non_personal_account, :require_subscription, except: [:index, :show, :join]
   helper_method :has_secure_access
@@ -13,6 +14,13 @@ class ListingsController < ApplicationController
     @pagy, @member_listings = pagy(Listing.joins(:memberships).where(memberships: {user_id: current_user.id}).sort_by_params(params[:sort], sort_direction))
   
     @all_listings = (@listings + @member_listings).uniq
+  end
+
+  def public
+    @pagy, @listings = pagy(Listing.state("active").private_listing(false).sort_by_params(params[:sort], sort_direction))
+  end
+
+  def view
   end
  
   # GET /listings/1
@@ -187,6 +195,14 @@ class ListingsController < ApplicationController
       end
     end
 
+    def resolve_layout
+      case action_name
+      when "public", "view"
+        "public"
+      else
+        "application"
+      end
+    end
 
     # Only allow a trusted parameter "white list" through.
      def listing_params

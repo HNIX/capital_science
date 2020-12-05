@@ -1,0 +1,24 @@
+<div class="lg:flex mb-6">
+  <div class="flex-col lg:w-full">
+    <%= render 'listings/shared/description_card' %>
+    <div class="flex">
+      <div class="w-3/5">
+        <%= render 'listings/shared/properties_table' %>
+        <%= render 'listings/shared/documents' %>  
+      </div>
+      <div class="w-2/5 lg:ml-6">
+        <div id="map" data-controller="maps" data-action="google-maps-callback@window->maps#initializeMap" data-properties="<%= @listing.properties.to_json(methods: [:address]) %>">
+          <div class="mb-6 pb-2/3 w-full rounded-t-lg sm:rounded-lg sm:shadow hidden lg:block shadow" data-target="maps.map">
+          </div>
+        </div>
+        <%= render 'listings/shared/contact_list' %>
+      </div>
+    </div>
+    
+  </div>  
+</div>
+
+
+
+
+

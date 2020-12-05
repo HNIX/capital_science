@@ -65,6 +65,8 @@ Rails.application.routes.draw do
 
   resources :account_invitations
 
+  get   "listings/public" => "listings#public", as: 'public_listings'
+
   #Listings
   resources :listings do 
     resources :listing_invitations, path: :invitations, module: :listings do 
@@ -99,7 +101,8 @@ Rails.application.routes.draw do
   patch "listings/:id/start" => "listings#start", as: 'start_listing'
   patch "listings/:id/close" => "listings#close", as: 'close_listing'
   patch "listings/:id/open" => "listings#open", as: 'open_listing'
-
+  get "listings/:id/view" => "listings#view", as: 'view_listing'
+  
   # Payments
   resource :card
   resource :subscription do

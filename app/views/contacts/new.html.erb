@@ -1,8 +1,5 @@
-<div class="container mx-auto my-10 px-4">
-  <div class="max-w-4xl mx-auto">
-  	<div class="flex justify-center items-center align-center mb-4"> 
-      <h3 class="h3">New Contact</h3> 
-    </div>
-      <%= render 'form', contact: @contact %>
-  </div>
+<%= render 'contacts/shared/subnav' %>
+
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <%= render 'contacts/shared/form', contact: @contact %>
 </div>

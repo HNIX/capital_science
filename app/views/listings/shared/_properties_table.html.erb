@@ -2,7 +2,7 @@
   Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
   Read the documentation to get started: https://tailwindui.com/documentation
 -->
-<div class="flex flex-col mb-6 rounded-b-lg sm:rounded-lg shadow overflow-hidden">
+<div class="flex flex-col mb-6 rounded-b-lg sm:rounded-lg shadow-md overflow-hidden border border-gray-200">
   <div class="overflow-x-auto">
     <div class="align-middle inline-block min-w-full">
       <div class="overflow-hidden">
@@ -26,15 +26,6 @@
               </th>
               <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Units
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Buildings
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Land Area
-              </th>
-              <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                Zoning
               </th>
             </tr>
           </thead>
@@ -71,15 +62,6 @@
               <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
                 <%= property.units %>
               </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                <%= property.buildings %>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                <%= property.land_area %>
-              </td>
-              <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 text-gray-500">
-                <%= property.zoning %>
-              </td>
             </tr>
           <% end %>
           <% if @listing.properties.count > 1 %>   
@@ -108,15 +90,7 @@
                 <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
                   <%= total_units(@listing) %>
                 </td>
-                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
-                  <%= @listing.properties.count %>
-                </td>
-                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
-                  <%= total_land_area(@listing) %>
-                </td>
-                <td class="px-6 py-4 whitespace-no-wrap bg-gray-50 border-b border-gray-200 text-sm leading-5 text-gray-500">
-                  -
-                </td>
+                
               </tr>
             <% end %>
         <!-- More rows... -->

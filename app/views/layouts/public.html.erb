@@ -41,7 +41,9 @@
       <%= render partial: "shared/flash" %>
       <%= render partial: "shared/public_navbar" %>
       <main>
-        <%= yield %>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <%= yield %>
+        </div>
       </main>               
       </div>
     <%= render partial: "shared/footer" unless current_user %>
