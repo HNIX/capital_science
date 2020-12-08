@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_05_151019) do
+ActiveRecord::Schema.define(version: 2020_12_07_025749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -390,7 +390,6 @@ ActiveRecord::Schema.define(version: 2020_10_05_151019) do
   end
 
   create_table "properties", force: :cascade do |t|
-    t.bigint "listing_id", null: false
     t.string "name"
     t.string "address1"
     t.string "address2"
@@ -413,7 +412,41 @@ ActiveRecord::Schema.define(version: 2020_10_05_151019) do
     t.float "longitude"
     t.string "address"
     t.jsonb "address_object"
-    t.index ["listing_id"], name: "index_properties_on_listing_id"
+    t.integer "year_built"
+    t.integer "rsf"
+    t.integer "occupancy"
+    t.integer "parking_spaces"
+    t.integer "frontage"
+    t.string "apn"
+    t.bigint "account_id"
+    t.text "highlights"
+    t.index ["account_id"], name: "index_properties_on_account_id"
+  end
+
+  create_table "property_contacts", force: :cascade do |t|
+    t.bigint "property_id", null: false
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_property_contacts_on_contact_id"
+    t.index ["property_id"], name: "index_property_contacts_on_property_id"
+  end
+
+  create_table "property_images", force: :cascade do |t|
+    t.jsonb "image_data"
+    t.bigint "property_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["property_id"], name: "index_property_images_on_property_id"
+  end
+
+  create_table "property_listings", force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "property_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["listing_id"], name: "index_property_listings_on_listing_id"
+    t.index ["property_id"], name: "index_property_listings_on_property_id"
   end
 
   create_table "user_activities", force: :cascade do |t|
@@ -507,7 +540,11 @@ ActiveRecord::Schema.define(version: 2020_10_05_151019) do
   add_foreign_key "nda_signings", "listings"
   add_foreign_key "nda_signings", "users"
   add_foreign_key "ndas", "accounts"
-  add_foreign_key "properties", "listings"
+  add_foreign_key "property_contacts", "contacts"
+  add_foreign_key "property_contacts", "properties"
+  add_foreign_key "property_images", "properties"
+  add_foreign_key "property_listings", "listings"
+  add_foreign_key "property_listings", "properties"
   add_foreign_key "user_activities", "activities"
   add_foreign_key "user_activities", "users"
   add_foreign_key "user_connected_accounts", "users"

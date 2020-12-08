@@ -35,7 +35,7 @@ import "src/tooltips"
 import "src/wizard"
 import ahoy from "ahoy.js";
 import Splide from '@splidejs/splide';
-import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload } from 'fileUpload'
+import { singleFileUpload, multipleFileUpload, multipleImageUpload, multipleSecureFileUpload, multiplePropertyImageUpload } from 'fileUpload'
 
 require("flatpickr/dist/flatpickr.css")
 require("selectize/dist/css/selectize.css");
@@ -47,13 +47,16 @@ document.addEventListener('turbolinks:load', () => {
   document.querySelectorAll('input[type=file]').forEach(fileInput => {
     if (fileInput.multiple && fileInput.id == "listing_listing_documents") {
       multipleFileUpload(fileInput)
-    } else if (fileInput.multiple && fileInput.id == "listing_listing_images") {
+    } 
+    if (fileInput.multiple && fileInput.id == "property_property_images") {
+      multiplePropertyImageUpload(fileInput)
+    } 
+    if (fileInput.multiple && fileInput.id == "listing_listing_images") {
       multipleImageUpload(fileInput)
-    } else if (fileInput.multiple && fileInput.id == "listing_listing_secure_documents") {
+    } 
+    if (fileInput.multiple && fileInput.id == "listing_listing_secure_documents") {
       multipleSecureFileUpload(fileInput)
-    } else {
-      singleFileUpload(fileInput)
-    }
+    } 
   })
 })
 

@@ -42,6 +42,9 @@ class Contact < ApplicationRecord
   has_many :contact_activities
   has_many :activities, through: :contact_activities
 
+  has_many :property_contacts
+  has_many :properties, through: :property_contacts
+
   has_person_name
 
   # Store the roles in the roles json column and cast to booleans

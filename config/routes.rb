@@ -65,9 +65,11 @@ Rails.application.routes.draw do
 
   resources :account_invitations
 
-  get   "listings/public" => "listings#public", as: 'public_listings'
+  resources :properties
 
   #Listings
+  get   "listings/public" => "listings#public", as: 'public_listings'
+
   resources :listings do 
     resources :listing_invitations, path: :invitations, module: :listings do 
       collection do 

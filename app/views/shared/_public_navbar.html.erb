@@ -9,7 +9,7 @@
             <div class="ml-10 flex items-baseline space-x-4">
               <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-white hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600">Dashboard</a>
 
-              <%= link_to listings_path, class: "#{ sidebar_active(starts_with: ['/listings']) ? ' text-white bg-gray-800' : 'text-gray-200 hover:text-white hover:bg-gray-600' } px-3 py-2 rounded-md text-sm text-gray-200 hover:text-white hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600" do %>
+              <%= link_to properties_path, class: "#{ sidebar_active(starts_with: ['/properties']) ? ' text-white bg-gray-800' : 'text-gray-200 hover:text-white hover:bg-gray-600' } px-3 py-2 rounded-md text-sm text-gray-200 hover:text-white hover:bg-gray-600 focus:outline-none focus:text-white focus:bg-gray-600" do %>
                   Properties
               <% end %>
               

@@ -161,6 +161,33 @@ const multipleImageUpload = (fileInput) => {
   })
 }
 
+const multiplePropertyImageUpload = (fileInput) => {
+  const formGroup = fileInput.parentNode
+
+  const uppy = fileUpload(fileInput)
+
+  uppy
+    .use(Dashboard, {
+      target: formGroup,
+      inline: true,
+      width: "100%",
+      height: 300,
+      replaceTargetContent: true,
+    })
+
+  uppy.on('upload-success', (file, response) => {
+    const hiddenField = document.createElement('input')
+
+    hiddenField.type = 'hidden'
+    console.log(file);
+    console.log(response);
+    hiddenField.name = `property[property_images_attributes][${randomstring.generate()}][image]`
+    hiddenField.value = uploadedFileData(file, response, fileInput)
+
+    document.querySelector('form').appendChild(hiddenField)
+  })
+}
+
 const multipleFileUpload = (fileInput) => {
   const formGroup = fileInput.parentNode
 
@@ -266,4 +293,4 @@ const fileData = (file, id) => ({
   }
 })
 
-export { singleFileUpload, multipleFileUpload, multipleSecureFileUpload, multipleImageUpload }
+export { singleFileUpload, multipleFileUpload, multipleSecureFileUpload, multipleImageUpload, multiplePropertyImageUpload }

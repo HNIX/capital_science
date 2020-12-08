@@ -10,35 +10,46 @@
 #  address_object :jsonb
 #  address_state  :string
 #  address_zip    :string
+#  apn            :string
 #  asset_class    :string
 #  buildings      :integer
 #  floors         :integer
+#  frontage       :integer
+#  highlights     :text
 #  land_area      :float
 #  latitude       :float
 #  longitude      :float
 #  name           :string
+#  occupancy      :integer
+#  parking_spaces :integer
 #  primary_type   :string
 #  rent_type      :string
+#  rsf            :integer
 #  secondary_type :string
 #  sf             :integer
 #  units          :integer
+#  year_built     :integer
 #  zoning         :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  listing_id     :bigint           not null
+#  account_id     :bigint
 #
 # Indexes
 #
-#  index_properties_on_listing_id  (listing_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (listing_id => listings.id)
+#  index_properties_on_account_id  (account_id)
 #
 class Property < ApplicationRecord
-  belongs_to :listing
+  belongs_to :account
+  has_rich_text :highlights
+  has_one_attached :cover_image
+  has_many :property_images, dependent: :destroy
   #geocoded_by :full_address
   #after_validation :geocode, if: :address_field_changed? 
+  has_many :property_listings
+  has_many :listings, through: :property_listings
+
+  has_many :property_contacts
+  has_many :contacts, through: :property_contacts
 
   validates :address, presence: :true
 
@@ -54,4 +65,6 @@ class Property < ApplicationRecord
   end
 
   scope :sorted, ->{ order(created_at: :asc)}
+
+  accepts_nested_attributes_for :property_images, allow_destroy: true
 end

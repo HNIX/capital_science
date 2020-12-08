@@ -38,7 +38,6 @@ class Listing < ApplicationRecord
   belongs_to :account
   belongs_to :nda
   has_rich_text :description
-  has_many :properties, inverse_of: :listing, dependent: :destroy
   has_many :listing_images, dependent: :destroy
   has_many :listing_documents, dependent: :destroy
   has_many :listing_secure_documents, dependent: :destroy
@@ -50,12 +49,14 @@ class Listing < ApplicationRecord
   has_many :listing_activities
   has_many :activities, through: :listing_activities
 
+  has_many :property_listings
+  has_many :properties, through: :property_listings
+
   scope :sorted, ->{ order(updated_at: :desc)}
   scope :account, -> (account) {where(account: account)}
   scope :state, -> (aasm_state) {where(aasm_state: aasm_state)}
   scope :private_listing, -> (private_listing) {where(private_listing: private_listing)}
 
-  validates :title, presence: :true
   validates :investment_type, presence: :true
   validates :price, presence: :true
 
@@ -82,7 +83,7 @@ class Listing < ApplicationRecord
     event :open do
       transitions from: :closed, to: :inactive
     end
-  end
+  end 
 
   def operator_events
     aasm.events(possible: true).map(&:name) & %i[publish stop start close open]
